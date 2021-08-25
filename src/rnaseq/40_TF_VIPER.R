@@ -43,7 +43,10 @@ msviper_mrs <- function(ls_preprocessed, data_collapsed, test_name,
   
   regulons_mrs <- left_join(mrs_table, regulons, by = c('Regulon' = 'tf'))
   
-  write.table(regulons_mrs, file.path('data/TMA36_project/RNA_Seq/processed', file_name) , 
+  write.csv(mrs_table, file.path('data/TMA36_project/RNA_Seq/processed', paste0(file_name, '_MRS.csv')),
+              row.names = FALSE, quote = FALSE)
+  
+  write.table(regulons_mrs, file.path('data/TMA36_project/RNA_Seq/processed', paste0(file_name, '.txt')) , 
               sep = "\t", row.names = FALSE, quote = FALSE)
   
 }
@@ -61,41 +64,64 @@ msviper_mrs(ls_preprocessed,
             data_collapsed = data, 
             test_name = 'agg', 
             ref_name = 'ind', 
-            file_name = 'TF_VIPER_indvsagg.txt')
+            file_name = 'TF_VIPER_indvsagg')
 
 # Indolent vs Intermediate  
 msviper_mrs(ls_preprocessed, 
             data_collapsed = data, 
             test_name = 'int', 
             ref_name = 'ind', 
-            file_name = 'TF_VIPER_indvsint.txt')
+            file_name = 'TF_VIPER_indvsint')
 
 # Intermediate vs Aggressive
 msviper_mrs(ls_preprocessed, 
             data_collapsed = data, 
             test_name = 'agg', 
             ref_name = 'int', 
-            file_name = 'TF_VIPER_intvsagg.txt')
+            file_name = 'TF_VIPER_intvsagg')
 
 # Indolent vs Intermediate + Aggressive  
 msviper_mrs(ls_preprocessed, 
             data_collapsed = data, 
             test_name = c('int','agg'),
             ref_name = 'ind', 
-            file_name = 'TF_VIPER_indvsintagg.txt')
+            file_name = 'TF_VIPER_indvsintagg')
 
 # Intermediate vs Indolent + Aggressive
 msviper_mrs(ls_preprocessed, 
             data_collapsed = data, 
             test_name = c('ind','agg'), 
             ref_name = 'int', 
-            file_name = 'TF_VIPER_intvsindagg.txt')
+            file_name = 'TF_VIPER_intvsindagg')
 
 # Aggressive vs Indolent + Intermediate
 msviper_mrs(ls_preprocessed, 
             data_collapsed = data, 
             test_name = c('ind','int'), 
             ref_name = 'agg', 
-            file_name = 'TF_VIPER_aggvsindint.txt')
+            file_name = 'TF_VIPER_aggvsindint')
 
+
+# Indolent + Intermediate vs Aggressive
+msviper_mrs(ls_preprocessed, 
+            data_collapsed = data, 
+            test_name = 'agg', 
+            ref_name = c('ind','int'), 
+            file_name = 'TF_VIPER_indintvsagg')
+
+
+#############################################################
+# TF by sample
+#############################################################
+# Generating regulons data
+data("dorothea_hs", package = "dorothea")
+regulons <- dorothea_hs %>%
+  filter(confidence %in% c("A", "B"))
+regu <- dorothea2viper_regulons(regulons)
+
+vpres_4 <- t(viper(data, regu, verbose = FALSE, minsize = 4))
+vpres_4 <- cbind('pt_ID' = ls_preprocessed$batch_info$pt_ID, vpres_4)
+
+write.csv(vpres_4, file.path('data/TMA36_project/RNA_Seq/processed', 'TF_VIPER_all.csv'),
+          row.names = FALSE, quote = FALSE)
 
