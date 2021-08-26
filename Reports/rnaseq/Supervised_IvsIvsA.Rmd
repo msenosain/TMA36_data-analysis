@@ -13,10 +13,12 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE)
+setwd(rprojroot::find_rstudio_root_file())
 source('src/rnaseq/30_DEGanalysis.R') #../../
 source('src/cytof/31_supervised_analysis_viz.R')
 source('src/cytof/20_ClustAnnot_functions.R')
 environment_set()
+library(DT)
 ```
 
 ```{r}
@@ -41,10 +43,10 @@ delete_group_name = 'int'
 
 
 ## Differential gene expression analysis
-### Top DE genes: Heatmap
+### Top 30 DE genes: Heatmap
 
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
 ```
 
 ### Top DE genes: Volcano plot
@@ -86,7 +88,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue)
 rownames(res_df) <- NULL
-knitr::kable(res_df)
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -228,6 +230,15 @@ if(nrow(de_hla)>0){
             cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
 }
 ```
+
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indvsagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
 
 # Indolent vs Intermediate
 ```{r}
@@ -245,10 +256,10 @@ delete_group_name = 'agg'
 
 
 ## Differential gene expression analysis
-### Top DE genes: Heatmap
+### Top 30 DE genes: Heatmap
 
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
 ```
 
 ### Top DE genes: Volcano plot
@@ -290,7 +301,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue)
 rownames(res_df) <- NULL
-knitr::kable(res_df)
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -433,6 +444,13 @@ if(nrow(de_hla)>0){
 }
 ```
 
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indvsint_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
 
 # Intermediate vs Aggressive
 ```{r}
@@ -450,10 +468,10 @@ delete_group_name = 'ind'
 
 
 ## Differential gene expression analysis
-### Top DE genes: Heatmap
+### Top 30 DE genes: Heatmap
 
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
 ```
 
 ### Top DE genes: Volcano plot
@@ -495,7 +513,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue)
 rownames(res_df) <- NULL
-knitr::kable(res_df)
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -638,6 +656,13 @@ if(nrow(de_hla)>0){
 }
 ```
 
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_intvsagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
 
 # Indolent vs Intermediate + Aggressive
 ```{r}
@@ -654,10 +679,10 @@ delete_group = FALSE
 
 
 ## Differential gene expression analysis
-### Top DE genes: Heatmap
+### Top 30 DE genes: Heatmap
 
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
 ```
 
 ### Top DE genes: Volcano plot
@@ -699,7 +724,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue)
 rownames(res_df) <- NULL
-knitr::kable(res_df)
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -842,219 +867,22 @@ if(nrow(de_hla)>0){
 }
 ```
 
+## TF activity inference with VIPER
 
-# Intermediate vs Indolent + Aggressive
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indvsintagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+# Indolent + Intermediate vs Aggressive
 ```{r}
 # Rename DE_res
-DE_res = DE_res_intvsindagg
+DE_res = DE_res_indintvsagg
 # Rename fgsea
-fgsea_res = fgsea_res_intvsindagg
+fgsea_res = fgsea_res_indintvsagg
 # title vector
-title_label = "Intermediate vs Indolent + Aggressive"
-# Vectors for HLA comparisons
-cond_colname = "intvs_ind_agg" 
-delete_group = FALSE
-```
-
-
-## Differential gene expression analysis
-### Top DE genes: Heatmap
-
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
-```
-
-### Top DE genes: Volcano plot
-
-```{r echo=FALSE}
-volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
-```
-
-### Top DE genes: table (cutoffs: pval\<0.05, L2FC \> 1.5)
-
-<div>
-
-> -   baseMean---The average of the normalized count values, dividing by size factors, taken over all samples.
->
-> -   log2FoldChange--The effect size estimate.
->     This value indicates how much the gene or transcript's expression seems to have changed between the comparison and control groups.
->     This value is reported on a logarithmic scale to base 2.
->
-> -   lfcSE--The standard error estimate for the log2 fold change estimate.
->
-> -   stat--The value of the test statistic for the gene or transcript.
->
-> -   pvalue--P-value of the test for the gene or transcript.
->
-> -   padj--Adjusted P-value for multiple testing for the gene or transcript.
->
-> -   gene-Gene ID from ENSEMBL database
->
-> -   Symbol---Gene name
-
-</div>
-
-```{r}
-l2fc_cutoff=1.5
-pval_cutoff = 0.05
-res_df <- data.frame(DE_res$res_df) %>%
-  na.omit() %>%
-  filter(abs(log2FoldChange) > l2fc_cutoff) %>%
-  filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
-rownames(res_df) <- NULL
-knitr::kable(res_df)
-```
-
-## Pathway enrichment analysis fGSEA
-
-Indolent (n_op2 = 'ind') is the reference.
-When sample is Aggressive ('agg'), pathways shown below are up- or down- regulated
-
-> -   pathway -- name of the pathway as in 'names(pathway)';
->
-> -   pval -- an enrichment p-value;
->
-> -   padj -- a BH-adjusted p-value;
->
-> -   log2err -- the expected error for the standard deviation of the P-value logarithm.
->
-> -   ES -- enrichment score, same as in Broad GSEA implementation;
->
-> -   NES -- enrichment score normalized to mean enrichment of random samples of the same size; • size -- size of the pathway after removing genes not present in 'names(stats)'.
->
-> -   leadingEdge -- vector with indexes of leading edge genes that drive the enrichment, see [http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm\\\#\\\_Running_a\\\_Leading](http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm#_Running_a_Leading){.uri}.
-
-### Hallmark Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label)
-```
-
-### C1 positional genes Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c1, pathways_title='C1 positional genes', condition_name=title_label)
-```
-
-### C2 curated genes Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c2, pathways_title='C2 curated genes', condition_name=title_label)
-```
-
-### C3 regulatory target genes Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c3, pathways_title='C3 regulatory target genes', condition_name=title_label)
-```
-
-### C4 cancer Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c4, pathways_title='C4 cancer', condition_name=title_label)
-```
-
-### C5 GO genes Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c5, pathways_title='C5 GO genes', condition_name=title_label)
-```
-
-### C6 oncogenic Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c6, pathways_title='C6 oncogenic', condition_name=title_label)
-```
-
-### C7 immunologic Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_c7, pathways_title='C7 immunologic', condition_name=title_label)
-```
-
-### All signatures Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_msg, pathways_title='All signatures', condition_name=title_label)
-```
-
-### REACTOME Pathways
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label)
-```
-
-## KEGG pathway analysis
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-keggres <- kegg_go(DE_res, kegg = T, GO = F)
-keggGO_plot(keggres, pathways_title='KEGG', cutoff = 0.05, 
-             max_pathways = 10, condition_name=title_label, pval_colnm='p.val')
-```
-
-## Gene Ontology analysis
-
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-keggres <- kegg_go(DE_res, kegg = F, GO = T)
-keggGO_plot(keggres, pathways_title='GO', cutoff = 0.05, 
-             max_pathways = 10, condition_name=title_label, pval_colnm='p.val')
-```
-
-## Associations of MHC-II related genes with SILA
-
-```{r}
-hla_i <- grep('^HLA', ls_preprocessed$raw_counts$Feature_gene_name)
-hla_ids <- as.character(ls_preprocessed$raw_counts$Feature[hla_i])
-hla_gsym <- as.character(ls_preprocessed$raw_counts$Feature_gene_name[hla_i])
-```
-
-```{r}
-# Filter MHC-II related genes from DE genes
-de_hla <- data.frame(DE_res$res)[hla_ids,] %>%
-  mutate(gene=hla_gsym) %>%
-  arrange(desc(abs(log2FoldChange))) %>%
-  slice(which(pvalue<0.05))
-```
-
-### Compare MHC-II related genes using VST normed genes
-
-```{r}
-hm_genes(ls_preprocessed, 'vsd_mat', hla_ids, hla_gsym, scale_mat = T,
-         cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-# hm_genes(ls_preprocessed, 'vsd_mat', rownames(de_hla), de_hla$gene, scale_mat = T,
-#          cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-```
-
-### PCA of patients using MHC-II related genes using VST normed genes
-
-```{r}
-pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = F,
-        cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = T,
-        cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-```
-
-## Compare gene expression of MHC-II related genes
-
-```{r echo=FALSE, fig.width = 8, fig.height = 3}
-compare_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, hla_gsym,  BPplot = T,
-            cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-if(nrow(de_hla)>0){
-  compare_hla(ls_preprocessed, mat_name='vsd_mat', rownames(de_hla), de_hla$gene, BPplot = FALSE,
-            cond_colname = cond_colname, delete_group = delete_group, delete_group_name = delete_group_name)
-}
-```
-
-
-# Aggressive vs Indolent + Intermediate
-```{r}
-# Rename DE_res
-DE_res = DE_res_aggvsindint
-# Rename fgsea
-fgsea_res = fgsea_res_aggvsindint
-# title vector
-title_label = "Aggressive vs Indolent + Intermediate"
+title_label = "Indolent + Intermediate vs Aggressive"
 # Vectors for HLA comparisons
 cond_colname = "aggvs_ind_int" 
 delete_group = FALSE
@@ -1062,10 +890,10 @@ delete_group = FALSE
 
 
 ## Differential gene expression analysis
-### Top DE genes: Heatmap
+### Top 30 DE genes: Heatmap
 
-```{r echo=FALSE, fig.width = 7, fig.height = 12}
-heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T)
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
 ```
 
 ### Top DE genes: Volcano plot
@@ -1107,7 +935,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue)
 rownames(res_df) <- NULL
-knitr::kable(res_df)
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -1250,6 +1078,13 @@ if(nrow(de_hla)>0){
 }
 ```
 
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indintvsagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
 
 # Deconvolution Results
 

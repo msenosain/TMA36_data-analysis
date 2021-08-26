@@ -1,0 +1,186 @@
+---
+title: "Differential gene expression analysis based patients with high vs low LPCAT3 expression"
+author: "Mafe Senosain"
+date: "`r Sys.Date()`"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE)
+setwd(rprojroot::find_rstudio_root_file())
+source('src/rnaseq/30_DEGanalysis.R') #../../
+environment_set()
+```
+
+```{r}
+# Load data
+load('data/TMA36_project/RNA_Seq/extra/LPCAT3_DE.Rdata')
+```
+
+## DE results
+### Top 30 differentially expressed genes
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, lowhigh = TRUE, n_genes = 30)
+x <- DE_res$res_df %>%
+  arrange(desc(abs(log2FoldChange)))
+rownames(x) <- make.names(x$symbol, unique = T)
+k <- gn
+x <- x[-which(x$gene %in%k),]
+```
+
+### Volcano plot
+```{r echo=FALSE, fig.width = 7, fig.height =7}
+vp <- volcano_plot(x, gene=NULL, p_title=gene_symbol, pCutoff=0.001, FCcutoff=1.5)
+```
+
+
+### List of differentially expressed genes (-1.5 > fold change > 1.5, pval<0.001)
+```{r}
+vp_tb <- vp$data[which(vp$data$Sig == 'FC_P'),]
+rownames(vp_tb) <- c(1:nrow(vp_tb))
+vp_tb <- vp_tb %>% 
+  select(symbol, everything(), -c(lab, Sig, xvals, yvals))
+DT::datatable(vp_tb, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+## Pathway enrichment analysis fGSEA
+Interpretation: Low gene expression is the reference. When gene expression is high, pathways shown below are up- or down- regulated
+
+### Hallmark pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+### C1 positional genes pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c1, pathways_title='C1 positional genes', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C2 curated genes pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c2, pathways_title='C2 curated genes', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C3 regulatory target genes pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c3, pathways_title='C3 regulatory target genes', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C4 cancer pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c4, pathways_title='C4 cancer', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C5 GO genes pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c5, pathways_title='C5 GO genes', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C6 oncogenic genes pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c6, pathways_title='C6 oncogenic genes', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### C7 immunologic pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_c7, pathways_title='C7 immunologic', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### All signatures pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_msg, pathways_title='All signatures', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+### REACTOME pathways
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgp <- fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=paste(gene_symbol, 'low vs high'))
+fgp
+```
+
+## KEGG pathway analysis
+
+```{r echo=FALSE, fig.width = 10, fig.height = 5}
+keggres <- kegg_go(DE_res, kegg = T, GO = F)
+keggGO_plot(keggres, pathways_title='KEGG', cutoff = 0.05, 
+             max_pathways = 10, condition_name=paste(gene_symbol, 'low vs high'), pval_colnm='p.val')
+#DT::datatable(keggres)
+```
+
+## Gene Ontology analysis
+
+```{r echo=FALSE, fig.width = 10, fig.height = 5}
+keggres <- kegg_go(DE_res, kegg = F, GO = T)
+keggGO_plot(keggres, pathways_title='GO', cutoff = 0.05, 
+             max_pathways = 10, condition_name=paste(gene_symbol, 'low vs high'), pval_colnm='p.val')
+```
+
+## Compare SILA score
+
+```{r}
+md_sila <- DE_res$CDE %>%
+  select(pt_ID, SILA) %>%
+  left_join(DE_res$meta_data, ., by='pt_ID') %>%
+  select(pt_ID, Vantage_ID, Condition, SILA)
+md_sila <- data.frame(DE_res$vsd_mat[gn,]) %>%
+  rename(., !!gene_symbol := colnames(.)) %>%
+  mutate(Vantage_ID = rownames(.)) %>%
+  left_join(md_sila, ., by = 'Vantage_ID')
+
+md_sila$Condition <- factor(md_sila$Condition, levels = c("low", "high"))
+```
+
+```{r echo=FALSE, fig.width = 6, fig.height = 4}
+clrs <- c("#3498DB", "#EC7063")  
+ggplot(md_sila, aes(x=Condition, y=SILA, fill = Condition)) +
+  geom_boxplot() +
+  ggsignif::geom_signif(comparisons = list(c("low", "high")), 
+       map_signif_level=TRUE, test = 'wilcox.test') +
+  theme(plot.title = element_text(hjust = 0.5, size=22))+
+  scale_fill_manual(values=clrs)+
+  ylim(0, 1) +
+  geom_jitter(shape=19, position=position_jitter(0.15), size=2)+
+  theme_bw() +
+  labs(title=paste('SILA score on patients with low vs high \n', gene_symbol, 'expression'),x=NULL, y = "SILA score") +
+  theme(strip.text.x = element_text(size = 12), 
+          axis.text.x =element_text(size = 12), 
+          axis.text.y =element_text(size = 10),
+          axis.title=element_text(size=12),
+          plot.title = element_text(size=15, hjust = 0.5),
+          legend.position = "none")
+```
+
+```{r  fig.width = 6, fig.height = 4}
+
+ggpubr::ggscatter(md_sila, x = "SILA", y = gene_symbol,
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"),
+          xlab = "SILA score", ylab = paste('VST-normalized', gene_symbol, 'expression')) +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 11, face = 'bold') +
+          ggpubr::font("ylab", size = 11, face = 'bold') 
+```
+
+## Survival analysis
+
+```{r}
+DT::datatable(DE_res$CDE, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+```{r}
+DT::datatable(DE_res$meta_data, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
