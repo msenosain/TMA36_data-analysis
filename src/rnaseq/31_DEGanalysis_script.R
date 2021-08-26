@@ -107,6 +107,18 @@ DE_res_aggvsindint <- DE_analysis(ls_preprocessed,
 # GSEA analysis
 fgsea_res_aggvsindint <- fgsea_analysis(DE_res_aggvsindint)
 
+#-------- INDOLENT+INT + AGGRESSIVE --------#
+# DEG analysis
+DE_res_indintvsagg <- DE_analysis(ls_preprocessed, 
+                                  GeneBased=FALSE, 
+                                  pDataBased=TRUE,
+                                  NewCondition=FALSE,
+                                  cond_nm='aggvs_ind_int',
+                                  two_levels=c('agg','ind_int'),
+                                  reference = 'ind_int')
+# GSEA analysis
+fgsea_res_indintvsagg <- fgsea_analysis(DE_res_indintvsagg)
+
 
 
 ###################################
@@ -118,5 +130,6 @@ save(ls_preprocessed,
      DE_res_intvsagg, fgsea_res_intvsagg,
      DE_res_indvsintagg, fgsea_res_indvsintagg,
      DE_res_intvsindagg, fgsea_res_intvsindagg,
-     DE_res_aggvsindint, fgsea_res_aggvsindint, file = 'data/TMA36_project/RNA_Seq/processed/DE_analysis.RData')
+     DE_res_aggvsindint, fgsea_res_aggvsindint, 
+     DE_res_indintvsagg, fgsea_res_indintvsagg, file = 'data/TMA36_project/RNA_Seq/processed/DE_analysis.RData')
 
