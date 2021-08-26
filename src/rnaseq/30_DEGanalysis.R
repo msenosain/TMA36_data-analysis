@@ -329,7 +329,8 @@ kegg_go <- function(DE_res, kegg = TRUE, GO = FALSE){
 
 # plots
 heatmap_200 <- function(res_df, vsd_mat, meta_data, pData_rnaseq, n_genes=200,
-    pval_cutoff = 0.05, l2fc_cutoff=1.5, ha_custom=NULL, row_km=2, scale_mat = F){
+    pval_cutoff = 0.05, l2fc_cutoff=1.5, ha_custom=NULL, row_km=2, scale_mat = F,
+    lowhigh = FALSE){
     res_df <- data.frame(res_df) %>%
         na.omit() %>%
         filter(abs(log2FoldChange) > l2fc_cutoff) %>%
@@ -354,15 +355,19 @@ heatmap_200 <- function(res_df, vsd_mat, meta_data, pData_rnaseq, n_genes=200,
     rownames(filtered_res) <- make.names(filtered_res$symbol, unique=TRUE)
     filtered_res$gene <- NULL
     filtered_res$symbol <- NULL
-
-    ha = HeatmapAnnotation(
-
-        #CANARY = as.factor(pData_rnaseq$CANARY),
-        #gender = as.factor(pData_rnaseq$Gender),
+    
+    if(lowhigh){
+      ha = HeatmapAnnotation(
         Condition = as.factor(meta_data$Condition),
-
+        col = list(Condition = c("low"="#3498DB", "high"="#EC7063")),
         simple_anno_size = unit(0.5, "cm")
-    )
+      )
+    }else{
+      ha = HeatmapAnnotation(
+        Condition = as.factor(meta_data$Condition),
+        simple_anno_size = unit(0.5, "cm")
+      )
+    }
 
     if(!is.null(ha_custom)){
         ha <- ha_custom
@@ -441,11 +446,12 @@ fgsea_plot <- function(fgsea_res, pathways_title, cutoff = 0.05,
             scale_fill_manual(values = color_levels(curated_pathways)))
 
         fgsea_res <- fgsea_res %>% 
-                #dplyr::select(-leadingEdge, -ES) %>% 
+                dplyr::select(-leadingEdge, -ES) %>% 
                 arrange(desc(abs(NES)))
                 #DT::datatable())
 
-        knitr::kable(fgsea_res)
+        #knitr::kable(fgsea_res)
+        DT::datatable(fgsea_res, options = list(autoWidth = FALSE, scrollX=TRUE))
 }
 
 keggGO_plot <- function(keggGO_res, pathways_title, cutoff = 0.05, 
@@ -501,7 +507,8 @@ keggGO_plot <- function(keggGO_res, pathways_title, cutoff = 0.05,
                 arrange(desc(abs(stat.mean)))
                 #DT::datatable())
 
-        knitr::kable(keggGO_res)
+        #knitr::kable(keggGO_res)
+        DT::datatable(keggGO_res,options = list(autoWidth = FALSE, scrollX=TRUE))
 }
 
 
@@ -629,6 +636,7 @@ compare_hla <- function(ls_preprocessed, mat_name, hla_ids, hla_gsym, BPplot = T
     }
     
   }
-  knitr::kable(sum_df)
+  #knitr::kable(sum_df)
+  DT::datatable(sum_df, options = list(autoWidth = FALSE, scrollX=TRUE))
   
 }
