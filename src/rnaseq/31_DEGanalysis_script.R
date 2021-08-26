@@ -132,4 +132,5 @@ save(ls_preprocessed,
      DE_res_intvsindagg, fgsea_res_intvsindagg,
      DE_res_aggvsindint, fgsea_res_aggvsindint, 
      DE_res_indintvsagg, fgsea_res_indintvsagg, file = 'data/TMA36_project/RNA_Seq/processed/DE_analysis.RData')
+save(ls_preprocessed, file = 'data/TMA36_project/RNA_Seq/processed/DE_lspreprocessed.RData')
 
