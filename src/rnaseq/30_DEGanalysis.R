@@ -14,6 +14,10 @@ environment_set <- function(){
   library(ggplot2)
   library(org.Hs.eg.db)
   library(clusterProfiler)
+  library(survival)
+  library(ggpubr)
+  library(survminer)
+  library(survRM2)
   # Check BiocManager::valid()
 }
 
@@ -638,5 +642,82 @@ compare_hla <- function(ls_preprocessed, mat_name, hla_ids, hla_gsym, BPplot = T
   }
   #knitr::kable(sum_df)
   DT::datatable(sum_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+  
+}
+
+
+survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, delete_group_name,
+                          survival_type = 'OS', legend_labs, legend_title, plot_rmst=FALSE){
+  # generate survival data
+  surv_data <- CDE %>%
+    mutate(Recurrence_Date = ifelse(is.na(Recurrence_Date), LDKA, Recurrence_Date),
+           Progression_Date = ifelse(is.na(Progression_Date), LDKA, Progression_Date),
+           OS_yrs = lubridate::time_length(difftime(as.Date(LDKA), as.Date(Diagnosis_Date)), "years"),
+           RFS_yrs = lubridate::time_length(difftime(as.Date(Recurrence_Date), as.Date(Diagnosis_Date)), "years"),
+           PFS_yrs = lubridate::time_length(difftime(as.Date(Progression_Date), as.Date(Diagnosis_Date)), "years"),
+           Death_st = ifelse(Death_st=='Yes', 1, 0),
+           Recurrence_st = ifelse(Recurrence_st=='Yes', 1, 0),
+           Progression_st = ifelse(Progression_st=='Yes', 1, 0)) %>%
+    select(., pt_ID, !!group_colname, SILA, OS_yrs, RFS_yrs, PFS_yrs, Death_st, Recurrence_st, Progression_st)
+  
+  surv_data['group'] <- factor(surv_data[,group_colname], levels = group_levels)
+  
+  if(length(group_levels)>2){
+    dt <- surv_data[-which(surv_data$group==group_levels[2]),]
+    col_pal <- c("#3498DB", "#888a87", "#EC7063")
+  }else{
+    dt <- surv_data
+    col_pal <- c("#3498DB", "#EC7063")
+  }
+  
+  time = dt$OS_yrs
+  status = dt$Death_st
+  
+  if(delete_group){
+    surv_data <- surv_data[-which(surv_data$group == delete_group_name)]
+  }
+  
+  # create survival object
+  if(survival_type == 'RFS'){
+    km_Group_fit <- survfit(Surv(RFS_yrs, Recurrence_st) ~ group, data = surv_data)
+    title_plt <- paste('Recurrence Free Survival by', legend_title)
+    time = dt$RFS_yrs
+    status = dt$Recurrence_st
+  }else if(survival_type == 'PFS'){
+    km_Group_fit <- survfit(Surv(PFS_yrs, Progression_st) ~ group, data = surv_data)
+    title_plt <- paste('Progression Free Survival by', legend_title)
+    time = dt$PFS_yrs
+    status = dt$Progression_st
+  }else{
+    km_Group_fit <- survfit(Surv(OS_yrs, Death_st) ~ group, data = surv_data)
+    title_plt <- paste('Overall Survival by', legend_title)
+    time = dt$OS_yrs
+    status = dt$Death_st
+  }
+  
+  # Plot survival curves
+  p <- ggsurvplot(km_Group_fit, data=surv_data, palette = col_pal,
+                  fun = 'pct', ggtheme = theme_bw(), risk.table = TRUE, 
+                  tables.theme = theme_cleantable(), surv.median.line = "hv", 
+                  xlab = 'Years', ylab = 'Survival Probability (%)',
+                  title = title_plt, pval = TRUE, 
+                  legend.title = legend_title, legend.labs = legend_labs)
+  
+  print(p)
+  #print(p$plot)
+  #print(p$table)
+  
+  # RMST calculations 
+  arm = ifelse(dt$group==group_levels[1], 1,0)
+  rmst_calc = rmst2(time, status, arm, tau=4)
+  if(plot_rmst){
+    plot(rmst_calc, xlab="Years", ylab="Probability", density=60)
+  }
+  
+  survival_ls <- list(surv_data = surv_data, 
+                      km_Group_fit = km_Group_fit,
+                      rmst_calc = rmst_calc)
+  
+  return(survival_ls)
   
 }
