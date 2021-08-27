@@ -86,7 +86,8 @@ res_df <- data.frame(DE_res$res_df) %>%
   na.omit() %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
+  arrange(pvalue) %>%
+  select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -299,7 +300,8 @@ res_df <- data.frame(DE_res$res_df) %>%
   na.omit() %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
+  arrange(pvalue) %>%
+  select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -511,7 +513,8 @@ res_df <- data.frame(DE_res$res_df) %>%
   na.omit() %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
+  arrange(pvalue) %>%
+  select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -722,7 +725,8 @@ res_df <- data.frame(DE_res$res_df) %>%
   na.omit() %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
+  arrange(pvalue) %>%
+  select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -933,7 +937,8 @@ res_df <- data.frame(DE_res$res_df) %>%
   na.omit() %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
-  arrange(pvalue)
+  arrange(pvalue) %>%
+  select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -1209,3 +1214,96 @@ frac_hm(DeconRNASeq_BPRNACanProMet_dcv, ls_preprocessed$CDE, 'n_op2')
 ```{r  , fig.width = 20, fig.height = 15}
 frac_boxplot(data.frame(DeconRNASeq_BPRNACanProMet_dcv), ls_preprocessed$CDE, 'n_op2')
 ```
+
+# HLA-related genes analysis
+
+```{r}
+hla_i <- grep('^HLA', ls_preprocessed$raw_counts$Feature_gene_name)
+hla_ids <- as.character(ls_preprocessed$raw_counts$Feature[hla_i])
+hla_gsym <- as.character(ls_preprocessed$raw_counts$Feature_gene_name[hla_i])
+```
+
+```{r  , fig.width = 10, fig.height = 5}
+# non-directed heatmap + clinical vars
+mat <- as.matrix(ls_preprocessed$vsd_mat)
+mat <- mat[hla_ids,]
+rownames(mat) <- hla_gsym
+
+ha = HeatmapAnnotation(
+  SILA = ls_preprocessed$CDE$SILA,
+  Stage = ls_preprocessed$CDE$Stages_simplified,
+  Smoking_Status = as.factor(ls_preprocessed$CDE$Smoking_Status),
+  Hist_predominant = as.factor(ls_preprocessed$CDE$Hist_predominant),
+  Path_Nodule_Size_cm = ls_preprocessed$CDE$Path_Nodule_Size_cm,
+  simple_anno_size = unit(0.5, "cm")
+)
+Heatmap(mat, name = "mat", 
+        heatmap_legend_param = list(color_bar = "continuous"), 
+        row_names_gp = gpar(fontsize = 8),
+        column_km = 2,
+        column_names_gp = gpar(fontsize = 8), top_annotation = ha)
+  
+```
+
+```{r}
+# pca color by SILA
+pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = F,
+        cond_colname = 'SILA', delete_group = F)
+
+pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = F,
+        cond_colname = 'n_op2', delete_group = F)
+```
+
+```{r}
+# clustering of 2 groups
+cls_CDE <- data.frame(cluster=kmeans(t(mat), centers = 2)$cluster) %>%
+  mutate(Vantage_ID=rownames(.),
+         cluster = as.factor(cluster)) %>%
+  left_join(ls_preprocessed$batch_info, ., by='Vantage_ID') %>%
+  left_join(., ls_preprocessed$CDE, by = 'pt_ID')
+
+```
+
+```{r echo=FALSE, fig.width = 6, fig.height = 4}
+clrs <- c("#3498DB", "#EC7063")  
+ggplot(cls_CDE, aes(x=cluster, y=SILA, fill = cluster)) +
+  geom_boxplot() +
+  ggsignif::geom_signif(comparisons = list(c("1", "2")), 
+       map_signif_level=TRUE, test = 'wilcox.test') +
+  theme(plot.title = element_text(hjust = 0.5, size=22))+
+  scale_fill_manual(values=clrs)+
+  ylim(0, 1) +
+  geom_jitter(shape=19, position=position_jitter(0.15), size=2)+
+  theme_bw() +
+  labs(title=paste('SILA score'),x=NULL, y = "SILA score") +
+  theme(strip.text.x = element_text(size = 12), 
+          axis.text.x =element_text(size = 12), 
+          axis.text.y =element_text(size = 10),
+          axis.title=element_text(size=12),
+          plot.title = element_text(size=15, hjust = 0.5),
+          legend.position = "none")
+```
+
+```{r}
+# xcell celltypes
+```
+
+
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'OS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'RFS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+

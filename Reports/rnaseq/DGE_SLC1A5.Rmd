@@ -1,5 +1,5 @@
 ---
-title: "Differential gene expression analysis in LUAD patients with high vs low ALOX15 expression"
+title: "Differential gene expression analysis in LUAD patients with high vs low SLC1A5 expression"
 author: "Mafe Senosain"
 date: "`r Sys.Date()`"
 output:
@@ -20,7 +20,7 @@ environment_set()
 
 ```{r}
 # Load data
-load('data/TMA36_project/RNA_Seq/extra/ALOX15_DE.Rdata')
+load('data/TMA36_project/RNA_Seq/extra/SLC1A5_DE.Rdata')
 ```
 
 ## DE results
