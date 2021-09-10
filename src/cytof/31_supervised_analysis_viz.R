@@ -370,34 +370,45 @@ frac_hm <- function(prcnt_dt, CDE, class_col, scale_v = TRUE){
 }
 
 
-frac_boxplot <- function(prcnt_dt, CDE, class_col){
+frac_boxplot <- function(prcnt_dt, CDE, class_col, indvsagg=TRUE){
     prcnt_dt[is.na(prcnt_dt)] <- 0
-    lb <- rep('Indolent', nrow(prcnt_dt))
-    lb[which(CDE[,class_col] == 'agg')] <- 'Aggressive'
-    levels = c('Indolent', 'Aggressive')
-    comp =  list(c("Indolent", "Aggressive"))
-    colr = c("#3498DB", "#EC7063")
-
-    if(length(unique(CDE[,class_col]))>2){
+    
+    if(indvsagg){
+      lb <- rep('Indolent', nrow(prcnt_dt))
+      lb[which(CDE[,class_col] == 'agg')] <- 'Aggressive'
+      levels = c('Indolent', 'Aggressive')
+      comp =  list(c("Indolent", "Aggressive"))
+      colr = c("#3498DB", "#EC7063")
+      
+      if(length(unique(CDE[,class_col]))>2){
         lb[which(CDE[,class_col] == 'int')] <- 'Intermediate'
         levels = c('Indolent', 'Intermediate', 'Aggressive')
         comp =  list(c("Indolent", "Aggressive"), c("Indolent", "Intermediate"), c("Intermediate", "Aggressive"))
         colr = c("#3498DB", "grey72","#EC7063")
-    }    
-
-    prcnt_dt['Behavior'] <- factor(lb, levels = levels)
+      }
+      
+    }else{
+      #CDE[,class_col] <- as.factor(CDE[,class_col])
+      levels <- sort(unique(CDE[,class_col]))
+      lb <- rep(levels[1], nrow(prcnt_dt))
+      lb[which(CDE[,class_col] == levels[2])] <- levels[2]
+      comp = list(c(levels))
+      colr = c("#3498DB", "#EC7063")
+    }
+    
+    prcnt_dt['Group'] <- factor(lb, levels = levels)
     prcnt_dt['pt_ID'] <- CDE$pt_ID
-    prcnt_dt <- reshape2::melt(prcnt_dt, id.vars = c("pt_ID", "Behavior"))
+    prcnt_dt <- reshape2::melt(prcnt_dt, id.vars = c("pt_ID", "Group"))
     colnames(prcnt_dt)[4] <- 'Fraction'
 
-    ggplot(prcnt_dt, aes(x=Behavior, y=Fraction, color = Behavior)) +
+    ggplot(prcnt_dt, aes(x=Group, y=Fraction, color = Group)) +
         geom_boxplot() +
         #ylim(0,1)+
         ggsignif::geom_signif(comparisons = comp, 
            map_signif_level=TRUE) +
         facet_wrap(~variable, scales='free') +
         theme(plot.title = element_text(hjust = 0.5, size=22))+
-        scale_color_manual(values=colr, name = "Behavior", labels = lb)
+        scale_color_manual(values=colr, name = "Group", labels = lb)
 
 }
 
