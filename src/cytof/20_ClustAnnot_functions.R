@@ -264,7 +264,7 @@ DetermineNumberOfClusters <- function(data,k_max,plot=FALSE,smooth=0.2,
   
   elbow <- findElbow(res,k_max)
 
-  abline(v = elbow, col = 'red')
+  #abline(v = elbow, col = 'red')
 
   print(elbow)
 }
