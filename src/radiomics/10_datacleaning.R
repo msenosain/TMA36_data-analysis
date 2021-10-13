@@ -10,6 +10,6 @@ nona <- colnames(m_HM)[apply(m_HM, 2, anyNA)]
 m_HM <- m_HM[,-which(colnames(m_HM) %in% nona)]
 
 # Center and scale
-m_HM <- scale(m_HM)
+#m_HM <- scale(m_HM)
 
 write.csv(m_HM, 'data/TMA36_project/Radiomics/processed/rad_healthmyne.csv')

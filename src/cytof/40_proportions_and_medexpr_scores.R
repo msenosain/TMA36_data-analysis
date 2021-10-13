@@ -23,7 +23,7 @@ freq_cytof <- cbind('Epithelial'= prcnt_celltypes$Epithelial,
                     prcnt_clusters)
 
 # center and scale
-freq_cytof <- scale(freq_cytof)
+#freq_cytof <- scale(freq_cytof)
 
 # write
 write.csv(freq_cytof, file = 'data/TMA36_project/CyTOF/processed/Data_paper2/both/cytof_freq.csv')
@@ -39,7 +39,7 @@ cl_median <- cl_median[,-1]
 colnames(cl_median) <- gsub(".*_",  "",colnames(cl_median)) 
 
 # center and scale
-cl_median <- scale(cl_median)
+#cl_median <- scale(cl_median)
 
 # write
 write.csv(cl_median, file = 'data/TMA36_project/CyTOF/processed/Data_paper2/both/cytof_medianprot.csv')

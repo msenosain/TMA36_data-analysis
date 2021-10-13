@@ -80,13 +80,17 @@ pthres_rtm_ls <- list(fgsea_res_indvsagg$res_rtm,
                      fgsea_res_indvsint$res_rtm, 
                      fgsea_res_intvsagg$res_rtm)
 
-hm_pth_scores <- pathway_score(pthres_hm_ls, dt, REACTOME=FALSE)
-rtm_pth_scores <- pathway_score(pthres_rtm_ls, dt, REACTOME=TRUE)
+hm_pth_scores <- pathway_score(pthres_hm_ls, dt, REACTOME=FALSE, scale_ = FALSE)
+row.names(hm_pth_scores) <- ls_preprocessed$batch_info$pt_ID
+rtm_pth_scores <- pathway_score(pthres_rtm_ls, dt, REACTOME=TRUE, scale_ = FALSE)
+row.names(rtm_pth_scores) <- ls_preprocessed$batch_info$pt_ID
 
 pth_scores <- cbind(hm_pth_scores, rtm_pth_scores)
 row.names(pth_scores) <- ls_preprocessed$batch_info$pt_ID
 
 # Write csv files
 write.csv(pth_scores, file = 'data/TMA36_project/RNA_Seq/processed/pathways_scores.csv')
+write.csv(hm_pth_scores, file = 'data/TMA36_project/RNA_Seq/processed/pathways_scores_HM.csv')
+write.csv(rtm_pth_scores, file = 'data/TMA36_project/RNA_Seq/processed/pathways_scores_RTM.csv')
 
 

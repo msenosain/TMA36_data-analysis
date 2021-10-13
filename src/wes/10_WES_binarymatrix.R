@@ -38,6 +38,9 @@ colnames(mut_dt) <- sapply(strsplit(as.character(pt_ID), "pt"), "[[", 2)
 colnames(mut_dt) <- sapply(strsplit(colnames(mut_dt), "_"), "[[", 1)
 mut_dt <- t(mut_dt)
 
+# Compute mutational load (number of mutations per patient)
+mut_load = data.frame(mut_load = apply(mut_dt, 1, sum))
+
 # Remove genes that are mutated in less than X% of samples
 prcnt <- 0.1 # cutoff: genes must be mutated in >10 % of the samples
 mut_dt_sum <- data.frame(t(mut_dt)) %>% 
@@ -48,5 +51,6 @@ mut_dt_sum <- data.frame(t(mut_dt)) %>%
   filter(., sum > nrow(mut_dt)*prcnt)
 
 mut_dt <- mut_dt[,mut_dt_sum$genes]
+mut_dt <- cbind(mut_load, mut_dt)
 
 write.csv(mut_dt, file = "data/TMA36_project/WES/processed/wes_binary.csv")
