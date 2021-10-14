@@ -1,0 +1,174 @@
+---
+title: "Summary of WES dataset"
+author: "Mafe Senosain"
+date: "`r Sys.Date()`"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(maftools)
+library(dplyr)
+library(knitr)
+```
+
+```{r}
+maf_dir <- "data/TMA36_project/WES/processed/TwistWES_Tumor_pipeline.freq0.01.filtered.tsv_020921.maf"
+clin_dt <- read.csv('data/TMA36_project/CDE/CDE_TMA36_2020FEB25_SA_MF.csv')
+```
+
+# Pre-processing of the data
+```{r}
+single.maf.delim <- read.delim(file = maf_dir, sep = "\t", header = TRUE, fill = TRUE, comment.char = "#")
+laml <- read.maf(maf=single.maf.delim) ###optional, add clinical annotation file with "clinicalData" argument in read.maf()
+
+x = getClinicalData(laml)
+x$Tumor_Sample_Barcode = as.character(x$Tumor_Sample_Barcode)
+pt_ID <- sapply(strsplit(x$Tumor_Sample_Barcode, "pt"), "[[", 2)
+pt_ID <- sapply(strsplit(pt_ID, "_"), "[[", 1)
+
+clin_dt <- clin_dt[which(clin_dt$pt_ID %in% pt_ID),]
+clin_dt <- cbind('Tumor_Sample_Barcode'=x$Tumor_Sample_Barcode, clin_dt)
+laml = read.maf(maf = single.maf.delim, clinicalData = clin_dt, verbose = F)
+```
+
+# MAF object
+```{r}
+laml
+```
+
+```{r}
+plotmafSummary(maf = laml, rmOutlier = TRUE, addStat = 'median', dashboard = TRUE, titvRaw = FALSE)
+```
+
+# Oncoplots
+```{r}
+oncoplot(maf = laml, top = 25, clinicalFeatures = c('n_op2'))
+```
+
+# Transition and Transversions
+```{r}
+laml.titv = titv(maf = laml, plot = FALSE, useSyn = TRUE)
+#plot titv summary
+plotTiTv(res = laml.titv)
+```
+
+# KRAS mutations
+```{r}
+lollipopPlot(maf = laml, gene = 'KRAS', AACol = 'AAChange', showMutationRate = TRUE)
+lollipopPlot(maf = laml, gene = 'KRAS', showDomainLabel = FALSE, labelPos = 'all')
+```
+
+# Compare mutation load against TCGA cohorts
+```{r}
+laml.mutload = tcgaCompare(maf = laml, cohortName = 'TMA36', )
+```
+
+# Somatic Interactions
+```{r}
+somaticInteractions(maf = laml, top = 25, pvalue = c(0.05, 0.1))
+```
+
+# Detecting cancer driver genes based on positional clustering
+
+```{r}
+laml.sig = oncodrive(maf = laml, AACol = 'Protein_Change', minMut = 5, pvalMethod = 'zscore')
+```
+
+```{r}
+kable(head(laml.sig))
+#head(laml.sig)
+plotOncodrive(res = laml.sig, fdrCutOff = 0.2, useFraction = TRUE)
+```
+
+# Clinical enrichment analysis
+```{r}
+histology = clinicalEnrichment(maf = laml, clinicalFeature = 'Hist_predominant')
+stage = clinicalEnrichment(maf = laml, clinicalFeature = 'X8th_ed_path_stage')
+n_op1 = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op1')
+n_op2 = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2')
+```
+
+```{r}
+histology$groupwise_comparision[p_value < 0.05]
+plotEnrichmentResults(enrich_res = histology, pVal = 0.05)
+plotEnrichmentResults(enrich_res = stage, pVal = 0.05)
+plotEnrichmentResults(enrich_res = n_op1, pVal = 0.05)
+plotEnrichmentResults(enrich_res = n_op2, pVal = 0.05)
+```
+
+# Oncogenic Signaling Pathways
+```{r}
+OncogenicPathways(maf = laml)
+PlotOncogenicPathways(maf = laml, pathways = "RTK-RAS")
+```
+
+# Clinical enrichment analysis (by aggressiveness)
+```{r}
+fab.ce = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2')
+```
+
+```{r}
+fab.ce$groupwise_comparision[p_value < 0.05]
+```
+
+```{r}
+plotEnrichmentResults(enrich_res = fab.ce, pVal = 0.05, geneFontSize = 0.5, annoFontSize = 0.6)
+```
+# Comparing groups (separate MAFs)
+```{r}
+ind_maf <- subsetMaf(laml, clinQuery="n_op2 == 'ind'")
+int_maf <- subsetMaf(laml, clinQuery="n_op2 == 'int'")
+agg_maf <- subsetMaf(laml, clinQuery="n_op2 == 'agg'")
+```
+
+## Indolent vs Aggressive
+```{r}
+pt.vs.rt <- mafCompare(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive', minMut = 5)
+knitr::kable(pt.vs.rt$results)
+knitr::kable(pt.vs.rt$SampleSummary)
+```
+
+```{r  , fig.width = 10, fig.height = 8}
+#forestPlot(mafCompareRes = pt.vs.rt, pVal = 0.1, color = c('royalblue', 'maroon'), geneFontSize = 0.8)
+```
+
+```{r}
+#genes = c("PML", "RARA", "RUNX1", "ARID1B", "FLT3")
+coOncoplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive',
+           removeNonMutated = TRUE)
+```
+
+```{r}
+coBarplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive')
+```
+
+## Indolent+Intermediate vs Aggressive
+```{r}
+ind_maf <- subsetMaf(laml, clinQuery="n_op2 %in% c('ind', 'int')")
+agg_maf <- subsetMaf(laml, clinQuery="n_op2 == 'agg'")
+```
+
+```{r}
+pt.vs.rt <- mafCompare(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive', minMut = 5)
+knitr::kable(pt.vs.rt$results)
+knitr::kable(pt.vs.rt$SampleSummary)
+```
+
+```{r  , fig.width = 10, fig.height = 8}
+forestPlot(mafCompareRes = pt.vs.rt, pVal = 0.1, color = c('royalblue', 'maroon'), geneFontSize = 0.8)
+```
+
+```{r}
+#genes = c("PML", "RARA", "RUNX1", "ARID1B", "FLT3")
+coOncoplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive',
+           removeNonMutated = TRUE)
+
+```
+
+```{r}
+coBarplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive')
+```
