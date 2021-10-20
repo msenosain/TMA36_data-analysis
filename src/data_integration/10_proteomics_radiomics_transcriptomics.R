@@ -15,8 +15,7 @@ py_config()
 # Read data
 cytof_freq <- read.csv("data/TMA36_project/CyTOF/processed/Data_paper2/both/cytof_freq.csv", row.names=1)
 cytof_medianprot <- read.csv("data/TMA36_project/CyTOF/processed/Data_paper2/both/cytof_medianprot.csv", row.names=1)
-#rna_pathways <- read.csv("data/TMA36_project/RNA_Seq/processed/pathways_scores.csv", row.names=1)
-rna_pathways <- read.csv("data/TMA36_project/RNA_Seq/processed/pathways_gsva15.csv", row.names=1)
+rna_pathways <- read.csv("data/TMA36_project/RNA_Seq/processed/pathways_gsva.csv", row.names=1)
 rad_hm <- read.csv("data/TMA36_project/Radiomics/processed/rad_healthmyne.csv", row.names=1)
 cde <- read.csv("data/TMA36_project/CDE/CDE_TMA36_2020FEB25_SA_MF.csv")
 
@@ -28,6 +27,11 @@ rad_hm_sigcor <- pw_corr()
 cytof_freq_sig <- cytof_freq %>% dplyr::select(., ECC_3,ECC_5,fmes_3,OtherI_4)
 cytof_medianprot_sig <- cytof_medianprot %>% dplyr::select(., HLA.DR)
 rad_hm_sig <- rad_hm %>% dplyr::select(rad_hm_sigcor$Y)
+# remove variables that gave weird results
+rad_hm_sig$UNIFORMITY_ACR <- NULL
+rad_hm_sig$LUNG_RADS_ISOLATION <- NULL
+rad_hm_sig$LUNG_RADS <- NULL
+rad_hm_sig$LESION_TYPE <- NULL
 
 # join significant vars from all datasets in one df
 all_vars <- inner_join(rownames_to_column(cytof_freq_sig, var = 'pt_ID'), 
@@ -45,14 +49,6 @@ colnames(all_vars) = gsub('\\.', ' ', colnames(all_vars))
 
 # scale and center
 all_vars_scaled <- scale(all_vars)
-
-# Match CDE
-cde <- cde[match(rownames(all_vars_scaled), cde$pt_ID),]
-
-# Add WES info to CDE
-wes = read.csv("data/TMA36_project/WES/processed/wes_binary.csv")
-colnames(wes)[1] = 'pt_ID'
-cde = left_join(cde, wes, by = 'pt_ID')
 
 #----------------------- Clustering-----------------------#
 
@@ -91,23 +87,19 @@ cluster_by_corr <- function(data, adj_pval_cutoff=0.05,
   }
 }
 
-# K means clustering
-set.seed(1)
-#clusters_features <- cluster_by_corr(all_vars, adj_pval_cutoff=0.05, rho_cutoff=0.3, k_max=40)
-k_feature = DetermineNumberOfClusters(t(all_vars_scaled), k_max = 20, ask_ft = F, arcsn_tr = F) # 15
-clusters_features <- data.frame('cluster'=kmeans(t(all_vars_scaled), k_feature, iter.max = 100)$cluster)
-
-set.seed(1)
-#clusters_patients <- cluster_by_corr(t(all_vars_scaled), adj_pval_cutoff=0.05, rho_cutoff=0, k_max=40)
-k_patient = DetermineNumberOfClusters(all_vars_scaled, k_max = 10, ask_ft = F, arcsn_tr = F) # 15
-clusters_patients <- data.frame('cluster'=kmeans(all_vars_scaled, k_patient, iter.max = 100)$cluster)
-
 # Hierarchical clustering 
-k = findElbow(fviz_nbclust(t(all_vars_scaled), hcut, method = "wss", print.summary=T, k.max = 20)$data$y, 20)
+k = findElbow(fviz_nbclust(t(all_vars_scaled), hcut, method = "wss", print.summary=T, k.max = 15)$data$y, 15)
+clusters_features <- data.frame('cluster'=hcut(t(all_vars_scaled), k, iter.max = 100)$cluster)
+
+k = findElbow(fviz_nbclust(all_vars_scaled, hcut, method = "wss", print.summary=T, k.max = 15)$data$y, 15)
+clusters_patients <- data.frame('cluster'=hcut(all_vars_scaled, k, iter.max = 100)$cluster)
+
+k = findElbow(fviz_nbclust(t(all_vars_scaled), hcut, method = "wss", print.summary=T, k.max = 30)$data$y, 30)
 clusters_features2 <- data.frame('cluster'=hcut(t(all_vars_scaled), k, iter.max = 100)$cluster)
 
-k = findElbow(fviz_nbclust(all_vars_scaled, hcut, method = "wss", print.summary=T, k.max = 10)$data$y, 10)
+k = findElbow(fviz_nbclust(all_vars_scaled, hcut, method = "wss", print.summary=T, k.max = 30)$data$y, 40)
 clusters_patients2 <- data.frame('cluster'=hcut(all_vars_scaled, k, iter.max = 100)$cluster)
+
 
 # write cluster info into csv
 write.csv(all_vars, file = 'data/TMA36_project/data_integration/cytof_rna_hm_raw.csv', row.names = TRUE)
@@ -124,11 +116,11 @@ write.csv(rad_hm_sigcor, 'data/TMA36_project/Radiomics/processed/pwcorrelation_H
 # NETWORKS
 
 ft_mat = cluster_by_corr(all_vars_scaled, adj_pval_cutoff=0.05, rho_cutoff=0, corr_only = T)
-ft_network <- graph_from_adjacency_matrix(ft_mat, weighted=T, mode="undirected", 
+ft_network <- graph_from_adjacency_matrix(ft_mat, weighted=T, mode="undirected",
                                        diag=F)
 
 pt_mat = cluster_by_corr(t(all_vars_scaled), adj_pval_cutoff=0.05, rho_cutoff=0, corr_only = T)
-pt_network <- graph_from_adjacency_matrix(pt_mat, weighted=T, mode="undirected", 
+pt_network <- graph_from_adjacency_matrix(pt_mat, weighted=T, mode="undirected",
                                           diag=F)
 
 # Open Cytoscape and confirm connection
