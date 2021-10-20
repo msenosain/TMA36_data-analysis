@@ -13,7 +13,7 @@ environment_set <- function(){
   library(gage)
   library(ggplot2)
   library(org.Hs.eg.db)
-  library(clusterProfiler)
+  #library(clusterProfiler)
   library(survival)
   library(ggpubr)
   library(survminer)
@@ -647,7 +647,8 @@ compare_hla <- function(ls_preprocessed, mat_name, hla_ids, hla_gsym, BPplot = T
 
 
 survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, delete_group_name,
-                          survival_type = 'OS', legend_labs, legend_title, plot_rmst=FALSE){
+                          survival_type = 'OS', legend_labs, legend_title, plot_rmst=FALSE,
+                          rmst2_tau=4){
   # generate survival data
   surv_data <- CDE %>%
     mutate(Recurrence_Date = ifelse(is.na(Recurrence_Date), LDKA, Recurrence_Date),
@@ -658,13 +659,14 @@ survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, 
            Death_st = ifelse(Death_st=='Yes', 1, 0),
            Recurrence_st = ifelse(Recurrence_st=='Yes', 1, 0),
            Progression_st = ifelse(Progression_st=='Yes', 1, 0)) %>%
-    select(., pt_ID, !!group_colname, SILA, OS_yrs, RFS_yrs, PFS_yrs, Death_st, Recurrence_st, Progression_st)
+    dplyr::select(., pt_ID, !!group_colname, SILA, OS_yrs, RFS_yrs, PFS_yrs, Death_st, Recurrence_st, Progression_st)
   
   surv_data['group'] <- factor(surv_data[,group_colname], levels = group_levels)
   
   if(length(group_levels)>2){
+    col_pal <- RColorBrewer::brewer.pal(length(group_levels), 'Dark2')
     dt <- surv_data[-which(surv_data$group==group_levels[2]),]
-    col_pal <- c("#3498DB", "#888a87", "#EC7063")
+    #col_pal <- c("#3498DB", "#888a87", "#EC7063")
   }else{
     dt <- surv_data
     col_pal <- c("#3498DB", "#EC7063")
@@ -706,17 +708,16 @@ survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, 
   print(p)
   #print(p$plot)
   #print(p$table)
-  
+  survival_ls <- list(surv_data = surv_data, 
+                      km_Group_fit = km_Group_fit)
   # RMST calculations 
-  arm = ifelse(dt$group==group_levels[1], 1,0)
-  rmst_calc = rmst2(time, status, arm, tau=4)
   if(plot_rmst){
+    arm = ifelse(dt$group==group_levels[1], 1,0)
+    rmst_calc = rmst2(time, status, arm, tau=rmst2_tau)
     plot(rmst_calc, xlab="Years", ylab="Probability", density=60)
+    survival_ls$rmst_calc <- rmst_calc
   }
   
-  survival_ls <- list(surv_data = surv_data, 
-                      km_Group_fit = km_Group_fit,
-                      rmst_calc = rmst_calc)
   
   return(survival_ls)
   
