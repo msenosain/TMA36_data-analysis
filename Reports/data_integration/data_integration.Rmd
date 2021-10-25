@@ -52,6 +52,15 @@ clusters_patients$pt_ID <- as.integer(clusters_patients$pt_ID)
 CDE=left_join(CDE, clusters_patients, by = 'pt_ID')
 ```
 
+
+```{r}
+sc_rna <- c('12929', '13774', '7984', '14965', '12889', '8356', 
+            '11918', '11522', '15002', '15467', '13634', '14428',
+            '11817', '14958', '12935', '13636')
+CDE$scrna_data <- 'No'
+CDE$scrna_data[which(CDE$pt_ID %in%  sc_rna)] <- 'Yes'
+```
+
 ```{r}
 col_bh = c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#EC7063')
 col_sila = colorRamp2(c(0, 0.5, 1), c("white", "#653e87", "#0d0514"))
@@ -64,11 +73,12 @@ ha = HeatmapAnnotation(
   Nodule_size = CDE$Path_Nodule_Size_cm,
   Histology = CDE$Hist_predominant,
   Smoking = CDE$Smoking_Status,
-  Pack_Yrs = CDE$Pack_Years,
+  #Pack_Yrs = CDE$Pack_Years,
+  sc_rna = CDE$scrna_data,
   #Subclust = as.factor(clusters_patients2$cluster),
   #Log_mut_load = log(CDE$mut_load),
-  #KRAS = as.factor(CDE$KRAS),
-  #EGFR = as.factor(CDE$EGFR),
+  KRAS = as.factor(CDE$KRAS),
+  EGFR = as.factor(CDE$EGFR),
   col = list(Behavior = col_bh, 
              SILA = col_sila,
              Stage = col_stage),
