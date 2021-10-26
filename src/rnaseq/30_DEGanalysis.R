@@ -658,8 +658,10 @@ survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, 
            PFS_yrs = lubridate::time_length(difftime(as.Date(Progression_Date), as.Date(Diagnosis_Date)), "years"),
            Death_st = ifelse(Death_st=='Yes', 1, 0),
            Recurrence_st = ifelse(Recurrence_st=='Yes', 1, 0),
-           Progression_st = ifelse(Progression_st=='Yes', 1, 0)) %>%
-    dplyr::select(., pt_ID, !!group_colname, SILA, OS_yrs, RFS_yrs, PFS_yrs, Death_st, Recurrence_st, Progression_st)
+           Progression_st = ifelse(Progression_st=='Yes', 1, 0),
+           DRP_st = ifelse(DRP_st=='Yes', 1, 0))%>%
+    mutate(., DRP_yrs=apply(.[,c('OS_yrs', 'RFS_yrs', 'PFS_yrs')], 1, min))%>%
+    dplyr::select(., pt_ID, !!group_colname, SILA, OS_yrs, RFS_yrs, PFS_yrs, DRP_yrs, Death_st, Recurrence_st, Progression_st, DRP_st)
   
   surv_data['group'] <- factor(surv_data[,group_colname], levels = group_levels)
   
@@ -690,6 +692,11 @@ survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, 
     title_plt <- paste('Progression Free Survival by', legend_title)
     time = dt$PFS_yrs
     status = dt$Progression_st
+  }else if(survival_type == 'DRP'){
+    km_Group_fit <- survfit(Surv(DRP_yrs, DRP_st) ~ group, data = surv_data)
+    title_plt <- paste('Overall/Recurrence/Progression Free Survival by', legend_title)
+    time = dt$DRP_yrs
+    status = dt$DRP_st
   }else{
     km_Group_fit <- survfit(Surv(OS_yrs, Death_st) ~ group, data = surv_data)
     title_plt <- paste('Overall Survival by', legend_title)
