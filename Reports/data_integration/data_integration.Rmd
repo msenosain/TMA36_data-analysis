@@ -214,6 +214,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '
               legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
 ```
 
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
+              legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
+```
+
 ## Survival 1 vs 2-3-4
 ```{r}
 CDE$cluster_j <- CDE$cluster
@@ -238,6 +245,13 @@ x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
 ```
 
@@ -268,6 +282,13 @@ x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'),
               legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
 ```
 
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
+              legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
+```
+
 ## Survival 3 vs 1-2-4
 ```{r}
 CDE$cluster_j <- CDE$cluster
@@ -292,6 +313,13 @@ x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
 ```
 
@@ -322,6 +350,13 @@ x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'),
               legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
 ```
 
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'), 
+              delete_group=FALSE, survival_type = 'DRP', 
+              legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
+```
+
 ## Survival 1 vs 2
 
 ### Overall survival
@@ -342,6 +377,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('1', '2'), legend_title = 'patient cluster')
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '2'), legend_title = 'patient cluster')
 ```
 
@@ -368,6 +410,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'),
               legend_labs = c('1', '3'), legend_title = 'patient cluster')
 ```
 
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'), 
+              delete_group=FALSE, survival_type = 'DRP', 
+              legend_labs = c('1', '3'), legend_title = 'patient cluster')
+```
+
 ## Survival 1 vs 4
 
 ### Overall survival
@@ -388,6 +437,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('1', '4'), legend_title = 'patient cluster')
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '4'), legend_title = 'patient cluster')
 ```
 
@@ -414,6 +470,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'),
               legend_labs = c('2', '3'), legend_title = 'patient cluster')
 ```
 
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'), 
+              delete_group=FALSE, survival_type = 'DRP', 
+              legend_labs = c('2', '3'), legend_title = 'patient cluster')
+```
+
 ## Survival 2 vs 4
 
 ### Overall survival
@@ -434,6 +497,13 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('2', '4'), legend_title = 'patient cluster')
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('2', '4'), legend_title = 'patient cluster')
 ```
 
@@ -458,5 +528,12 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'),
 ```{r}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c('3', '4'), legend_title = 'patient cluster')
+```
+
+### DRP survival
+```{r}
+x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
+              delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
