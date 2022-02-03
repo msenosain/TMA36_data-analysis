@@ -13,15 +13,80 @@ knitr::opts_chunk$set(echo = FALSE)
 library(maftools)
 library(dplyr)
 library(knitr)
+library(ggplot2)
+library(tidyverse)
+library(tidyr)
 ```
 
 ```{r}
 maf_dir <- "data/TMA36_project/WES/processed/TwistWES_Tumor_pipeline.freq0.01.filtered.tsv_020921.maf"
-clin_dt <- read.csv('data/TMA36_project/CDE/CDE_TMA36_2020FEB25_SA_MF.csv')
+clin_dt <- read.csv('data/TMA36_project/CDE/CDE_TMA36_2021SEPT21_DR_MF.csv')
+clin_dt$n_op2_B <- clin_dt$n_op2
+clin_dt[clin_dt$n_op2_B %in% c('ind', 'int'), 'n_op2_B'] <- 'ind_int'
 ```
 
-# Pre-processing of the data
+# WES binary
 ```{r}
+wes <- read.csv("data/TMA36_project/WES/processed/wes_binary.csv")
+clin_dt = right_join(clin_dt, wes, by = 'pt_ID')
+```
+
+## Mut load vs SILA
+```{r, fig.width = 5, fig.height = 4}
+x <- clin_dt
+x$mut_load <- log(x$mut_load) 
+ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
+          xlab = "SILA Score", ylab = 'log(mutational load)')
+
+x <- x[-which(x$SILA ==min(x$SILA)),]
+ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
+          xlab = "SILA Score", ylab = 'log(mutational load)')
+
+x <- x[-which(x$SILA ==min(x$SILA)),]
+ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
+          xlab = "SILA Score", ylab = 'log(mutational load)')
+```
+
+
+## Mut load by behavior
+```{r}
+ggplot(clin_dt, aes(x=n_op2, y=log(mut_load), fill=n_op2)) + 
+    geom_violin(trim=FALSE) +
+    geom_boxplot(width=0.1, fill="white") +
+    labs(title='Mutational load',x="", y = "log(# mutations)") +
+    scale_fill_brewer(palette="Dark2") + theme_minimal() +
+    ggsignif::geom_signif(comparisons = list(c("ind", "agg"), c("ind", "int"), c("int", "agg")),   
+                map_signif_level=TRUE)
+```
+## Mut load by pt cluster
+```{r}
+clusters_patients <- read.csv('data/TMA36_project/data_integration/clusters_patients.csv', row.names = 1)
+clusters_patients <- rownames_to_column(clusters_patients, var = 'pt_ID')
+rownames(clusters_patients) <- clusters_patients$pt_ID
+clusters_patients$pt_ID <- as.integer(clusters_patients$pt_ID)
+clin_dt=left_join(clin_dt, clusters_patients, by = 'pt_ID')
+
+x <- drop_na(clin_dt, cluster)
+x$cluster <- as.factor(x$cluster)
+ggplot(x, aes(x=cluster, y=log(mut_load), fill=cluster)) + 
+    geom_violin(trim=FALSE) +
+    geom_boxplot(width=0.1, fill="white") +
+    labs(title='Mutational load',x="", y = "log(# mutations)") +
+    scale_fill_brewer(palette="Dark2") + theme_minimal() +
+    ggsignif::geom_signif(comparisons = list(c("1", "2"), c("1", "3"), c("1", "4"),
+                                             c("2", "3"), c("2", "4"), c("3", "4")),   
+                map_signif_level=TRUE)
+```
+
+# maftools
+```{r}
+# Pre-processing of the data
 single.maf.delim <- read.delim(file = maf_dir, sep = "\t", header = TRUE, fill = TRUE, comment.char = "#")
 laml <- read.maf(maf=single.maf.delim) ###optional, add clinical annotation file with "clinicalData" argument in read.maf()
 
@@ -35,44 +100,30 @@ clin_dt <- cbind('Tumor_Sample_Barcode'=x$Tumor_Sample_Barcode, clin_dt)
 laml = read.maf(maf = single.maf.delim, clinicalData = clin_dt, verbose = F)
 ```
 
-# MAF object
+
 ```{r}
+# MAF object
 laml
 ```
 
+## Summary
 ```{r}
 plotmafSummary(maf = laml, rmOutlier = TRUE, addStat = 'median', dashboard = TRUE, titvRaw = FALSE)
 ```
 
-# Oncoplots
+## Oncoplots
 ```{r}
-oncoplot(maf = laml, top = 25, clinicalFeatures = c('n_op2'))
+oncoplot(maf = laml, top = 25, clinicalFeatures = c('n_op2', 'cluster'))
 ```
 
-# Transition and Transversions
+## Transition and Transversions
 ```{r}
 laml.titv = titv(maf = laml, plot = FALSE, useSyn = TRUE)
 #plot titv summary
 plotTiTv(res = laml.titv)
 ```
 
-# KRAS mutations
-```{r}
-lollipopPlot(maf = laml, gene = 'KRAS', AACol = 'AAChange', showMutationRate = TRUE)
-lollipopPlot(maf = laml, gene = 'KRAS', showDomainLabel = FALSE, labelPos = 'all')
-```
-
-# Compare mutation load against TCGA cohorts
-```{r}
-laml.mutload = tcgaCompare(maf = laml, cohortName = 'TMA36', )
-```
-
-# Somatic Interactions
-```{r}
-somaticInteractions(maf = laml, top = 25, pvalue = c(0.05, 0.1))
-```
-
-# Detecting cancer driver genes based on positional clustering
+## Detecting cancer driver genes based on positional clustering
 
 ```{r}
 laml.sig = oncodrive(maf = laml, AACol = 'Protein_Change', minMut = 5, pvalMethod = 'zscore')
@@ -84,11 +135,10 @@ kable(head(laml.sig))
 plotOncodrive(res = laml.sig, fdrCutOff = 0.2, useFraction = TRUE)
 ```
 
-# Clinical enrichment analysis
+## Clinical enrichment analysis
 ```{r}
 histology = clinicalEnrichment(maf = laml, clinicalFeature = 'Hist_predominant')
 stage = clinicalEnrichment(maf = laml, clinicalFeature = 'X8th_ed_path_stage')
-n_op1 = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op1')
 n_op2 = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2')
 ```
 
@@ -96,61 +146,35 @@ n_op2 = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2')
 histology$groupwise_comparision[p_value < 0.05]
 plotEnrichmentResults(enrich_res = histology, pVal = 0.05)
 plotEnrichmentResults(enrich_res = stage, pVal = 0.05)
-plotEnrichmentResults(enrich_res = n_op1, pVal = 0.05)
 plotEnrichmentResults(enrich_res = n_op2, pVal = 0.05)
 ```
 
-# Oncogenic Signaling Pathways
+## Oncogenic Signaling Pathways
 ```{r}
-OncogenicPathways(maf = laml)
-PlotOncogenicPathways(maf = laml, pathways = "RTK-RAS")
+#OncogenicPathways(maf = laml)
+PlotOncogenicPathways(maf = laml, pathways = "RTK-RAS", showTumorSampleBarcodes = TRUE)
 ```
 
-# Clinical enrichment analysis (by aggressiveness)
+## Clinical enrichment analysis (by aggressiveness)
 ```{r}
 fab.ce = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2')
-```
-
-```{r}
 fab.ce$groupwise_comparision[p_value < 0.05]
-```
-
-```{r}
 plotEnrichmentResults(enrich_res = fab.ce, pVal = 0.05, geneFontSize = 0.5, annoFontSize = 0.6)
 ```
-# Comparing groups (separate MAFs)
-```{r}
-ind_maf <- subsetMaf(laml, clinQuery="n_op2 == 'ind'")
-int_maf <- subsetMaf(laml, clinQuery="n_op2 == 'int'")
-agg_maf <- subsetMaf(laml, clinQuery="n_op2 == 'agg'")
-```
 
-## Indolent vs Aggressive
-```{r}
-pt.vs.rt <- mafCompare(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive', minMut = 5)
-knitr::kable(pt.vs.rt$results)
-knitr::kable(pt.vs.rt$SampleSummary)
-```
-
-```{r  , fig.width = 10, fig.height = 8}
-#forestPlot(mafCompareRes = pt.vs.rt, pVal = 0.1, color = c('royalblue', 'maroon'), geneFontSize = 0.8)
-```
+### Indolent+Intermediate vs Aggressive
 
 ```{r}
-#genes = c("PML", "RARA", "RUNX1", "ARID1B", "FLT3")
-coOncoplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive',
-           removeNonMutated = TRUE)
+fab.ce = clinicalEnrichment(maf = laml, clinicalFeature = 'n_op2_B')
+fab.ce$groupwise_comparision[p_value < 0.05]
+plotEnrichmentResults(enrich_res = fab.ce, pVal = 0.05, geneFontSize = 0.5, annoFontSize = 0.6)
 ```
 
-```{r}
-coBarplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent', m2Name = 'Aggressive')
-```
-
-## Indolent+Intermediate vs Aggressive
 ```{r}
 ind_maf <- subsetMaf(laml, clinQuery="n_op2 %in% c('ind', 'int')")
 agg_maf <- subsetMaf(laml, clinQuery="n_op2 == 'agg'")
 ```
+
 
 ```{r}
 pt.vs.rt <- mafCompare(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive', minMut = 5)
@@ -170,5 +194,9 @@ coOncoplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggr
 ```
 
 ```{r}
-coBarplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive')
+coBarplot(m1 = ind_maf, m2 = agg_maf, m1Name = 'Indolent + Int', m2Name = 'Aggressive',
+          genes = c('CTNND2', 'ADAMTS12', 'APOB', 'NPAP1', 'PRDM9', 'SORCS1', 'ADGRB3', 'DCHS2', 'LRRTM4', 
+                    'PTPRC', 'UNC13B', 'CACNA1E', 'OBSCN'))
 ```
+
+
