@@ -59,4 +59,4 @@ mut_dt <- data.frame(mut_dt[,mut_dt_sum$genes]) %>%
   mutate(pt_ID=rownames(.))%>%
   left_join(mut_load, ., by = 'pt_ID')
 
-write.csv(mut_dt, file = "data/TMA36_project/WES/processed/wes_binary.csv")
+write.csv(mut_dt, file = "data/TMA36_project/WES/processed/wes_binary.csv", row.names = FALSE)
