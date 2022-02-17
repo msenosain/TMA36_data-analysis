@@ -15,10 +15,10 @@ anndata
 cello-classify
 statannotations
 statsmodels
-tf-nightly
-tfp-nightly
-tensorflow
-tensorflow-probability
+#tf-nightly
+#tfp-nightly
+#tensorflow
+#tensorflow-probability
 scmer
 
 # local package
