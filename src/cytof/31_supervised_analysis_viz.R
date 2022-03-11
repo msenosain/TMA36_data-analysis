@@ -463,6 +463,9 @@ protein_corr <- function(corr_ls) {
     pv <- corr_ls$P
     colnames(r) <- gsub(".*_",  "",colnames(r))
     rownames(r) <- colnames(r)
+    colnames(pv) <- gsub(".*_",  "",colnames(pv))
+    rownames(pv) <- colnames(pv)
+    pv[is.na(pv)] = 0
     corrplot::corrplot(r, type="upper", order='hclust', tl.col = "black", 
         tl.srt = 45, p.mat = pv , sig.level = 0.05, 
         insig = "blank", method = 'color', addCoef.col="black", 
