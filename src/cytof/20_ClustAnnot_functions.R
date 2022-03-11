@@ -321,6 +321,7 @@ corr_plot <- function(data, rcorr_type = 'spearman', p.adjust_method = 'BH'){
         ncol = ncol(res$P))
     colnames(corrected_pvals)<- colnames(res$P)
     rownames(corrected_pvals)<- rownames(res$P)
+    corrected_pvals[is.na(corrected_pvals)] = 0
 
     col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 
