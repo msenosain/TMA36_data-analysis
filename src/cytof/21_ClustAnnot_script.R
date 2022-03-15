@@ -585,7 +585,7 @@ corr_f <- function(data, rcorr_type = 'spearman', p.adjust_method = 'BH'){
 }
 
 idx <- c(15, 17:31, 33:35, 37:51)
-
+annot_df <- annot_df[-which(annot_df$pt_ID=='11840'),]
 
 # Bulk
 co_bulk <- corr_f(annot_df[,idx])
