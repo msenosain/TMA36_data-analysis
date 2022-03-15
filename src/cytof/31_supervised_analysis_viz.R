@@ -65,7 +65,13 @@ ClusterUMAP_plot <- function(data,
                              title_size_prot = 10, epi_clus=F){
   
   if(density){
-    test <- data[c('UMAP1', 'UMAP2')]
+    density_by=T
+    test <- umap_smp[c('UMAP1', 'UMAP2', 'n_op2')]
+    test$n_op2 <- as.character(test$n_op2)
+    test$n_op2[test$n_op2=='ind'] = 'Indolent'
+    test$n_op2[test$n_op2=='int'] = 'Intermediate'
+    test$n_op2[test$n_op2=='agg'] = 'Aggressive'
+    test$n_op2 <- factor(test$n_op2, levels = c('Indolent', 'Intermediate', 'Aggressive'))
     p_cl <- ggplot(test, aes(x = UMAP1, y = UMAP2)) + 
       geom_point(shape = 20, size = 0.01) + 
       ggtitle(plot_title) +
@@ -85,13 +91,16 @@ ClusterUMAP_plot <- function(data,
             legend.key.size = unit(0.5, "cm"),
             legend.key.width = unit(0.5,"cm"),
             axis.title=element_text(size=10)) +
-      stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", n=100) +
+      #stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", n=100) +
+      stat_density_2d(aes(fill = after_stat(piece)), geom = "polygon", n=100, bins=10, contour = T) +
       #xlim(x_lim) +
       #ylim(y_lim) +
       scale_x_continuous(limits = x_lim, expand = c(0, 0)) +
       scale_y_continuous(limits = y_lim, expand = c(0, 0)) +
       scale_fill_viridis_c(option = 'magma') #https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
-    return(p_cl)
+    p_cl2 <- p_cl+facet_wrap(vars(n_op2),scales='free')
+    p_cl_ls <- list(p_cl, p_cl2) #plot(p_cl), plot(p_cl2)
+    return(p_cl_ls)
   }
   
   if(color_by_cluster){
@@ -183,7 +192,7 @@ ClusterUMAP_plot <- function(data,
                  shape = 20, size = 0.8, alpha = 0.4) +
       ggtitle(plot_title) +
       theme_bw()+
-      scale_colour_gradient2(low = "#3498DB", mid= 'white', high = "#EC7063", midpoint = 0.5) +
+      scale_colour_gradient2(low = "#3498DB", mid= 'white', high = "#c75264", midpoint = 0.5) +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line =  element_blank(),
             legend.position = "right",
@@ -269,11 +278,11 @@ bp_stclusters <- function(dt, celltype_nm_plot, plot_type){
     if(plot_type == 'cond_frac'){
         if(length(unique(dt$variable))>2){
             dt$variable <- factor(dt$variable, levels = c('ind', 'int', 'agg'))
-            col <- c("#3498DB", "grey72", "#EC7063")
+            col <- c("#3498DB", "grey72", "#c75264")
             lb <- c("Indolent", "Intermediate", "Aggressive")
         } else {
             dt$variable <- factor(dt$variable, levels = c('ind', 'agg'))
-            col <- c("#3498DB", "#EC7063")
+            col <- c("#3498DB", "#c75264")
             lb <- c("Indolent", "Aggressive")
         }
         p <- ggplot(dt, aes(fill=variable, y=value, x=cluster)) + 
@@ -341,12 +350,12 @@ frac_hm <- function(prcnt_dt, CDE, class_col, scale_v = TRUE){
     lb <- rep('Indolent', nrow(prcnt_dt))
     lb[which(CDE[,class_col] == 'agg')] <- 'Aggressive'
     levels = c('Indolent', 'Aggressive')
-    colr = list(Behavior = c('Indolent' = '#3498DB', 'Aggressive'= '#EC7063'))
+    colr = list(Behavior = c('Indolent' = '#3498DB', 'Aggressive'= '#c75264'))
 
     if(length(unique(CDE[,class_col]))>2){
         lb[which(CDE[,class_col] == 'int')] <- 'Intermediate'
         levels = c('Indolent', 'Intermediate', 'Aggressive')
-        colr = list(Behavior = c('Indolent' = '#3498DB', 'Intermediate' = 'grey72', 'Aggressive'= '#EC7063'))
+        colr = list(Behavior = c('Indolent' = '#3498DB', 'Intermediate' = 'grey72', 'Aggressive'= '#c75264'))
     }
     
     ha = HeatmapAnnotation(
@@ -374,17 +383,18 @@ frac_boxplot <- function(prcnt_dt, CDE, class_col, indvsagg=TRUE){
     prcnt_dt[is.na(prcnt_dt)] <- 0
     
     if(indvsagg){
-      lb <- rep('Indolent', nrow(prcnt_dt))
-      lb[which(CDE[,class_col] == 'agg')] <- 'Aggressive'
-      levels = c('Indolent', 'Aggressive')
-      comp =  list(c("Indolent", "Aggressive"))
-      colr = c("#3498DB", "#EC7063")
+      lb <- rep('Ind', nrow(prcnt_dt))
+      lb[which(CDE[,class_col] == 'agg')] <- 'Agg'
+      levels = c('Ind', 'Agg')
+      comp =  list(c("Ind", "Agg"))
+      colr = c("#3498DB", "#c75264")
       
       if(length(unique(CDE[,class_col]))>2){
-        lb[which(CDE[,class_col] == 'int')] <- 'Intermediate'
-        levels = c('Indolent', 'Intermediate', 'Aggressive')
-        comp =  list(c("Indolent", "Aggressive"), c("Indolent", "Intermediate"), c("Intermediate", "Aggressive"))
-        colr = c("#3498DB", "grey72","#EC7063")
+        lb[which(CDE[,class_col] == 'int')] <- 'Int'
+        levels = c('Ind', 'Int', 'Agg')
+        comp =  list(c("Ind", "Agg"), c("Ind", "Int"), c("Int", "Agg"))
+        colr = c("#3498DB", "grey72","#c75264")
+        
       }
       
     }else{
@@ -393,21 +403,34 @@ frac_boxplot <- function(prcnt_dt, CDE, class_col, indvsagg=TRUE){
       lb <- rep(levels[1], nrow(prcnt_dt))
       lb[which(CDE[,class_col] == levels[2])] <- levels[2]
       comp = list(c(levels))
-      colr = c("#3498DB", "#EC7063")
+      colr = c("#3498DB", "#c75264")
     }
     
     prcnt_dt['Group'] <- factor(lb, levels = levels)
     prcnt_dt['pt_ID'] <- CDE$pt_ID
     prcnt_dt <- reshape2::melt(prcnt_dt, id.vars = c("pt_ID", "Group"))
     colnames(prcnt_dt)[4] <- 'Fraction'
-
+    
+    sigFunc = function(x){
+      if(x < 0.001){"***"} 
+      else if(x < 0.01){"**"}
+      else if(x < 0.05){"*"}
+      else{NA}}
+    
     ggplot(prcnt_dt, aes(x=Group, y=Fraction, color = Group)) +
         geom_boxplot() +
         #ylim(0,1)+
         ggsignif::geom_signif(comparisons = comp, 
-           map_signif_level=TRUE) +
-        facet_wrap(~variable, scales='free') +
-        theme(plot.title = element_text(hjust = 0.5, size=22))+
+                              map_signif_level= sigFunc,
+                              margin_top = 0.05,color ='black',
+                              step_increase = 0.06) +
+        facet_wrap(~variable, scales='free_y') +
+        scale_y_continuous(expand = expansion(mult = c(0.05, .2)))+
+        theme_bw()+
+        theme(plot.title = element_text(hjust = 0.5, size=22),
+              legend.position='none',
+              #axis.text.x = element_text(angle = 45, hjust = 1)
+              )+
         scale_color_manual(values=colr, name = "Group", labels = lb)
 
 }
