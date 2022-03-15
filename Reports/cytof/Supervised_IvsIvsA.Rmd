@@ -27,6 +27,13 @@ ref <- ref[-42,] # sample 13376 has been collected twice and will be merged, onl
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/percent_pt.RData")
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/protein_correlations.RData")
 
+#remove pt 11840
+annot_df <- annot_df[-which(annot_df$pt_ID=='11840'),]
+ref <- ref[-which(ref$pt_ID=='11840'),]
+prcnt_celltypes <- prcnt_celltypes[-which(rownames(prcnt_celltypes)=='11840'),]
+prcnt_clusters <- prcnt_clusters[-which(rownames(prcnt_clusters)=='11840'),]
+prcnt_subtypes <- prcnt_subtypes[-which(rownames(prcnt_subtypes)=='11840'),]
+
 # Clinical data
 CDE <- read.csv(file = '../../data/TMA36_project/CDE/CDE_TMA36_2021JAN13_SA_MF.csv')
 CDE <- CDE[match(ref$pt_ID, CDE$pt_ID),] # Select only pts with CyTOF data
@@ -50,6 +57,7 @@ for (i in pts) {
 
 ```{r}
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_allcelltypes.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 ```
 
 
@@ -58,7 +66,7 @@ load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_allcelltype
 #plot_colors
 m_ct <- c("#FA0000", "#207BBB", "#00B84C", "#999999")
 s_ct <- c("#f0dc78", "#FA0000", "#207BBB", "#00B84C", "#631461", "#c9c9c9", "#FF7500" ,"#FF6BBC")
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -88,6 +96,7 @@ ClusterUMAP_plot(umap_smp, color_by_cluster = T, color_by_protein = F, pallete =
                  lg_names = levels(as.factor(umap_smp$pt_ID)),  x_lim = x_lim, y_lim = y_lim)
 
 ```
+
 
 ```{r, echo=FALSE, fig.width = 10, fig.height = 5}
 x <- c(15,20,29,31,34,37,40,44,46,47)
@@ -219,7 +228,7 @@ frac_boxplot(prcnt_celltypes, CDE, 'n_op2')
 
 ### 1.4.2 All subtypes
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,fig.width = 6, fig.height = 6}
 frac_boxplot(prcnt_subtypes, CDE, 'n_op2')
 ```
 
@@ -253,7 +262,7 @@ ft_cols <- c(15,18,19,21:23,26,28,29,31,33,35,37,38,40,41,50,51)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -325,6 +334,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_endo.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Endothelial'
 k <- which(annot_df$subtype_B == st_nm)
@@ -335,7 +345,7 @@ ft_cols <- c(18, 19, 21, 22, 26, 28, 31, 33, 35, 38, 41, 42, 50, 51)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -407,6 +417,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_fmes.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Fib_Mesenchymal'
 k <- which(annot_df$subtype_B == st_nm)
@@ -417,7 +428,7 @@ ft_cols <- c(18, 19, 21, 22, 26, 27, 28, 33, 35, 38, 41, 42, 43, 48, 50, 51)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -489,6 +500,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_cd8t.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Tc_cells'
 k <- which(annot_df$subtype_B == st_nm)
@@ -499,7 +511,7 @@ ft_cols <- c(18:22, 26, 28, 31, 35, 42, 50)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -571,6 +583,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_cd4t.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Th_cells'
 k <- which(annot_df$subtype_B == st_nm)
@@ -581,7 +594,7 @@ ft_cols <- c(18:22, 26, 28, 31, 35, 42, 50)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -653,6 +666,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_dnt.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'DNT_cells'
 k <- which(annot_df$subtype_B == st_nm)
@@ -663,7 +677,7 @@ ft_cols <- c(18:22, 26, 28, 31, 35, 42, 50)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -735,6 +749,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_mye.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Myeloid'
 k <- which(annot_df$subtype_B == st_nm)
@@ -745,7 +760,7 @@ ft_cols <- c(18:22, 26, 28, 31, 35, 42, 50)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)
@@ -817,6 +832,7 @@ frac_boxplot(x, CDE, 'n_op2')
 ```{r, echo=FALSE}
 # load UMAP data
 load("../../data/TMA36_project/CyTOF/processed/Data_paper2/both/UMAP_otherimm.RData")
+umap_smp <- umap_smp[-which(umap_smp$pt_ID=='11840'),]
 # subset index
 st_nm <- 'Other_immune'
 k <- which(annot_df$subtype_B == st_nm)
@@ -827,7 +843,7 @@ ft_cols <- c(18:22, 26, 28, 31, 35, 42, 50)
 ### UMAPs
 
 ```{r}
-nop2 <- c("#EC7063", "#3498DB", "grey72")
+nop2 <- c("#c75264", "#3498DB", "grey72")
 
 x_lim <- c(min(umap_smp$UMAP1)-1, max(umap_smp$UMAP1)+1)
 y_lim <- c(min(umap_smp$UMAP2)-1, max(umap_smp$UMAP2)+1)

@@ -1,0 +1,670 @@
+---
+title: "TMA36 RNA Seq dataset: Indolent vs. Intermediate vs. Aggressive"
+author: "Mafe Senosain"
+date: "`r Sys.Date()`"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE)
+setwd(rprojroot::find_rstudio_root_file())
+source('src/rnaseq/30_DEGanalysis.R') #../../
+source('src/cytof/31_supervised_analysis_viz.R')
+source('src/cytof/20_ClustAnnot_functions.R')
+environment_set()
+library(DT)
+library(dplyr)
+```
+
+```{r}
+# Load data
+load('data/TMA36_project/RNA_Seq/processed/DE_analysis.RData')
+```
+
+
+# Indolent vs Aggressive
+```{r}
+# Rename DE_res
+DE_res = DE_res_indvsagg
+# Rename fgsea
+fgsea_res = fgsea_res_indvsagg
+# title vector
+title_label = "Indolent vs Aggressive"
+# Vectors for HLA comparisons
+cond_colname = "n_op2" 
+delete_group = TRUE
+delete_group_name = 'int'
+```
+
+
+## Differential gene expression analysis
+### Top 30 DE genes: Heatmap
+
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
+```
+
+### Top DE genes: Volcano plot
+
+```{r echo=FALSE, fig.width = 7, fig.height = 6}
+volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
+```
+
+### Top DE genes: table (cutoffs: pval\<0.05, L2FC \> 1.5)
+
+<div>
+
+> -   baseMean---The average of the normalized count values, dividing by size factors, taken over all samples.
+>
+> -   log2FoldChange--The effect size estimate.
+>     This value indicates how much the gene or transcript's expression seems to have changed between the comparison and control groups.
+>     This value is reported on a logarithmic scale to base 2.
+>
+> -   lfcSE--The standard error estimate for the log2 fold change estimate.
+>
+> -   stat--The value of the test statistic for the gene or transcript.
+>
+> -   pvalue--P-value of the test for the gene or transcript.
+>
+> -   padj--Adjusted P-value for multiple testing for the gene or transcript.
+>
+> -   gene-Gene ID from ENSEMBL database
+>
+> -   Symbol---Gene name
+
+</div>
+
+```{r}
+l2fc_cutoff=1.5
+pval_cutoff = 0.05
+res_df <- data.frame(DE_res$res_df) %>%
+  na.omit() %>%
+  filter(abs(log2FoldChange) > l2fc_cutoff) %>%
+  filter(pvalue < pval_cutoff) %>%
+  arrange(pvalue) %>%
+  dplyr::select(symbol, everything())
+rownames(res_df) <- NULL
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+## Pathway enrichment analysis fGSEA
+
+Indolent (n_op2 = 'ind') is the reference.
+When sample is Aggressive ('agg'), pathways shown below are up- or down- regulated
+
+> -   pathway -- name of the pathway as in 'names(pathway)';
+>
+> -   pval -- an enrichment p-value;
+>
+> -   padj -- a BH-adjusted p-value;
+>
+> -   log2err -- the expected error for the standard deviation of the P-value logarithm.
+>
+> -   ES -- enrichment score, same as in Broad GSEA implementation;
+>
+> -   NES -- enrichment score normalized to mean enrichment of random samples of the same size; • size -- size of the pathway after removing genes not present in 'names(stats)'.
+>
+> -   leadingEdge -- vector with indexes of leading edge genes that drive the enrichment, see [http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm\\\#\\\_Running_a\\\_Leading](http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm#_Running_a_Leading){.uri}.
+
+### Hallmark Pathways
+```{r}
+allograft_rej <- strsplit(fgsea_res$res_hm$leadingEdge[10], '\\s+')[[1]]
+```
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+#c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#c75264')
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='#3498DB', up_color='#c75264', write_pathways=TRUE)
+```
+
+### REACTOME Pathways
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label, down_color='#3498DB', up_color='#c75264', write_pathways=TRUE)
+```
+
+
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indvsagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+
+# Indolent vs Intermediate
+```{r}
+# Rename DE_res
+DE_res = DE_res_indvsint
+# Rename fgsea
+fgsea_res = fgsea_res_indvsint
+# title vector
+title_label = "Indolent vs Intermediate"
+# Vectors for HLA comparisons
+cond_colname = "n_op2" 
+delete_group = TRUE
+delete_group_name = 'agg'
+```
+
+
+## Differential gene expression analysis
+### Top 30 DE genes: Heatmap
+
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
+```
+
+### Top DE genes: Volcano plot
+
+```{r echo=FALSE, fig.width = 7, fig.height = 6}
+volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
+```
+
+### Top DE genes: table (cutoffs: pval\<0.05, L2FC \> 1.5)
+
+<div>
+
+> -   baseMean---The average of the normalized count values, dividing by size factors, taken over all samples.
+>
+> -   log2FoldChange--The effect size estimate.
+>     This value indicates how much the gene or transcript's expression seems to have changed between the comparison and control groups.
+>     This value is reported on a logarithmic scale to base 2.
+>
+> -   lfcSE--The standard error estimate for the log2 fold change estimate.
+>
+> -   stat--The value of the test statistic for the gene or transcript.
+>
+> -   pvalue--P-value of the test for the gene or transcript.
+>
+> -   padj--Adjusted P-value for multiple testing for the gene or transcript.
+>
+> -   gene-Gene ID from ENSEMBL database
+>
+> -   Symbol---Gene name
+
+</div>
+
+```{r}
+l2fc_cutoff=1.5
+pval_cutoff = 0.05
+res_df <- data.frame(DE_res$res_df) %>%
+  na.omit() %>%
+  filter(abs(log2FoldChange) > l2fc_cutoff) %>%
+  filter(pvalue < pval_cutoff) %>%
+  arrange(pvalue) %>%
+  dplyr::select(symbol, everything())
+rownames(res_df) <- NULL
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+## Pathway enrichment analysis fGSEA
+
+Indolent (n_op2 = 'ind') is the reference.
+When sample is Aggressive ('agg'), pathways shown below are up- or down- regulated
+
+> -   pathway -- name of the pathway as in 'names(pathway)';
+>
+> -   pval -- an enrichment p-value;
+>
+> -   padj -- a BH-adjusted p-value;
+>
+> -   log2err -- the expected error for the standard deviation of the P-value logarithm.
+>
+> -   ES -- enrichment score, same as in Broad GSEA implementation;
+>
+> -   NES -- enrichment score normalized to mean enrichment of random samples of the same size; • size -- size of the pathway after removing genes not present in 'names(stats)'.
+>
+> -   leadingEdge -- vector with indexes of leading edge genes that drive the enrichment, see [http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm\\\#\\\_Running_a\\\_Leading](http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm#_Running_a_Leading){.uri}.
+
+### Hallmark Pathways
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='#3498DB', up_color='grey72', write_pathways=TRUE)
+```
+
+### REACTOME Pathways
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label, down_color='#3498DB', up_color='grey72', write_pathways=TRUE)
+```
+
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_indvsint_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+# Intermediate vs Aggressive
+```{r}
+# Rename DE_res
+DE_res = DE_res_intvsagg
+# Rename fgsea
+fgsea_res = fgsea_res_intvsagg
+# title vector
+title_label = "Intermediate vs Aggressive"
+# Vectors for HLA comparisons
+cond_colname = "n_op2" 
+delete_group = TRUE
+delete_group_name = 'ind'
+```
+
+
+## Differential gene expression analysis
+### Top 30 DE genes: Heatmap
+
+```{r echo=FALSE, fig.width = 8, fig.height = 6}
+heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, scale_mat = T, n_genes = 30)
+```
+
+### Top DE genes: Volcano plot
+
+```{r echo=FALSE, fig.width = 7, fig.height = 6}
+volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
+```
+
+### Top DE genes: table (cutoffs: pval\<0.05, L2FC \> 1.5)
+
+<div>
+
+> -   baseMean---The average of the normalized count values, dividing by size factors, taken over all samples.
+>
+> -   log2FoldChange--The effect size estimate.
+>     This value indicates how much the gene or transcript's expression seems to have changed between the comparison and control groups.
+>     This value is reported on a logarithmic scale to base 2.
+>
+> -   lfcSE--The standard error estimate for the log2 fold change estimate.
+>
+> -   stat--The value of the test statistic for the gene or transcript.
+>
+> -   pvalue--P-value of the test for the gene or transcript.
+>
+> -   padj--Adjusted P-value for multiple testing for the gene or transcript.
+>
+> -   gene-Gene ID from ENSEMBL database
+>
+> -   Symbol---Gene name
+
+</div>
+
+```{r}
+l2fc_cutoff=1.5
+pval_cutoff = 0.05
+res_df <- data.frame(DE_res$res_df) %>%
+  na.omit() %>%
+  filter(abs(log2FoldChange) > l2fc_cutoff) %>%
+  filter(pvalue < pval_cutoff) %>%
+  arrange(pvalue) %>%
+  dplyr::select(symbol, everything())
+rownames(res_df) <- NULL
+DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+## Pathway enrichment analysis fGSEA
+
+Indolent (n_op2 = 'ind') is the reference.
+When sample is Aggressive ('agg'), pathways shown below are up- or down- regulated
+
+> -   pathway -- name of the pathway as in 'names(pathway)';
+>
+> -   pval -- an enrichment p-value;
+>
+> -   padj -- a BH-adjusted p-value;
+>
+> -   log2err -- the expected error for the standard deviation of the P-value logarithm.
+>
+> -   ES -- enrichment score, same as in Broad GSEA implementation;
+>
+> -   NES -- enrichment score normalized to mean enrichment of random samples of the same size; • size -- size of the pathway after removing genes not present in 'names(stats)'.
+>
+> -   leadingEdge -- vector with indexes of leading edge genes that drive the enrichment, see [http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm\\\#\\\_Running_a\\\_Leading](http://software.broadinstitute.org/gsea/doc/GSEAUserGuideTEXT.htm#_Running_a_Leading){.uri}.
+
+### Hallmark Pathways
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='grey72', up_color='#c75264', write_pathways=TRUE)
+```
+
+### REACTOME Pathways
+
+```{r echo=FALSE, fig.width = 10, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label,down_color='grey72', up_color='#c75264', write_pathways=TRUE)
+```
+
+
+## TF activity inference with VIPER
+
+```{r}
+tf_mrs <- read.csv('data/TMA36_project/RNA_Seq/processed/TF_VIPER_intvsagg_MRS.csv') %>%
+  arrange(desc(abs(NES)))
+DT::datatable(tf_mrs, options = list(autoWidth = FALSE, scrollX=TRUE))
+```
+
+
+
+# Deconvolution Results
+
+```{r}
+mcp_dcv <- data.frame(t(read.delim("data/TMA36_project/RNA_Seq/deconvolution/output/rna_only/MCP/mcp_fpkm_dcv.txt", row.names=1)))
+qts_dcv <- data.frame(t(read.delim("data/TMA36_project/RNA_Seq/deconvolution/output/rna_only/QTS/qts_fpkm_dcv.txt", row.names=1)))
+cbs_dcv <- read.delim("data/TMA36_project/RNA_Seq/deconvolution/output/rna_only/CBS/CIBERSORT.rna_only_fpkm.txt", row.names=1)
+xcell_dcv <- data.frame(t(read.delim("data/TMA36_project/RNA_Seq/deconvolution/output/rna_only/XCELL/xCell_rnaseq_fpkm_xCell_1132060320.txt", row.names=1)))
+
+# From Pancaldi lab signatures
+main_path = 'data/TMA36_project/RNA_Seq/deconvolution/output/rna_only/Pancaldi'
+Epidish_BPRNACan_dcv <- read.delim(file.path(main_path,"Epidish_BPRNACan_dcv.txt"), 
+                                   row.names=1)
+DeconRNASeq_BPRNACan_dcv <- read.delim(file.path(main_path,"DeconRNASeq_BPRNACan_dcv.txt"), 
+                                       row.names=1)
+Epidish_BPRNACan3DProMet_dcv <- read.delim(file.path(main_path,"Epidish_BPRNACan3DProMet_dcv.txt"), 
+                                           row.names=1)
+DeconRNASeq_BPRNACan3DProMet_dcv <- read.delim(file.path(main_path,"DeconRNASeq_BPRNACan3DProMet_dcv.txt"), 
+                                               row.names=1)
+Epidish_BPRNACanProMet_dcv <- read.delim(file.path(main_path,"Epidish_BPRNACanProMet_dcv.txt"), 
+                                         row.names=1)
+DeconRNASeq_BPRNACanProMet_dcv <- read.delim(file.path(main_path,"DeconRNASeq_BPRNACanProMet_dcv.txt"), 
+                                             row.names=1)
+```
+
+## XCell
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(xcell_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r,  warning=FALSE,  fig.width = 20, fig.height = 15}
+frac_boxplot(xcell_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+
+```{r,  warning=FALSE,  fig.width = 20, fig.height = 15}
+all_vars_scaled <- read.csv('data/TMA36_project/data_integration/cytof_rna_hm.csv', row.names = 1)
+clusters_patients <- read.csv('data/TMA36_project/data_integration/clusters_patients.csv', row.names = 1)
+CDE = read.csv('data/TMA36_project/CDE/CDE_TMA36_2021SEPT21_DR_MF.csv')
+CDE = CDE[match(rownames(all_vars_scaled), CDE$pt_ID),]
+CDE$DI_cluster <- clusters_patients$cluster
+xcell_dcv_DI <- xcell_dcv
+rownames(xcell_dcv_DI) <- ls_preprocessed$batch_info$pt_ID
+xcell_dcv_DI <- xcell_dcv_DI[match(CDE$pt_ID, rownames(xcell_dcv_DI)),]
+CDE$DI_cluster <- as.factor(CDE$DI_cluster)
+
+xcell_dcv_DI['Group'] <- as.factor(CDE$DI_cluster)
+xcell_dcv_DI['pt_ID'] <- CDE$pt_ID
+xcell_dcv_DI <- reshape2::melt(xcell_dcv_DI, id.vars = c("pt_ID", "Group"))
+colnames(xcell_dcv_DI)[4] <- 'Fraction'
+
+ggplot(xcell_dcv_DI, aes(x=Group, y=Fraction, color = Group)) +
+  geom_boxplot() +
+  #ylim(0,1)+
+  #ggsignif::geom_signif(comparisons = comp, 
+  #         map_signif_level=TRUE) +
+  facet_wrap(~variable, scales='free') +
+  theme(plot.title = element_text(hjust = 0.5, size=22))
+  #+scale_color_manual(values=colr, name = "Group", labels = lb)
+
+
+```
+
+## CIBERSORT
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(cbs_dcv[,1:22], ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(cbs_dcv[,1:22], ls_preprocessed$CDE, 'n_op2')
+```
+
+## quanTIseq
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(qts_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(qts_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## MCP counter
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(mcp_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(mcp_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## Epidish_BPRNACan
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(Epidish_BPRNACan_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(Epidish_BPRNACan_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## DeconRNASeq_BPRNACan
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(DeconRNASeq_BPRNACan_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(DeconRNASeq_BPRNACan_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## Epidish_BPRNACan3DProMet
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(Epidish_BPRNACan3DProMet_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(Epidish_BPRNACan3DProMet_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## DeconRNASeq_BPRNACan3DProMet
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(DeconRNASeq_BPRNACan3DProMet_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(DeconRNASeq_BPRNACan3DProMet_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## Epidish_BPRNACanProMet
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(Epidish_BPRNACanProMet_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(Epidish_BPRNACanProMet_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+## DeconRNASeq_BPRNACanProMet
+
+```{r  , fig.width = 10, fig.height = 8}
+frac_hm(DeconRNASeq_BPRNACanProMet_dcv, ls_preprocessed$CDE, 'n_op2')
+```
+
+```{r  , fig.width = 20, fig.height = 15}
+frac_boxplot(data.frame(DeconRNASeq_BPRNACanProMet_dcv), ls_preprocessed$CDE, 'n_op2')
+```
+
+# HLA-related genes analysis
+
+```{r}
+hla_i <- grep('^HLA', ls_preprocessed$raw_counts$Feature_gene_name)
+hla_ids <- as.character(ls_preprocessed$raw_counts$Feature[hla_i])
+hla_gsym <- as.character(ls_preprocessed$raw_counts$Feature_gene_name[hla_i])
+```
+
+```{r}
+allo_i <- which(ls_preprocessed$raw_counts$Feature_gene_name %in% allograft_rej)
+allo_ids <- as.character(ls_preprocessed$raw_counts$Feature[allo_i])
+allo_gsym <- as.character(ls_preprocessed$raw_counts$Feature_gene_name[allo_i])
+```
+
+
+## PCA using HLA-related genes 
+```{r}
+# pca color by SILA
+pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = F,
+        cond_colname = 'SILA', delete_group = F)
+
+pca_hla(ls_preprocessed, mat_name='vsd_mat', hla_ids, scale_mat = F,
+        cond_colname = 'n_op2', delete_group = F)
+```
+
+```{r}
+mat <- as.matrix(ls_preprocessed$vsd_mat)
+mat <- mat[hla_ids,]
+rownames(mat) <- hla_gsym
+
+# clustering of 2 groups
+cls_CDE <- data.frame(cluster=kmeans(t(mat), centers = 2)$cluster) %>%
+  mutate(Vantage_ID=rownames(.),
+         cluster = as.factor(cluster)) %>%
+  left_join(ls_preprocessed$batch_info, ., by='Vantage_ID') %>%
+  left_join(., ls_preprocessed$CDE, by = 'pt_ID')
+
+```
+
+## Heatmap of HLA-related genes (patients clustered by k-means)
+```{r  , fig.width = 10, fig.height = 5}
+# non-directed heatmap + clinical vars
+
+ha = HeatmapAnnotation(
+  Cluster = as.factor(cls_CDE$cluster),
+  SILA = cls_CDE$SILA,
+  Stage = cls_CDE$Stages_simplified,
+  Smoking_Status = as.factor(cls_CDE$Smoking_Status),
+  Hist_predominant = as.factor(cls_CDE$Hist_predominant),
+  Path_Nodule_Size_cm = cls_CDE$Path_Nodule_Size_cm,
+  simple_anno_size = unit(0.5, "cm")
+)
+Heatmap(mat, name = "mat", 
+        heatmap_legend_param = list(color_bar = "continuous"), 
+        row_names_gp = gpar(fontsize = 8),
+        column_split = as.factor(cls_CDE$cluster),
+        #column_km = 2,
+        column_names_gp = gpar(fontsize = 8), top_annotation = ha)
+  
+```
+
+## Heatmap of Allograft rejection gene set
+```{r  , fig.width = 10, fig.height = 15}
+# non-directed heatmap + clinical vars
+mat <- as.matrix(ls_preprocessed$vsd_mat)
+mat <- mat[allo_ids,]
+rownames(mat) <- allo_gsym
+
+
+# clustering of 2 groups
+cls_CDE <- data.frame(cluster=kmeans(t(mat), centers = 2)$cluster) %>%
+  mutate(Vantage_ID=rownames(.),
+         cluster = as.factor(cluster)) %>%
+  left_join(ls_preprocessed$batch_info, ., by='Vantage_ID') %>%
+  left_join(., ls_preprocessed$CDE, by = 'pt_ID')
+
+
+ha = HeatmapAnnotation(
+  Group = ls_preprocessed$CDE$n_op2,
+  SILA = ls_preprocessed$CDE$SILA,
+  Stage = ls_preprocessed$CDE$Stages_simplified,
+  Smoking_Status = as.factor(ls_preprocessed$CDE$Smoking_Status),
+  Hist_predominant = as.factor(ls_preprocessed$CDE$Hist_predominant),
+  Path_Nodule_Size_cm = ls_preprocessed$CDE$Path_Nodule_Size_cm,
+  simple_anno_size = unit(0.5, "cm")
+)
+Heatmap(t(scale(t(mat))), name = "mat", 
+        heatmap_legend_param = list(color_bar = "continuous"), 
+        row_names_gp = gpar(fontsize = 8),
+        column_split = ls_preprocessed$CDE$n_op2,
+        #column_km = 2,
+        column_names_gp = gpar(fontsize = 8), top_annotation = ha)
+  
+```
+
+## Comparison of patients clustered by HLA-related genes 
+
+### Path nodule size
+```{r echo=FALSE, fig.width = 6, fig.height = 4}
+clrs <- c("#3498DB", "#EC7063")  
+ggplot(cls_CDE, aes(x=cluster, y=Path_Nodule_Size_cm, fill = cluster)) +
+  geom_boxplot() +
+  ggsignif::geom_signif(comparisons = list(c("1", "2")), 
+       map_signif_level=TRUE, test = 'wilcox.test') +
+  theme(plot.title = element_text(hjust = 0.5, size=22))+
+  scale_fill_manual(values=clrs)+
+  #ylim(0, 1) +
+  geom_jitter(shape=19, position=position_jitter(0.15), size=2)+
+  theme_bw() +
+  labs(title=paste('Path_Nodule_Size_cm'),x=NULL, y = "Path_Nodule_Size_cm") +
+  theme(strip.text.x = element_text(size = 12), 
+          axis.text.x =element_text(size = 12), 
+          axis.text.y =element_text(size = 10),
+          axis.title=element_text(size=12),
+          plot.title = element_text(size=15, hjust = 0.5),
+          legend.position = "none")
+```
+
+### SILA score
+```{r echo=FALSE, fig.width = 6, fig.height = 4}
+clrs <- c("#3498DB", "#EC7063")  
+ggplot(cls_CDE, aes(x=cluster, y=SILA, fill = cluster)) +
+  geom_boxplot() +
+  ggsignif::geom_signif(comparisons = list(c("1", "2")), 
+       map_signif_level=TRUE, test = 'wilcox.test') +
+  theme(plot.title = element_text(hjust = 0.5, size=22))+
+  scale_fill_manual(values=clrs)+
+  ylim(0, 1) +
+  geom_jitter(shape=19, position=position_jitter(0.15), size=2)+
+  theme_bw() +
+  labs(title=paste('SILA score'),x=NULL, y = "SILA score") +
+  theme(strip.text.x = element_text(size = 12), 
+          axis.text.x =element_text(size = 12), 
+          axis.text.y =element_text(size = 10),
+          axis.title=element_text(size=12),
+          plot.title = element_text(size=15, hjust = 0.5),
+          legend.position = "none")
+```
+
+### xCell celltypes
+```{r,  warning=FALSE,  fig.width = 20, fig.height = 15}
+cls_CDE$cluster <- as.factor(cls_CDE$cluster)
+frac_boxplot(xcell_dcv, cls_CDE, 'cluster', indvsagg = FALSE)
+```
+
+### Overall Survival
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'OS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+
+### Recurrence Free Survival
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'RFS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+
+### Progression Free Survival
+```{r}
+x <- survival_plot(cls_CDE, group_colname='cluster', group_levels=c('1', '2'), 
+              delete_group=FALSE, survival_type = 'PFS', 
+              legend_labs = c("Cluster 1", "Cluster 2"), legend_title = 'HLA-based clusters')
+```
+

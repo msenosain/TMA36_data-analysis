@@ -19,6 +19,7 @@ source('src/cytof/31_supervised_analysis_viz.R')
 source('src/cytof/20_ClustAnnot_functions.R')
 environment_set()
 library(DT)
+library(dplyr)
 ```
 
 ```{r}
@@ -51,7 +52,7 @@ heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, sca
 
 ### Top DE genes: Volcano plot
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width = 5, fig.height = 5}
 volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
 ```
 
@@ -87,7 +88,7 @@ res_df <- data.frame(DE_res$res_df) %>%
   filter(abs(log2FoldChange) > l2fc_cutoff) %>%
   filter(pvalue < pval_cutoff) %>%
   arrange(pvalue) %>%
-  select(symbol, everything())
+  dplyr::select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
 ```
@@ -113,8 +114,9 @@ When sample is Aggressive ('agg'), pathways shown below are up- or down- regulat
 
 ### Hallmark Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+#c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#c75264')
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='#3498DB', up_color='#c75264', write_pathways=TRUE)
 ```
 
 ### C1 positional genes Pathways
@@ -167,8 +169,8 @@ fgsea_plot(fgsea_res$res_msg, pathways_title='All signatures', condition_name=ti
 
 ### REACTOME Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label,down_color='#3498DB', up_color='#c75264', write_pathways=TRUE)
 ```
 
 ## KEGG pathway analysis
@@ -265,7 +267,7 @@ heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, sca
 
 ### Top DE genes: Volcano plot
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width = 5, fig.height = 5}
 volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
 ```
 
@@ -327,8 +329,8 @@ When sample is Aggressive ('agg'), pathways shown below are up- or down- regulat
 
 ### Hallmark Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='#3498DB', up_color='grey72', write_pathways=TRUE)
 ```
 
 ### C1 positional genes Pathways
@@ -381,8 +383,8 @@ fgsea_plot(fgsea_res$res_msg, pathways_title='All signatures', condition_name=ti
 
 ### REACTOME Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label, down_color='#3498DB', up_color='grey72', write_pathways=TRUE)
 ```
 
 ## KEGG pathway analysis
@@ -478,7 +480,7 @@ heatmap_200(DE_res$res_df, DE_res$vsd_mat_sym, DE_res$meta_data, DE_res$CDE, sca
 
 ### Top DE genes: Volcano plot
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width = 5, fig.height = 5}
 volcano_plot(DE_res$res_df, gene=NULL, p_title=title_label)
 ```
 
@@ -540,8 +542,8 @@ When sample is Aggressive ('agg'), pathways shown below are up- or down- regulat
 
 ### Hallmark Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+fgsea_plot(fgsea_res$res_hm, pathways_title='Hallmark', condition_name=title_label, down_color='grey72', up_color='#c75264', write_pathways=TRUE)
 ```
 
 ### C1 positional genes Pathways
@@ -594,8 +596,8 @@ fgsea_plot(fgsea_res$res_msg, pathways_title='All signatures', condition_name=ti
 
 ### REACTOME Pathways
 
-```{r echo=FALSE, fig.width = 10, fig.height = 8}
-fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label)
+```{r echo=FALSE, fig.width = 9, fig.height = 8}
+fgsea_plot(fgsea_res$res_rtm, pathways_title='REACTOME', condition_name=title_label,down_color='grey72', up_color='#c75264', write_pathways=TRUE)
 ```
 
 ## KEGG pathway analysis

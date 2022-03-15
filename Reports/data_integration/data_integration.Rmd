@@ -68,22 +68,38 @@ CDE$scrna_data[which(CDE$pt_ID %in%  sc_rna)] <- 'Yes'
 ```
 
 ```{r}
-col_bh = c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#EC7063')
-col_sila = colorRamp2(c(0, 0.5, 1), c("white", "#653e87", "#0d0514"))
-col_stage = c('Stage 0'='#42f5f2', 'Stage I'='#53d94c', 'Stage II' = '#e8a62c', 'Stage III' = '#e85e2c')
+# colors
+col_prog = c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#c75264')
+col_sila = colorRamp2(c(0, 0.5, 1), c("white", "#6772c7", "#0f1547"))
+col_stage = c('Stage 0'='#465362', 'Stage I'='#011936', 'Stage II' = '#c2eabd', 'Stage III' = '#f9dc5c', 'Stage IV' = '#ED254E')
+col_hist = c('acinar'='#FFBF00', 'lepidic'='#f5ecda', 'micropapillary'='#2274A5', 'mucinous acinar'='#32936F', 'papillary'='#5C5C5C', 'solid'='#E83F6F')
+col_smok = c('Current smoker'='#0FA3B1','Ex-smoker'='#B5E2FA','Never smoked'='#EDDEA4')
+col_nodsiz = colorRamp2(c(0.5, 3, 8), c("white", "#ad61ac", "#70196f"))
+col_sex = c('Female'='#1D2F6F', 'Male'='#8390FA')
+col_age = colorRamp2(c(40, 65, 90), c("white", "#5BC0BE", "#3A506B"))
+col_mutload = colorRamp2(c(0, 8), c("white", "#B32548"))
 col_mut = c('0'= '#dbe2ff', '1'= '#0027c2')
+#col_sc = c('Yes'=, 'No'=)
 
 ha = HeatmapAnnotation(
-  Behavior = as.factor(CDE$n_op2),
+  Prognosis = as.factor(CDE$n_op2),
   SILA = CDE$SILA,
   Stage = CDE$Stages_simplified,
-  Nodule_size = CDE$Path_Nodule_Size_cm,
   Histology = CDE$Hist_predominant,
   Smoking = CDE$Smoking_Status,
-  sc_rna = CDE$scrna_data,
-  col = list(Behavior = col_bh, 
+  Nodule_size = CDE$Path_Nodule_Size_cm,
+  Sex = CDE$Gender,
+  Age = CDE$Age_at_collection,
+  #sc_rna = CDE$scrna_data,
+  col = list(Prognosis = col_prog, 
              SILA = col_sila,
-             Stage = col_stage),
+             Stage = col_stage,
+             Histology = col_hist,
+             Smoking = col_smok,
+             Nodule_size = col_nodsiz,
+             Sex = col_sex,
+             Age = col_age
+             ),
   gp = gpar(col = "black"),
   simple_anno_size = unit(0.2, "cm"),
   annotation_name_gp = gpar(fontsize = 8) #size of annotation name
@@ -109,6 +125,7 @@ bottom_ha = HeatmapAnnotation(
   CACNA1E = as.factor(CDE$CACNA1E),
   OBSCN = as.factor(CDE$OBSCN),
   col = list(
+    Log_mut_load = col_mutload,
     KRAS = col_mut,
     RYR2 = col_mut,
     MUC16 = col_mut,
@@ -130,7 +147,7 @@ bottom_ha = HeatmapAnnotation(
   gp = gpar(col = "black"),
   simple_anno_size = unit(0.2, "cm"),
   annotation_name_gp = gpar(fontsize = 6), #size of annotation name
-  show_legend = c(TRUE,rep(FALSE, 17))
+  show_legend = c(TRUE,TRUE,rep(FALSE, 16))
 )
 #row_ha = rowAnnotation(Subclust = as.factor(clusters_features2$cluster))
 
@@ -138,7 +155,7 @@ bottom_ha = HeatmapAnnotation(
 
 # Data integration: Heatmap
 ## Zoom out
-```{r, fig.width = 7, fig.height = 8}
+```{r, fig.width = 11, fig.height = 7}
 set.seed(0)
 ht=Heatmap(t(all_vars_scaled), name = "z-score",
         heatmap_legend_param = list(color_bar = "continuous"), 
@@ -150,8 +167,10 @@ ht=Heatmap(t(all_vars_scaled), name = "z-score",
         top_annotation = ha, show_row_names = F,
         bottom_annotation = bottom_ha
         )
-#padding = unit(c(2, 10, 2, 2), "mm")
-draw(ht, annotation_legend_side = 'bottom')
+padding = unit(c(2, 2, 2, 2), "mm")
+draw(ht, heatmap_legend_side="right", padding=padding,
+     #merge_legend = TRUE,
+     annotation_legend_side = 'left')#, legend_grouping = "original")
 
 ```
 
@@ -173,23 +192,37 @@ Heatmap(t(all_vars_scaled), name = "z-score",
 # Data integration: PCA
 
 ## PCA features k=4
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 8, fig.height = 6}
 library(PCAtools)
-clusters_features$cluster <- as.factor(clusters_features$cluster)
+i_k = which(clusters_features$cluster ==1)
+ii_k = which(clusters_features$cluster ==2)
+iii_k = which(clusters_features$cluster ==3)
+iv_k = which(clusters_features$cluster ==4)
+clusters_features$cluster_let <- 'I'
+clusters_features$cluster_let[ii_k] <- 'II'
+clusters_features$cluster_let[iii_k] <- 'III'
+clusters_features$cluster_let[iv_k] <- 'IV'
 p <- pca(all_vars_scaled, metadata = clusters_features, center = F, scale = F)
-biplot(p, colby='cluster', legendPosition='right',
-       colLegendTitle = 'Cluster', encircle = T, 
-       encircleFill = T)
+PCAtools::biplot(p, x='PC1', y='PC2',
+                 colkey = c('I' = '#2d7dd2', 'II' = '#97CC04', 'III'='#EEB902', 'IV'='#F45D01'),
+                 colby='cluster_let', legendPosition='right',
+                 colLegendTitle = 'Feature cluster', 
+                 encircle = T, encircleFill = T,
+                 lab = NULL,pointSize = 2
+                 #showLoadings = TRUE, labSize = 2, sizeLoadingsNames = 5
+                 )
 ```
 
 ## PCA patients k=4
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 8, fig.height = 6}
 library(PCAtools)
 clusters_patients$cluster <- as.factor(clusters_patients$cluster)
 p <- pca(t(all_vars_scaled), metadata = clusters_patients, center = F, scale = F)
-biplot(p, colby='cluster', legendPosition='right',
-       colLegendTitle = 'Cluster', encircle = T, 
-       encircleFill = T)
+PCAtools::biplot(p, x='PC1', y='PC2',
+                 colkey = c('1' = '#FF6666', '2' = '#96E000', '3'='#5D2E8C', '4'='#2EC4B6'),
+                 colby='cluster', legendPosition='right',
+                 colLegendTitle = 'Patient cluster', encircle = T, encircleFill = T,
+                 lab = NULL,pointSize = 3)
 ```
 
 
@@ -217,6 +250,11 @@ fig <- plot_ly(final, x = ~X1, y = ~X2, z = ~X3, color = ~final$cluster, colors 
 fig
 ```
 
+```{r}
+ft_umap$layout
+```
+
+
 ## Patients 3D
 ```{r}
 ft_umap = umap(all_vars_scaled, n_components = 3, random_state = 15) 
@@ -240,168 +278,171 @@ fig <- plot_ly(final, x = ~X1, y = ~X2, z = ~X3, color = ~final$cluster, colors 
 fig
 ```
 
+
+
 # Survival analysis
 
 ## All vs all
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2', '3', '4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '2', '3', '4'), legend_title = 'patient cluster')
 ```
 
 ## Survival 1 vs 2-3-4
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 CDE$cluster_j <- CDE$cluster
 CDE$cluster_j[CDE$cluster != '1'] <- '2-3-4'
 ```
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('1', '2-3-4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '2-3-4'), legend_title = 'patient cluster')
 ```
 
 ## Survival 2 vs 1-3-4
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 CDE$cluster_j <- CDE$cluster
 CDE$cluster_j[CDE$cluster != '2'] <- '1-3-4'
 ```
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('2', '1-3-4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('2', '1-3-4'), legend_title = 'patient cluster')
 ```
 
 ## Survival 3 vs 1-2-4
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 CDE$cluster_j <- CDE$cluster
 CDE$cluster_j[CDE$cluster != '3'] <- '1-2-4'
 ```
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('3', '1-2-4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('3', '1-2-4'), legend_title = 'patient cluster', rmst2_tau=3.5)
 ```
 
 ## Survival 4 vs 1-2-3
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 CDE$cluster_j <- CDE$cluster
 CDE$cluster_j[CDE$cluster != '4'] <- '1-2-3'
 ```
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
+#colkey = c('1' = '#FF6666', '2' = '#96E000', '3'='#5D2E8C', '4'='#2EC4B6'),
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'), 
-              delete_group=FALSE, survival_type = 'OS', 
+              delete_group=FALSE, survival_type = 'OS', col_pal= c("#2EC4B6", "gray"),
               legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'), 
-              delete_group=FALSE, survival_type = 'RFS', 
+              delete_group=FALSE, survival_type = 'RFS', col_pal= c("#2EC4B6", "gray"),
               legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'), 
-              delete_group=FALSE, survival_type = 'PFS', 
+              delete_group=FALSE, survival_type = 'PFS', col_pal= c("#2EC4B6", "gray"),
               legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('4', '1-2-3'), legend_title = 'patient cluster')
@@ -410,28 +451,28 @@ x <- survival_plot(CDE, group_colname='cluster_j', group_levels=c('4', '1-2-3'),
 ## Survival 1 vs 2
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('1', '2'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('1', '2'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('1', '2'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '2'), legend_title = 'patient cluster')
@@ -440,28 +481,28 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '2'),
 ## Survival 1 vs 3
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('1', '3'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('1', '3'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('1', '3'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '3'), legend_title = 'patient cluster')
@@ -470,28 +511,29 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '3'),
 ## Survival 1 vs 4
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
+#colkey = c('1' = '#FF6666', '2' = '#96E000', '3'='#5D2E8C', '4'='#2EC4B6'),
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
-              delete_group=FALSE, survival_type = 'OS', 
+              delete_group=FALSE, survival_type = 'OS', col_pal = c('#FF6666', '#2EC4B6'),
               legend_labs = c('1', '4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
-              delete_group=FALSE, survival_type = 'RFS', 
+              delete_group=FALSE, survival_type = 'RFS', col_pal = c('#FF6666', '#2EC4B6'),
               legend_labs = c('1', '4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
-              delete_group=FALSE, survival_type = 'PFS', 
+              delete_group=FALSE, survival_type = 'PFS', col_pal = c('#FF6666', '#2EC4B6'),
               legend_labs = c('1', '4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('1', '4'), legend_title = 'patient cluster')
@@ -500,28 +542,28 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('1', '4'),
 ## Survival 2 vs 3
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('2', '3'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('2', '3'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('2', '3'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('2', '3'), legend_title = 'patient cluster')
@@ -530,28 +572,28 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '3'),
 ## Survival 2 vs 4
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('2', '4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('2', '4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('2', '4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('2', '4'), legend_title = 'patient cluster')
@@ -561,29 +603,31 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('2', '4'),
 ## Survival 3 vs 4
 
 ### Overall survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
               delete_group=FALSE, survival_type = 'OS', 
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
 
 ### RF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
               delete_group=FALSE, survival_type = 'RFS', 
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
 
 ### PF survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
               delete_group=FALSE, survival_type = 'PFS', 
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
 
 ### DRP survival
-```{r}
+```{r, fig.width = 4, fig.height = 5}
 x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'), 
               delete_group=FALSE, survival_type = 'DRP', 
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
+
+

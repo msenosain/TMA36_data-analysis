@@ -25,6 +25,7 @@ library(ggrepel)
 library(forcats)
 library(ggsignif)
 library(ggpubr)
+library(circlize)
 
 source("src/cytof/20_ClustAnnot_functions.R")
 # source("src/cytof/")
@@ -37,6 +38,8 @@ source("src/cytof/20_ClustAnnot_functions.R")
 # read edited CSV file as CDE_TMA36
 CDE <- read.csv(file = 'data/TMA36_project/CDE/CDE_TMA36_2021SEPT21_DR_MF.csv')
 CDE$n_op2 <- factor(CDE$n_op2, levels = c('ind', 'int', 'agg'))
+CDE = CDE[-which(CDE$pt_ID =='11840'),] # remove 11840, no radiomics data
+
 ```
 
 ```{r, echo=FALSE}
@@ -145,7 +148,7 @@ bp_f <- function(dt, chr_colnm, sila_colnm='SILA', main_title, x_title) {
   return(p)
 }
 
-bp_f(CDE, chr_colnm='n_op2', sila_colnm='SILA', main_title='SILA score by Behavior (categorical)', x_title='CANARY')
+bp_f(CDE, chr_colnm='n_op2', sila_colnm='SILA', main_title='SILA score by Behavior (categorical)', x_title='SILA Group')
 bp_f(CDE, chr_colnm='Stages_simplified', sila_colnm='SILA', main_title='SILA score by Stage', x_title='Tumor Stage')
 bp_f(CDE, chr_colnm='Hist_predominant', sila_colnm='SILA', main_title='SILA score by Histology', x_title='Predominant Histology')
 bp_f(CDE, chr_colnm='Death_st', sila_colnm='SILA', main_title='SILA score by Death Status', x_title='Death Status')
@@ -163,39 +166,50 @@ ggpubr::ggscatter(CDE, x = 'SILA', y = c("Age_at_collection"),
           xlab = "SILA score", ylab = 'Age_at_collection')
 ```
 
+# Plots for paper
 
-# Summary Omics datasets heatmap
+## Summary Omics datasets heatmap
 
 ```{r}
 # Load data
-df_cytof <- read.csv(file = '/Users/senosam/Documents/Massion_lab/data_integration/models/data/cytof_medianprot.csv')
-df_rna <- read.csv(file = '/Users/senosam/Documents/Massion_lab/data_integration/models/data/rna_viper25.csv')
-df_wes <- read.csv(file = '/Users/senosam/Documents/Massion_lab/data_integration/models/data/wes_binary.csv')
-df_rad <- read.csv(file = '/Users/senosam/Documents/Massion_lab/data_integration/models/data/rad_healthmyne.csv')
+df_cytof <- read.csv(file = 'data/TMA36_project/CyTOF/processed/Data_paper2/both/cytof_medianprot.csv', row.names = 1)
+df_rna <- read.csv(file = 'data/TMA36_project/RNA_Seq/processed/TF_VIPER_all.csv', row.names = 1)
+df_wes <- read.csv(file = 'data/TMA36_project/WES/processed/wes_binary.csv', row.names = 1)
+df_rad <- read.csv(file = 'data/TMA36_project/Radiomics/processed/rad_healthmyne.csv', row.names = 1)
 ```
 
 ```{r}
 CDE_omics <- CDE
 CDE_omics['cytof'] <- 0
-CDE_omics[which(CDE$pt_ID %in% df_cytof$X),'cytof'] <- 1
+CDE_omics[which(CDE$pt_ID %in% rownames(df_cytof)),'cytof'] <- 1
 CDE_omics['rnaseq'] <- 0
-CDE_omics[which(CDE$pt_ID %in% df_rna$X),'rnaseq'] <- 1
+CDE_omics[which(CDE$pt_ID %in% rownames(df_rna)),'rnaseq'] <- 1
 CDE_omics['wes'] <- 0
-CDE_omics[which(CDE$pt_ID %in% df_wes$X),'wes'] <- 1
-# CDE_omics['HM'] <- 0
-# CDE_omics[which(CDE$pt_ID %in% df_rad$X),'HM'] <- 1
+CDE_omics[which(CDE$pt_ID %in% rownames(df_wes)),'wes'] <- 1
 CDE_omics['mxif'] <- 1
-sc_rna <- c('12929', '13774', '7984', '14965', '12889', '8356', 
+sc_rna <- c('12929', '13774', '14965', '12889', '8356', 
             '11918', '11522', '15002', '15467', '13634', '14428',
-            '11817', '14958', '12935', '13636')
+            '11817', '14958', '12935', '13636') #'7984' not included, low quality
 CDE_omics['scrnaseq'] <- 0
 CDE_omics[which(CDE$pt_ID %in% sc_rna),'scrnaseq'] <- 1
 rownames(CDE_omics) <- CDE_omics$pt_ID
-CDE_omics <- CDE_omics[,86:ncol(CDE_omics)]
+CDE_omics <- CDE_omics[,which(colnames(CDE_omics)=='cytof'):ncol(CDE_omics)]
 ```
 
-```{r}
+
+```{r, fig.width = 12, fig.height = 5}
 mat = t(as.matrix(CDE_omics))
+
+# colors
+col_prog = c('ind' = '#3498DB', 'int' = 'grey72', 'agg'= '#c75264')
+col_sila = colorRamp2(c(0, 0.5, 1), c("white", "#6772c7", "#0f1547"))
+col_stage = c('Stage 0'='#465362', 'Stage I'='#011936', 'Stage II' = '#c2eabd', 'Stage III' = '#f9dc5c', 'Stage IV' = '#ED254E')
+col_hist = c('acinar'='#FFBF00', 'lepidic'='#f5ecda', 'micropapillary'='#2274A5', 'mucinous acinar'='#32936F', 'papillary'='#5C5C5C', 'solid'='#E83F6F')
+col_smok = c('Current smoker'='#0FA3B1','Ex-smoker'='#B5E2FA','Never smoked'='#EDDEA4')
+col_nodsiz = colorRamp2(c(0.5, 3, 8), c("white", "#ad61ac", "#70196f"))
+col_sex = c('Female'='#1D2F6F', 'Male'='#8390FA')
+col_age = colorRamp2(c(40, 65, 90), c("white", "#5BC0BE", "#3A506B"))
+
 
 ha = HeatmapAnnotation(
   Prognosis = CDE$n_op2,
@@ -206,6 +220,15 @@ ha = HeatmapAnnotation(
   Nodule_size_cm = CDE$Path_Nodule_Size_cm,
   Sex = CDE$Gender,
   Age = CDE$Age_at_collection,
+  col = list(Prognosis = col_prog, 
+             SILA = col_sila,
+             Stage = col_stage,
+             Histology = col_hist,
+             Smoking_Status = col_smok,
+             Nodule_size_cm = col_nodsiz,
+             Sex = col_sex,
+             Age = col_age
+             ),
   gp = gpar(col = "black"),
   simple_anno_size = unit(0.3, "cm"),
   annotation_name_gp = gpar(fontsize = 8) #size of annotation name
@@ -226,11 +249,9 @@ ht_opt(heatmap_column_names_gp = gpar(fontsize = 5),
 ht = Heatmap(mat, name = "Data \ncollected", col = c('grey', 'red'),
         column_split = factor(CDE$n_op2, levels= c('ind', 'int', 'agg')),
         column_title = c('Indolent', 'Intermediate', 'Aggressive'),
-        row_labels = c('CyTOF \n(n=71)', 'RNA-Seq \n(n=78)', 'WES \n(n=57) ', 'MxIF \n(n=93)', 'scRNA-Seq \n(n=16)'),
+        row_labels = c('CyTOF \n(n=70)', 'RNA-Seq \n(n=77)', 'WES \n(n=56) ', 'MxIF \n(n=92)', 'scRNA-Seq \n(n=15)'),
         width = unit(18, "cm"), 
         height = unit(5, "cm"),
-        #width = unit(10, "cm"), 
-        #height = unit(5, "cm"),
         bottom_annotation = ha, 
         top_annotation = bp_top,
         show_row_dend = FALSE,
@@ -243,18 +264,11 @@ draw(ht, padding = unit(c(2, 20, 2, 2), "mm"))
 #draw(ht, padding = unit(c(6, 20, 6, 20), "cm"))
 ```
 
-```{r}
-k = which(CDE$pt_ID %in% sc_rna)
-CDE_scRNA = CDE[k,]
-di_ii <- grep('Date', colnames(CDE_scRNA))
-CDE_scRNA[di_ii] <- NULL
-CDE_scRNA$n_op1 <- NULL
-CDE_scRNA$CANARY <- NULL
-CDE_scRNA$Protocol_.me <- NULL
-CDE_scRNA$Surg_Path <- NULL
-CDE_scRNA$LDKA <- NULL
-write.csv(CDE_scRNA, "/Users/senosam/Documents/Massion_lab/sc_RNA_Seq/DI_CDE_2021JAN13_SA_MF.csv", row.names = FALSE)
+# Histogram of SILA scores (paper)
+```{r, fig.width = 5, fig.height = 4}
+hist(CDE$SILA, xlab="SILA score", main = 'SILA Score', xlim=c(0,1), col="gray", border="white", las=1, xaxt = "n")
+axis(1, at = seq(0, 1, .1))
+abline(v=0.4, col = "#3197d6",lwd=5,lty="dashed")
+abline(v=0.6, col = "#ab384a",lwd=5,lty="dashed")
 ```
-
-
 
