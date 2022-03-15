@@ -409,15 +409,16 @@ volcano_plot <- function(res_df, gene=NULL, p_title, pCutoff=0.05, FCcutoff=1.5)
 }
 
 fgsea_plot <- function(fgsea_res, pathways_title, cutoff = 0.05, 
-    max_pathways = 30, condition_name){
+    max_pathways = 30, condition_name, down_color='lightblue', up_color='#DC143C', 
+    write_pathways=FALSE){
 
         color_levels <- function(fgsea_res) {
             colors <- c()
             if (any(fgsea_res$state == "down")) {
-              colors <- c(colors, "lightblue")
+              colors <- c(colors, down_color)
             }
             if (any(fgsea_res$state == "up")) {
-              colors <- c(colors, "#DC143C")
+              colors <- c(colors, up_color)
             }
             colors
         }
@@ -426,6 +427,12 @@ fgsea_plot <- function(fgsea_res, pathways_title, cutoff = 0.05,
         fgsea_res$pvlabel <- '*'
         fgsea_res$pvlabel[which(fgsea_res$padj <0.01 & fgsea_res$padj>0.001)] <- '**'
         fgsea_res$pvlabel[which(fgsea_res$padj<0.001)] <- '***'
+        
+        # Add cols for geom_text features (hjust and y)
+        fgsea_res$y <- 0.05
+        fgsea_res$y[which(fgsea_res$NES>0)] <- -0.05
+        fgsea_res$hjust <- 'left'
+        fgsea_res$hjust[which(fgsea_res$NES>0)] <- 'right'
 
         if (!is.null(cutoff)) {
             fgsea_res <- fgsea_res %>% filter(padj < cutoff)
@@ -434,29 +441,47 @@ fgsea_plot <- function(fgsea_res, pathways_title, cutoff = 0.05,
         curated_pathways <- fgsea_res %>%
                 arrange(desc(abs(NES))) %>%
                 dplyr::slice(1:max_pathways)
+        
         curated_pathways['leadingEdge'] <- NULL
+        
         print(ggplot(curated_pathways, aes(reorder(pathway, NES), NES)) +
-            geom_col(aes(fill = state), width = 0.5, color = "black") +
+            geom_col(aes(fill = state), width = 0.6, color = "black") +
             scale_size_manual(values = c(0, 1), guide = "none") +
+            # geom_text(
+            #           aes(pathway, label = pathway, vjust=0.5, hjust=hjust, y=y),
+            #           inherit.aes = TRUE, size=2)+
             geom_label(aes(label = pvlabel), size = 3, alpha = 0.75) +
             coord_flip() +
             labs(
                 x = 'Pathway', 
                 y = "Normalized Enrichment Score",
-                title = str_c(pathways_title, " pathways: ", condition_name),
-                subtitle = str_c("(Cutoff: p.adj <", cutoff, ")")
+                title = str_c(pathways_title, " pathways: ", condition_name)
+                #subtitle = str_c("(Cutoff: p.adj <", cutoff, ")")
             ) +
             theme_bw() +
+            theme(axis.text = element_text(size = 10, color='black'),
+                  #axis.text.y = element_blank(),
+                  axis.title = element_text(size = 12, color='black'),
+                  plot.title = element_blank(),#element_text(size = 15, hjust = 0.5),
+                  axis.title.y = element_blank(),
+                  #axis.ticks.y = element_blank(),
+                  legend.position = "none")+
             scale_fill_manual(values = color_levels(curated_pathways)))
 
         fgsea_res <- fgsea_res %>% 
-                dplyr::select(-leadingEdge, -ES) %>% 
+                dplyr::select(-leadingEdge, -ES, -y, -hjust) %>% 
                 arrange(desc(abs(NES)))
                 #DT::datatable())
+        if(write_pathways) {
+          write.csv(fgsea_res, file = paste0('Reports/rnaseq/tables_paper/', 
+                                             'fgsea_', pathways_title, '_',
+                                             gsub(' ', '_', condition_name), '.csv'))
+        }
 
         #knitr::kable(fgsea_res)
         DT::datatable(fgsea_res, options = list(autoWidth = FALSE, scrollX=TRUE))
 }
+
 
 keggGO_plot <- function(keggGO_res, pathways_title, cutoff = 0.05, 
     max_pathways = 30, condition_name, pval_colnm){
@@ -648,14 +673,14 @@ compare_hla <- function(ls_preprocessed, mat_name, hla_ids, hla_gsym, BPplot = T
 
 survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, delete_group_name,
                           survival_type = 'OS', legend_labs, legend_title, plot_rmst=FALSE,
-                          rmst2_tau=4){
+                          rmst2_tau=4, col_pal= c("#3498DB", "#EC7063")){
   # generate survival data
   surv_data <- CDE %>%
     mutate(Recurrence_Date = ifelse(is.na(Recurrence_Date), LDKA, Recurrence_Date),
            Progression_Date = ifelse(is.na(Progression_Date), LDKA, Progression_Date),
-           OS_yrs = lubridate::time_length(difftime(as.Date(LDKA), as.Date(Diagnosis_Date)), "years"),
-           RFS_yrs = lubridate::time_length(difftime(as.Date(Recurrence_Date), as.Date(Diagnosis_Date)), "years"),
-           PFS_yrs = lubridate::time_length(difftime(as.Date(Progression_Date), as.Date(Diagnosis_Date)), "years"),
+           OS_yrs = lubridate::time_length(difftime(as.Date(LDKA), as.Date(Thoracotomy_Date)), "years"), #Diagnosis_Date
+           RFS_yrs = lubridate::time_length(difftime(as.Date(Recurrence_Date), as.Date(Thoracotomy_Date)), "years"),
+           PFS_yrs = lubridate::time_length(difftime(as.Date(Progression_Date), as.Date(Thoracotomy_Date)), "years"),
            Death_st = ifelse(Death_st=='Yes', 1, 0),
            Recurrence_st = ifelse(Recurrence_st=='Yes', 1, 0),
            Progression_st = ifelse(Progression_st=='Yes', 1, 0),
@@ -671,7 +696,7 @@ survival_plot <- function(CDE, group_colname, group_levels, delete_group=FALSE, 
     #col_pal <- c("#3498DB", "#888a87", "#EC7063")
   }else{
     dt <- surv_data
-    col_pal <- c("#3498DB", "#EC7063")
+    col_pal <- col_pal
   }
   
   time = dt$OS_yrs
