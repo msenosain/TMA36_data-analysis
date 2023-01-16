@@ -39,7 +39,7 @@ source("src/cytof/20_ClustAnnot_functions.R")
 CDE <- read.csv(file = 'data/TMA36_project/CDE/CDE_TMA36_2021SEPT21_DR_MF.csv')
 CDE$n_op2 <- factor(CDE$n_op2, levels = c('ind', 'int', 'agg'))
 CDE = CDE[-which(CDE$pt_ID =='11840'),] # remove 11840, no radiomics data
-
+#CDE %>% group_by(n_op2,Gender) %>% summarise(counts=n()) %>% mutate(percent=counts/sum(counts))
 ```
 
 ```{r, echo=FALSE}
@@ -186,11 +186,12 @@ CDE_omics['rnaseq'] <- 0
 CDE_omics[which(CDE$pt_ID %in% rownames(df_rna)),'rnaseq'] <- 1
 CDE_omics['wes'] <- 0
 CDE_omics[which(CDE$pt_ID %in% rownames(df_wes)),'wes'] <- 1
-CDE_omics['mxif'] <- 1
+#CDE_omics['mxif'] <- 1
 sc_rna <- c('12929', '13774', '14965', '12889', '8356', 
             '11918', '11522', '15002', '15467', '13634', '14428',
             '11817', '14958', '12935', '13636') #'7984' not included, low quality
 CDE_omics['scrnaseq'] <- 0
+#CDE_omics['mxif'] <- 1
 CDE_omics[which(CDE$pt_ID %in% sc_rna),'scrnaseq'] <- 1
 rownames(CDE_omics) <- CDE_omics$pt_ID
 CDE_omics <- CDE_omics[,which(colnames(CDE_omics)=='cytof'):ncol(CDE_omics)]
@@ -249,7 +250,7 @@ ht_opt(heatmap_column_names_gp = gpar(fontsize = 5),
 ht = Heatmap(mat, name = "Data \ncollected", col = c('grey', 'red'),
         column_split = factor(CDE$n_op2, levels= c('ind', 'int', 'agg')),
         column_title = c('Indolent', 'Intermediate', 'Aggressive'),
-        row_labels = c('CyTOF \n(n=70)', 'RNA-Seq \n(n=77)', 'WES \n(n=56) ', 'MxIF \n(n=92)', 'scRNA-Seq \n(n=15)'),
+        row_labels = c('CyTOF \n(n=70)', 'RNA-Seq \n(n=77)', 'WES \n(n=56) ', 'scRNA-Seq \n(n=15)'),
         width = unit(18, "cm"), 
         height = unit(5, "cm"),
         bottom_annotation = ha, 
@@ -257,7 +258,7 @@ ht = Heatmap(mat, name = "Data \ncollected", col = c('grey', 'red'),
         show_row_dend = FALSE,
         show_column_dend = FALSE,
         column_order = order(CDE$SILA),
-        row_order = c(1:5),
+        row_order = c(1:4),
         rect_gp = gpar(col = "white", lwd = 1)
         )
 draw(ht, padding = unit(c(2, 20, 2, 2), "mm"))

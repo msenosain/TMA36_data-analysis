@@ -25,32 +25,50 @@ clin_dt$n_op2_B <- clin_dt$n_op2
 clin_dt[clin_dt$n_op2_B %in% c('ind', 'int'), 'n_op2_B'] <- 'ind_int'
 ```
 
+# maftools
+```{r}
+# Pre-processing of the data
+single.maf.delim <- read.delim(file = maf_dir, sep = "\t", header = TRUE, fill = TRUE, comment.char = "#")
+laml <- read.maf(maf=single.maf.delim) ###optional, add clinical annotation file with "clinicalData" argument in read.maf()
+x = getClinicalData(laml)
+x$Tumor_Sample_Barcode = as.character(x$Tumor_Sample_Barcode)
+pt_ID <- sapply(strsplit(x$Tumor_Sample_Barcode, "pt"), "[[", 2)
+pt_ID <- sapply(strsplit(pt_ID, "_"), "[[", 1)
+
+clin_dt <- clin_dt[which(clin_dt$pt_ID %in% pt_ID),]
+clin_dt <- cbind('Tumor_Sample_Barcode'=x$Tumor_Sample_Barcode, clin_dt)
+laml = read.maf(maf = single.maf.delim, clinicalData = clin_dt, verbose = F)
+laml = filterMaf(laml, genes = NULL, tsb = "pt11840_Tumor", isTCGA = FALSE) # remove pt11840_Tumor
+```
+
 # WES binary
 ```{r}
+clin_dt <- clin_dt[-which(clin_dt$pt_ID=='11840'),] #remove pt 11840
 wes <- read.csv("data/TMA36_project/WES/processed/wes_binary.csv")
+wes <- wes[-which(wes$pt_ID=='11840'),] #remove pt 11840
 clin_dt = right_join(clin_dt, wes, by = 'pt_ID')
 ```
 
 ## Mut load vs SILA
 ```{r, fig.width = 5, fig.height = 4}
 x <- clin_dt
-x$mut_load <- log(x$mut_load) 
+x$mut_load <- log10(x$mut_load) 
 ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
           add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
           cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
-          xlab = "SILA Score", ylab = 'log(mutational load)')
+          xlab = "SILA Score", ylab = 'log10(mutational load)')
 
 x <- x[-which(x$SILA ==min(x$SILA)),]
 ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
           add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
           cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
-          xlab = "SILA Score", ylab = 'log(mutational load)')
+          xlab = "SILA Score", ylab = 'log10(mutational load)')
 
 x <- x[-which(x$SILA ==min(x$SILA)),]
 ggpubr::ggscatter(x, x = "SILA", y = "mut_load",
           add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
           cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
-          xlab = "SILA Score", ylab = 'log(mutational load)')
+          xlab = "SILA Score", ylab = 'log10(mutational load)')
 ```
 
 
@@ -84,21 +102,7 @@ ggplot(x, aes(x=cluster, y=log(mut_load), fill=cluster)) +
                 map_signif_level=TRUE)
 ```
 
-# maftools
-```{r}
-# Pre-processing of the data
-single.maf.delim <- read.delim(file = maf_dir, sep = "\t", header = TRUE, fill = TRUE, comment.char = "#")
-laml <- read.maf(maf=single.maf.delim) ###optional, add clinical annotation file with "clinicalData" argument in read.maf()
 
-x = getClinicalData(laml)
-x$Tumor_Sample_Barcode = as.character(x$Tumor_Sample_Barcode)
-pt_ID <- sapply(strsplit(x$Tumor_Sample_Barcode, "pt"), "[[", 2)
-pt_ID <- sapply(strsplit(pt_ID, "_"), "[[", 1)
-
-clin_dt <- clin_dt[which(clin_dt$pt_ID %in% pt_ID),]
-clin_dt <- cbind('Tumor_Sample_Barcode'=x$Tumor_Sample_Barcode, clin_dt)
-laml = read.maf(maf = single.maf.delim, clinicalData = clin_dt, verbose = F)
-```
 
 
 ```{r}

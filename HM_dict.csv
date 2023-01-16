@@ -1,0 +1,813 @@
+﻿Y,DESCRIPTION
+APPROXIMATE_VOLUME_ML,Approximate volume of the specified ROI of the image in milliliters.
+APPROXIMATE_VOLUME_MM3,Approximate volume of the specified ROI of the image in cubic millimeters assuming water equivalent.
+ASPHERICITY_MM,Measure of the lack roundness or deviation from spherical nature of the image ROI; min value = 0 (sphere)
+AVG_DENSITY_OF_GGO_REGION_INCLUDING_PARENCHYMA,The average density of voxels identified as (-950HU <= voxel < -450HU).
+COEFFICIENT_OF_VARIATION_HU,A measure of dispersion in the intensity distribution in the image ROI.
+COMPACTNESS1_IBSI_MM,Dimensionless measure of compactness of ROI independent of scale and orientation (second of three implementations).
+GEOMETRIC_CENTER_OF_MASS_MM_X,Patient X coordinate for center of mass unweighted by image intensity.
+GEOMETRIC_CENTER_OF_MASS_MM_Y,Patient Y coordinate for center of mass unweighted by image intensity.
+GEOMETRIC_CENTER_OF_MASS_MM_Z,Patient Z coordinate for center of mass unweighted by image intensity.
+GLCM_ASM_GL,Average angular second moments of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_COL_MEAN_GL,Average column means of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_COL_STD_GL,Average column standard deviations of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_COL_VAR_GL,Average column variances of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_CONTRAST_GL,Average contrasts of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_CORRELATION_GL,Average correlations of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_DISSIMILARITY_GL,"Average dissimilarities of GLCM in all 26 directions for Grey Leveled Image.
+"
+GLCM_ENERGY_GL,Average energies of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_ENTROPY_GL,Average entropies of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_HOMOGENEITY_GL,Average homogeneities of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_IBSI_AUTOCORR_2DF_BW,Autocorrelation of GLCM by slice without merging
+GLCM_IBSI_AUTOCORR_2DF_HU,Autocorrelation of GLCM by slice without merging
+GLCM_IBSI_AUTOCORR_2DS_BW,Autocorrelation of GLCM by slice with merging by slice.
+GLCM_IBSI_AUTOCORR_2DS_HU,Autocorrelation of GLCM by slice with merging by slice.
+GLCM_IBSI_AUTOCORR_2DV_BW,Autocorrelation of GLCM by Slice with Full Merging.
+GLCM_IBSI_AUTOCORR_2DV_HU,Autocorrelation of GLCM by Slice with Full Merging.
+GLCM_IBSI_AUTOCORR_3DF_BW,Autocorrelation of GLCM by Volume without Merging.
+GLCM_IBSI_AUTOCORR_3DF_HU,Autocorrelation of GLCM by Volume without Merging.
+GLCM_IBSI_AUTOCORR_3DV_BW,Autocorrelation of GLCM by Slice with Full Merging.
+GLCM_IBSI_AUTOCORR_3DV_HU,Autocorrelation of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DF_BW,Difference averages of GLCM by slice without merging
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DF_HU,Difference averages of GLCM by slice without merging
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DS_BW,Difference averages of GLCM by slice with merging by slice.
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DS_HU,Difference averages of GLCM by slice with merging by slice.
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DV_BW,Difference averages of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_2DV_HU,Difference averages of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_3DF_BW,Difference averages of GLCM by Volume without Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_3DF_HU,Difference averages of GLCM by Volume without Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_3DV_BW,Difference averages of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_AVERAGE_3DV_HU,Difference averages of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DF_BW,Difference entropies of GLCM by slice without merging
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DF_HU,Difference entropies of GLCM by slice without merging
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DS_BW,Difference entropies of GLCM by slice with merging by slice.
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DS_HU,Difference entropies of GLCM by slice with merging by slice.
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DV_BW,Difference entropies of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_2DV_HU,Difference entropies of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_3DF_BW,Difference entropies of GLCM by Volume without Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_3DF_HU,Difference entropies of GLCM by Volume without Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_3DV_BW,Difference entropies of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_ENTROPY_3DV_HU,Difference entropies of GLCM by Slice with Full Merging.
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DF_BW,Difference variances of GLCM by slice without merging.
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DF_HU,Difference variances of GLCM by slice without merging.
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DS_BW,Difference variances of GLCM by slice with merging by slice..
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DS_HU,Difference variances of GLCM by slice with merging by slice..
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DV_BW,Difference variances of GLCM by Slice with Full Merging..
+GLCM_IBSI_DIFFERENCE_VARIANCE_2DV_HU,Difference variances of GLCM by Slice with Full Merging..
+GLCM_IBSI_DIFFERENCE_VARIANCE_3DF_BW,Difference variances of GLCM by Volume without Merging..
+GLCM_IBSI_DIFFERENCE_VARIANCE_3DF_HU,Difference variances of GLCM by Volume without Merging..
+GLCM_IBSI_DIFFERENCE_VARIANCE_3DV_BW,Difference variances of GLCM by Slice with Full Merging..
+GLCM_IBSI_DIFFERENCE_VARIANCE_3DV_HU,Difference variances of GLCM by Slice with Full Merging..
+GLCM_IBSI_INVDIFF_2DF_BW,Inverse difference of GLCM by slice without merging
+GLCM_IBSI_INVDIFF_2DF_HU,Inverse difference of GLCM by slice without merging
+GLCM_IBSI_INVDIFF_2DS_BW,Inverse difference of GLCM by slice with merging by slice.
+GLCM_IBSI_INVDIFF_2DS_HU,Inverse difference of GLCM by slice with merging by slice.
+GLCM_IBSI_INVDIFF_2DV_BW,Inverse difference of GLCM by Slice with Full Merging.
+GLCM_IBSI_INVDIFF_2DV_HU,Inverse difference of GLCM by Slice with Full Merging.
+GLCM_IBSI_INVDIFF_3DF_BW,Inverse difference of GLCM by Volume without Merging.
+GLCM_IBSI_INVDIFF_3DF_HU,Inverse difference of GLCM by Volume without Merging.
+GLCM_IBSI_INVDIFF_3DV_BW,Inverse difference of GLCM by Slice with Full Merging.
+GLCM_IBSI_INVDIFF_3DV_HU,Inverse difference of GLCM by Slice with Full Merging.
+GLCM_IBSI_INVDIFFMOMNORM_2DF_BW,Inverse difference moment of GLCMs by slice without merging
+GLCM_IBSI_INVDIFFMOMNORM_2DF_HU,Inverse difference moment of GLCMs by slice without merging
+GLCM_IBSI_INVDIFFMOMNORM_2DS_BW,Inverse difference moment of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVDIFFMOMNORM_2DS_HU,Inverse difference moment of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVDIFFMOMNORM_2DV_BW,Inverse difference moment of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFMOMNORM_2DV_HU,Inverse difference moment of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFMOMNORM_3DF_BW,Inverse difference moment of GLCMs by Volume without Merging.
+GLCM_IBSI_INVDIFFMOMNORM_3DF_HU,Inverse difference moment of GLCMs by Volume without Merging.
+GLCM_IBSI_INVDIFFMOMNORM_3DV_BW,Inverse difference moment of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFMOMNORM_3DV_HU,Inverse difference moment of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFNORM_2DF_BW,Inverse difference normalized of GLCMs by slice without merging
+GLCM_IBSI_INVDIFFNORM_2DF_HU,Inverse difference normalized of GLCMs by slice without merging
+GLCM_IBSI_INVDIFFNORM_2DS_BW,Inverse difference normalized of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVDIFFNORM_2DS_HU,Inverse difference normalized of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVDIFFNORM_2DV_BW,Inverse difference normalized of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFNORM_2DV_HU,Inverse difference normalized of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFNORM_3DF_BW,Inverse difference normalized of GLCMs by Volume without Merging.
+GLCM_IBSI_INVDIFFNORM_3DF_HU,Inverse difference normalized of GLCMs by Volume without Merging.
+GLCM_IBSI_INVDIFFNORM_3DV_BW,Inverse difference normalized of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVDIFFNORM_3DV_HU,Inverse difference normalized of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVVAR_2DF_BW,Inverse variance of GLCMs by slice without merging
+GLCM_IBSI_INVVAR_2DF_HU,Inverse variance of GLCMs by slice without merging
+GLCM_IBSI_INVVAR_2DS_BW,Inverse variance of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVVAR_2DS_HU,Inverse variance of GLCMs by slice with merging by slice.
+GLCM_IBSI_INVVAR_2DV_BW,Inverse variance of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVVAR_2DV_HU,Inverse variance of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVVAR_3DF_BW,Inverse variance of GLCMs by Volume without Merging.
+GLCM_IBSI_INVVAR_3DF_HU,Inverse variance of GLCMs by Volume without Merging.
+GLCM_IBSI_INVVAR_3DV_BW,Inverse variance of GLCMs by Slice with Full Merging.
+GLCM_IBSI_INVVAR_3DV_HU,Inverse variance of GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_AVERAGE_2DF_BW,Averages of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_AVERAGE_2DF_HU,Averages of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_AVERAGE_2DS_BW,Averages of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_AVERAGE_2DS_HU,Averages of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_AVERAGE_2DV_BW,Averages of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_AVERAGE_2DV_HU,Averages of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_AVERAGE_3DF_BW,Averages of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_AVERAGE_3DF_HU,Averages of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_AVERAGE_3DV_BW,Averages of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_AVERAGE_3DV_HU,Averages of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_ENTROPY_2DF_BW,Entropies of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_ENTROPY_2DF_HU,Entropies of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_ENTROPY_2DS_BW,Entropies of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_ENTROPY_2DS_HU,Entropies of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_ENTROPY_2DV_BW,Entropies of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_ENTROPY_2DV_HU,Entropies of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_ENTROPY_3DF_BW,Entropies of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_ENTROPY_3DF_HU,Entropies of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_ENTROPY_3DV_BW,Entropies of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_ENTROPY_3DV_HU,Entropies of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_MAXIMUM_2DF_BW,Maximums of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_MAXIMUM_2DF_HU,Maximums of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_MAXIMUM_2DS_BW,Maximums of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_MAXIMUM_2DS_HU,Maximums of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_MAXIMUM_2DV_BW,Maximums of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_MAXIMUM_2DV_HU,Maximums of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_MAXIMUM_3DF_BW,Maximums of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_MAXIMUM_3DF_HU,Maximums of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_MAXIMUM_3DV_BW,Maximums of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_MAXIMUM_3DV_HU,Maximums of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_VARIANCE_2DF_BW,Variances of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_VARIANCE_2DF_HU,Variances of the GLCMs by slice without merging
+GLCM_IBSI_JOINT_VARIANCE_2DS_BW,Variances of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_VARIANCE_2DS_HU,Variances of the GLCMs by slice with merging by slice.
+GLCM_IBSI_JOINT_VARIANCE_2DV_BW,Variances of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_VARIANCE_2DV_HU,Variances of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_VARIANCE_3DF_BW,Variances of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_VARIANCE_3DF_HU,Variances of the GLCMs by Volume without Merging.
+GLCM_IBSI_JOINT_VARIANCE_3DV_BW,Variances of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_JOINT_VARIANCE_3DV_HU,Variances of the GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_AVERAGE_2DF_BW,Sum averages of GLCMs by slice without merging
+GLCM_IBSI_SUM_AVERAGE_2DF_HU,Sum averages of GLCMs by slice without merging
+GLCM_IBSI_SUM_AVERAGE_2DS_BW,Sum averages of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_AVERAGE_2DS_HU,Sum averages of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_AVERAGE_2DV_BW,Sum averages of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_AVERAGE_2DV_HU,Sum averages of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_AVERAGE_3DF_BW,Sum averages of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_AVERAGE_3DF_HU,Sum averages of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_AVERAGE_3DV_BW,Sum averages of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_AVERAGE_3DV_HU,Sum averages of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_ENTROPY_2DF_BW,Sum entropies of GLCMs by slice without merging
+GLCM_IBSI_SUM_ENTROPY_2DF_HU,Sum entropies of GLCMs by slice without merging
+GLCM_IBSI_SUM_ENTROPY_2DS_BW,Sum entropies of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_ENTROPY_2DS_HU,Sum entropies of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_ENTROPY_2DV_BW,Sum entropies of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_ENTROPY_2DV_HU,Sum entropies of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_ENTROPY_3DF_BW,Sum entropies of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_ENTROPY_3DF_HU,Sum entropies of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_ENTROPY_3DV_BW,Sum entropies of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_ENTROPY_3DV_HU,Sum entropies of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_VARIANCE_2DF_BW,Sum variances of GLCMs by slice without merging
+GLCM_IBSI_SUM_VARIANCE_2DF_HU,Sum variances of GLCMs by slice without merging
+GLCM_IBSI_SUM_VARIANCE_2DS_BW,Sum variances of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_VARIANCE_2DS_HU,Sum variances of GLCMs by slice with merging by slice.
+GLCM_IBSI_SUM_VARIANCE_2DV_BW,Sum variances of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_VARIANCE_2DV_HU,Sum variances of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_VARIANCE_3DF_BW,Sum variances of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_VARIANCE_3DF_HU,Sum variances of GLCMs by Volume without Merging.
+GLCM_IBSI_SUM_VARIANCE_3DV_BW,Sum variances of GLCMs by Slice with Full Merging.
+GLCM_IBSI_SUM_VARIANCE_3DV_HU,Sum variances of GLCMs by Slice with Full Merging.
+GLCM_ROW_MEAN_GL,Average row means of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_ROW_STD_GL,Average row standard deviations of GLCM in all 26 directions for Grey Leveled Image.
+GLCM_ROW_VAR_GL,Average row variances of GLCM in all 26 directions for Grey Leveled Image.
+GLRLM_IBSI_GLNONUNIFORMITY_2DF_BW,Grey level nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLNONUNIFORMITY_2DF_HU,Grey level nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLNONUNIFORMITY_2DS_BW,Grey level nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLNONUNIFORMITY_2DS_HU,Grey level nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLNONUNIFORMITY_2DV_BW,Grey level nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_GLNONUNIFORMITY_2DV_HU,Grey level nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_GLNONUNIFORMITY_3DF_BW,Grey level nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITY_3DF_HU,Grey level nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITY_3DV_BW,Grey level nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITY_3DV_HU,Grey level nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DF_BW,Normalized grey level nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DF_HU,Normalized grey level nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DS_BW,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DS_HU,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DV_BW,Normalized grey level nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_2DV_HU,Normalized grey level nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_3DF_BW,Normalized grey level nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_3DF_HU,Normalized grey level nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_3DV_BW,Normalized grey level nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLNONUNIFORMITYNORMALIZED_3DV_HU,Normalized grey level nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLVARIANCE_2DF_BW,Grey level variance from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLVARIANCE_2DF_HU,Grey level variance from averaging in 8 directions for each slice .
+GLRLM_IBSI_GLVARIANCE_2DS_BW,Grey level variance from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLVARIANCE_2DS_HU,Grey level variance from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_GLVARIANCE_2DV_BW,Grey level variance from merging in 8 directions for each slice.
+GLRLM_IBSI_GLVARIANCE_2DV_HU,Grey level variance from merging in 8 directions for each slice.
+GLRLM_IBSI_GLVARIANCE_3DF_BW,Grey level variance from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLVARIANCE_3DF_HU,Grey level variance from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLVARIANCE_3DV_BW,Grey level variance from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_GLVARIANCE_3DV_HU,Grey level variance from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DF_BW,High grey level run emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DF_HU,High grey level run emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DS_BW,High grey level run emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DS_HU,High grey level run emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DV_BW,High grey level run emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_2DV_HU,High grey level run emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_3DF_BW,High grey level run emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_3DF_HU,High grey level run emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_3DV_BW,High grey level run emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_HIGHGLRUNEMPHASIS_3DV_HU,High grey level run emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNEMPHASIS_2DF_BW,Long runs emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNEMPHASIS_2DF_HU,Long runs emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNEMPHASIS_2DS_BW,Long runs emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNEMPHASIS_2DS_HU,Long runs emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNEMPHASIS_2DV_BW,Long runs emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNEMPHASIS_2DV_HU,Long runs emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNEMPHASIS_3DF_BW,Long runs emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNEMPHASIS_3DF_HU,Long runs emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNEMPHASIS_3DV_BW,Long runs emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNEMPHASIS_3DV_HU,Long runs emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DF_BW,Long run high grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DF_HU,Long run high grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DS_BW,Long run high grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DS_HU,Long run high grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DV_BW,Long run high grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_2DV_HU,Long run high grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_3DF_BW,Long run high grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_3DF_HU,Long run high grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_3DV_BW,Long run high grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNHIGHGLEMPHASIS_3DV_HU,Long run high grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DF_BW,Long run low grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DF_HU,Long run low grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DS_BW,Long run low grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DS_HU,Long run low grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DV_BW,Long run low grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_2DV_HU,Long run low grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_3DF_BW,Long run low grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_3DF_HU,Long run low grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_3DV_BW,Long run low grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LONGRUNLOWGLEMPHASIS_3DV_HU,Long run low grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DF_BW,Low grey level run emphasis in either three or two dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DF_HU,Low grey level run emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DS_BW,Low grey level run emphasis in either three or two dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DS_HU,Low grey level run emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DV_BW,Low grey level run emphasis in either three or two dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_2DV_HU,Low grey level run emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_3DF_BW,Low grey level run emphasis in either three or two dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_3DF_HU,Low grey level run emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_3DV_BW,Low grey level run emphasis in either three or two dimensions.
+GLRLM_IBSI_LOWGLRUNEMPHASIS_3DV_HU,Low grey level run emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNENTROPY_2DF_BW,Run entropy from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNENTROPY_2DF_HU,Run length entropy from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNENTROPY_2DS_BW,Run entropy from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNENTROPY_2DS_HU,Run length entropy from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNENTROPY_2DV_BW,Run entropy from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNENTROPY_2DV_HU,Run length entropy from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNENTROPY_3DF_BW,Run entropy from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNENTROPY_3DF_HU,Run length entropy from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNENTROPY_3DV_BW,Run entropy from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNENTROPY_3DV_HU,Run length entropy from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DF_BW,Run length nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DF_HU,Run length nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DS_BW,Run length nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DS_HU,Run length nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DV_BW,Run length nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_2DV_HU,Run length nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_3DF_BW,Run length nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_3DF_HU,Run length nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_3DV_BW,Run length nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITY_3DV_HU,Run length nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DF_BW,Normalized run length nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DF_HU,Normalized run length nonuniformity from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DS_BW,Normalized run length nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DS_HU,Normalized run length nonuniformity from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DV_BW,Normalized run length nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_2DV_HU,Normalized run length nonuniformity from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_3DF_BW,Normalized run length nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_3DF_HU,Normalized run length nonuniformity from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_3DV_BW,Normalized run length nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHNONUNIFORMITYNORMALIZED_3DV_HU,Normalized run length nonuniformity from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DF_BW,Run length variance from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DF_HU,Run length variance from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DS_BW,Run length variance from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DS_HU,Run length variance from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DV_BW,Run length variance from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHVARIANCE_2DV_HU,Run length variance from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNLENGTHVARIANCE_3DF_BW,Run length variance from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHVARIANCE_3DF_HU,Run length variance from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHVARIANCE_3DV_BW,Run length variance from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNLENGTHVARIANCE_3DV_HU,Run length variance from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNPERCENTAGE_2DF_BW,Run percentage from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNPERCENTAGE_2DF_HU,Run percentage from averaging in 8 directions for each slice .
+GLRLM_IBSI_RUNPERCENTAGE_2DS_BW,Run percentage from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNPERCENTAGE_2DS_HU,Run percentage from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_RUNPERCENTAGE_2DV_BW,Run percentage from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNPERCENTAGE_2DV_HU,Run percentage from merging in 8 directions for each slice.
+GLRLM_IBSI_RUNPERCENTAGE_3DF_BW,Run percentage from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNPERCENTAGE_3DF_HU,Run percentage from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNPERCENTAGE_3DV_BW,Run percentage from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_RUNPERCENTAGE_3DV_HU,Run percentage from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DF_BW,Short runs emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DF_HU,Short runs emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DS_BW,Short runs emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DS_HU,Short runs emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DV_BW,Short runs emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNEMPHASIS_2DV_HU,Short runs emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNEMPHASIS_3DF_BW,Short runs emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNEMPHASIS_3DF_HU,Short runs emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNEMPHASIS_3DV_BW,Short runs emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNEMPHASIS_3DV_HU,Short runs emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DF_BW,Short run high grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DF_HU,Short run high grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DS_BW,Short run high grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DS_HU,Short run high grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DV_BW,Short run high grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_2DV_HU,Short run high grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_3DF_BW,Short run high grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_3DF_HU,Short run high grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_3DV_BW,Short run high grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNHIGHGLEMPHASIS_3DV_HU,Short run high grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DF_BW,Short run low grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DF_HU,Short run low grey level emphasis from averaging in 8 directions for each slice .
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DS_BW,Short run low grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DS_HU,Short run low grey level emphasis from merging matrices from each slice and averaging the result. .
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DV_BW,Short run low grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_2DV_HU,Short run low grey level emphasis from merging in 8 directions for each slice.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_3DF_BW,Short run low grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_3DF_HU,Short run low grey level emphasis from averaging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_3DV_BW,Short run low grey level emphasis from merging 26 directions in 3 dimensions.
+GLRLM_IBSI_SHORTRUNLOWGLEMPHASIS_3DV_HU,Short run low grey level emphasis from merging 26 directions in 3 dimensions.
+GLSZM_IBSI_GL_NONUNIF_2DS_BW,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_2DS_HU,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_2DV_BW,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_2DV_HU,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_3D_BW,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_3D_HU,Grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_2DS_BW,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_2DS_HU,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_2DV_BW,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_2DV_HU,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_3D_BW,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_NONUNIF_NORMALISED_3D_HU,Normalized grey level nonuniformity
+GLSZM_IBSI_GL_VARIANCE_2DS_BW,Grey level variance
+GLSZM_IBSI_GL_VARIANCE_2DS_HU,Grey level variance
+GLSZM_IBSI_GL_VARIANCE_2DV_BW,Grey level variance
+GLSZM_IBSI_GL_VARIANCE_2DV_HU,Grey level variance
+GLSZM_IBSI_GL_VARIANCE_3D_BW,Grey level variance
+GLSZM_IBSI_GL_VARIANCE_3D_HU,Grey level variance
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_2DS_BW,High grey level zone emphasis
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_2DS_HU,High grey level zone emphasis
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_2DV_BW,High grey level zone emphasis
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_2DV_HU,High grey level zone emphasis
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_3D_BW,High grey level zone emphasis
+GLSZM_IBSI_HIGH_GL_ZONE_EMPH_3D_HU,High grey level zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_2DS_BW,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_2DS_HU,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_2DV_BW,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_2DV_HU,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_3D_BW,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_EMPH_3D_HU,Large zone emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_2DS_BW,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_2DS_HU,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_2DV_BW,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_2DV_HU,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_3D_BW,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_HIGH_GL_EMPH_3D_HU,Large zone high grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_2DS_BW,Large Zzone low grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_2DS_HU,Large Zzone low grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_2DV_BW,Large Zzone low grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_2DV_HU,Large Zzone low grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_3D_BW,Large Zzone low grey level emphasis
+GLSZM_IBSI_LARGE_ZONE_LOW_GL_EMPH_3D_HU,Large Zzone low grey level emphasis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_2DS_BW,Low grey level zone emphsis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_2DS_HU,Low grey level zone emphsis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_2DV_BW,Low grey level zone emphsis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_2DV_HU,Low grey level zone emphsis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_3D_BW,Low grey level zone emphsis
+GLSZM_IBSI_LOW_GL_ZONE_EMPH_3D_HU,Low grey level zone emphsis
+GLSZM_IBSI_SMALL_ZONE_EMPH_2DS_BW,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_EMPH_2DS_HU,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_EMPH_2DV_BW,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_EMPH_2DV_HU,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_EMPH_3D_BW,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_EMPH_3D_HU,Small zone emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_2DS_BW,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_2DS_HU,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_2DV_BW,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_2DV_HU,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_3D_BW,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_HIGH_GL_EMPH_3D_HU,Small zone high grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_2DS_BW,Small zone low grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_2DS_HU,Small zone low grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_2DV_BW,Small zone low grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_2DV_HU,Small zone low grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_3D_BW,Small zone low grey level emphasis
+GLSZM_IBSI_SMALL_ZONE_LOW_GL_EMPH_3D_HU,Small zone low grey level emphasis
+GLSZM_IBSI_ZONE_PERCENTAGE_2DS_BW,Zone percentage
+GLSZM_IBSI_ZONE_PERCENTAGE_2DS_HU,Zone percentage
+GLSZM_IBSI_ZONE_PERCENTAGE_2DV_BW,Zone percentage
+GLSZM_IBSI_ZONE_PERCENTAGE_2DV_HU,Zone percentage
+GLSZM_IBSI_ZONE_PERCENTAGE_3D_BW,Zone percentage
+GLSZM_IBSI_ZONE_PERCENTAGE_3D_HU,Zone percentage
+GLSZM_IBSI_ZS_ENTROPY_2DS_BW,Zone size entropy
+GLSZM_IBSI_ZS_ENTROPY_2DS_HU,Zone size entropy
+GLSZM_IBSI_ZS_ENTROPY_2DV_BW,Zone size entropy
+GLSZM_IBSI_ZS_ENTROPY_2DV_HU,Zone size entropy
+GLSZM_IBSI_ZS_ENTROPY_3D_BW,Zone size entropy
+GLSZM_IBSI_ZS_ENTROPY_3D_HU,Zone size entropy
+GLSZM_IBSI_ZS_NONUNIF_2DS_BW,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_2DS_HU,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_2DV_BW,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_2DV_HU,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_3D_BW,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_3D_HU,Zone size uniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_2DS_BW,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_2DS_HU,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_2DV_BW,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_2DV_HU,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_3D_BW,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_NONUNIF_NORMALISED_3D_HU,Normalized zone size nonuniformity
+GLSZM_IBSI_ZS_VARIANCE_2DS_BW,Zone size variance
+GLSZM_IBSI_ZS_VARIANCE_2DS_HU,Zone size variance
+GLSZM_IBSI_ZS_VARIANCE_2DV_BW,Zone size variance
+GLSZM_IBSI_ZS_VARIANCE_2DV_HU,Zone size variance
+GLSZM_IBSI_ZS_VARIANCE_3D_BW,Zone size variance
+GLSZM_IBSI_ZS_VARIANCE_3D_HU,Zone size variance
+INTEGRATED_INTENSITY_MM,Average gray level(HU) multiplied by volume(millimeters cubed).
+INTENSITY_CENTER_OF_MASS_MM_X,Patient X coordinate for center of mass weighted by image intensity.
+INTENSITY_CENTER_OF_MASS_MM_Y,Patient Y coordinate for center of mass weighted by image intensity.
+INTENSITY_CENTER_OF_MASS_MM_Z,Patient Z coordinate for center of mass weighted by image intensity.
+INTENSITY_HISTOGRAM_COV_HU,Coefficient of variation of discretized voxels
+INTENSITY_HISTOGRAM_COV_LBW,Coefficient of variation of discretized voxels
+INTENSITY_HISTOGRAM_ENERGY_HU,Energy of discretized voxels
+INTENSITY_HISTOGRAM_ENERGY_LBW,Energy of discretized voxels
+INTENSITY_HISTOGRAM_ENTROPY_HU,Entropy of discretized voxels
+INTENSITY_HISTOGRAM_ENTROPY_LBW,Entropy of discretized voxels
+INTENSITY_HISTOGRAM_INTATVOLFRAC10_HU,Grey level intensity beneath which 10% of the volume occurs
+INTENSITY_HISTOGRAM_INTATVOLFRAC10_LBW,Grey level intensity beneath which 10% of the volume occurs
+INTENSITY_HISTOGRAM_INTATVOLFRAC90_HU,Grey level intensity beneath which 90% of the volume occurs
+INTENSITY_HISTOGRAM_INTATVOLFRAC90_LBW,Grey level intensity beneath which 90% of the volume occurs
+INTENSITY_HISTOGRAM_INTATVOLFRACDIFF_HU,The difference between the intensities at volume fraction of 90 and 10 Percent
+INTENSITY_HISTOGRAM_INTATVOLFRACDIFF_LBW,The difference between the intensities at volume fraction of 90 and 10 Percent
+INTENSITY_HISTOGRAM_IQR_HU,Interquartile range of discretized voxels
+INTENSITY_HISTOGRAM_IQR_LBW,Interquartile range of discretized voxels
+INTENSITY_HISTOGRAM_KURTOSIS_HU,Excess kurtosis discretized voxels
+INTENSITY_HISTOGRAM_KURTOSIS_LBW,Excess kurtosis discretized voxels
+INTENSITY_HISTOGRAM_MAX_HU,Maximum of discretized voxels
+INTENSITY_HISTOGRAM_MAX_LBW,Maximum of discretized voxels
+INTENSITY_HISTOGRAM_MEAN_DEVIATION_HU,Absolute deviation from the mean of discretized voxels
+INTENSITY_HISTOGRAM_MEAN_DEVIATION_LBW,Absolute deviation from the mean of discretized voxels
+INTENSITY_HISTOGRAM_MEAN_HU,Mean of Discretized voxels
+INTENSITY_HISTOGRAM_MEAN_LBW,Mean of Discretized voxels
+INTENSITY_HISTOGRAM_MEDIAN_DEVIATION_HU,Absolute deviation from the median of discretized voxels
+INTENSITY_HISTOGRAM_MEDIAN_DEVIATION_LBW,Absolute deviation from the median of discretized voxels
+INTENSITY_HISTOGRAM_MEDIAN_HU,Median of discretized voxels
+INTENSITY_HISTOGRAM_MEDIAN_LBW,Median of discretized voxels
+INTENSITY_HISTOGRAM_MIN_HU,Minimum of discretized voxels
+INTENSITY_HISTOGRAM_MIN_LBW,Minimum of discretized voxels
+INTENSITY_HISTOGRAM_PERCENTILE10_HU,The 10th percentile of discretized voxels
+INTENSITY_HISTOGRAM_PERCENTILE10_LBW,The 10th percentile of discretized voxels
+INTENSITY_HISTOGRAM_PERCENTILE90_HU,The 90th percentile discretized voxels
+INTENSITY_HISTOGRAM_PERCENTILE90_LBW,The 90th percentile discretized voxels
+INTENSITY_HISTOGRAM_QCOD_HU,Quartile coefficient of discretized voxels
+INTENSITY_HISTOGRAM_QCOD_LBW,Quartile coefficient of discretized voxels
+INTENSITY_HISTOGRAM_RANGE_HU,Range of values of discretized voxels
+INTENSITY_HISTOGRAM_RANGE_LBW,Range of values of discretized voxels
+INTENSITY_HISTOGRAM_RIEMANNAREA_HU,Area under the intensity volume histogram curve
+INTENSITY_HISTOGRAM_RIEMANNAREA_LBW,Area under the intensity volume histogram curve
+INTENSITY_HISTOGRAM_RMS_HU,Root mean squared of discretized voxels
+INTENSITY_HISTOGRAM_RMS_LBW,Root mean squared of discretized voxels
+INTENSITY_HISTOGRAM_ROBUST_MEAN_DEVIATION_HU,Robust absolute deviation from the mean of discretized voxels
+INTENSITY_HISTOGRAM_ROBUST_MEAN_DEVIATION_LBW,Robust absolute deviation from the mean of discretized voxels
+INTENSITY_HISTOGRAM_SKEWNESS_HU,Skewness of discretized voxels
+INTENSITY_HISTOGRAM_SKEWNESS_LBW,Skewness of discretized voxels
+INTENSITY_HISTOGRAM_UNIFORMITY_HU,Uniformity of discretized voxels
+INTENSITY_HISTOGRAM_UNIFORMITY_LBW,Uniformity of discretized voxels
+INTENSITY_HISTOGRAM_VARIANCE_HU,Variance of discretized voxels
+INTENSITY_HISTOGRAM_VARIANCE_LBW,Variance of discretized voxels
+INTENSITY_HISTOGRAM_VOLATINTFRAC10_HU,Fractional volume with and grey level intensity in the bottom 10%
+INTENSITY_HISTOGRAM_VOLATINTFRAC10_LBW,Fractional volume with and grey level intensity in the bottom 10%
+INTENSITY_HISTOGRAM_VOLATINTFRAC90_HU,Fractional volume with and grey level intensity in the bottom 90%
+INTENSITY_HISTOGRAM_VOLATINTFRAC90_LBW,Fractional volume with and grey level intensity in the bottom 90%
+INTENSITY_HISTOGRAM_VOLATINTFRACDIFF_HU,The difference between the volumes at intensity fraction of 90 and 10 Percent
+INTENSITY_HISTOGRAM_VOLATINTFRACDIFF_LBW,The difference between the volumes at intensity fraction of 90 and 10 Percent
+INTERQUARTILE_RANGE_HU,The 75th percentile minus the 25th percentile of the ROI intensity values.
+KURTOSIS_IBSI_HU,A measure of the 'peakedness' of the distribution of HU values in the image ROI.
+LESION_TYPE_OVERRIDE_RISK_CALCULATOR,"Lesion's type (3 == solid, 2 == part-solid, 1 == GGO), overridden by user in Risk Calculator"
+LOG_2D_COV_0_0MM_BW,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_COV_0_0MM_HU,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_COV_0_0MM_LBW,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_COV_2_5MM_BW,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_COV_2_5MM_HU,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_COV_2_5MM_LBW,Coefficient of variation of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_0_0MM_BW,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_0_0MM_HU,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_0_0MM_LBW,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_2_5MM_BW,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_2_5MM_HU,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENERGY_2_5MM_LBW,Energy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_0_0MM_BW,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_0_0MM_HU,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_0_0MM_LBW,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_2_5MM_BW,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_2_5MM_HU,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_ENTROPY_2_5MM_LBW,Entropy of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_0_0MM_BW,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_0_0MM_HU,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_0_0MM_LBW,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_2_5MM_BW,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_2_5MM_HU,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_IQR_2_5MM_LBW,Interquartile range of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_0_0MM_BW,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_0_0MM_HU,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_0_0MM_LBW,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_2_5MM_BW,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_2_5MM_HU,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_KURTOSIS_2_5MM_LBW,Excess kurtosis of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_0_0MM_BW,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_0_0MM_HU,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_0_0MM_LBW,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_2_5MM_BW,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_2_5MM_HU,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MAX_2_5MM_LBW,Maximum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_0_0MM_BW,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_0_0MM_HU,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_0_0MM_LBW,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_2_5MM_BW,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_2_5MM_HU,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_2_5MM_LBW,Mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_0_0MM_BW,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_0_0MM_HU,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_0_0MM_LBW,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_2_5MM_BW,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_2_5MM_HU,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_DEVIATION_2_5MM_LBW,Absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_0_0MM_BW,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_0_0MM_HU,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_0_0MM_LBW,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_2_5MM_BW,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_2_5MM_HU,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEAN_ROBUST_DEVIATION_2_5MM_LBW,Robust absolute deviation from the mean of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_0_0MM_BW,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_0_0MM_HU,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_0_0MM_LBW,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_2_5MM_BW,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_2_5MM_HU,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_2_5MM_LBW,Median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_0_0MM_BW,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_0_0MM_HU,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_0_0MM_LBW,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_2_5MM_BW,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_2_5MM_HU,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MEDIAN_DEVIATION_2_5MM_LBW,Absolute deviation from the median of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_0_0MM_BW,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_0_0MM_HU,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_0_0MM_LBW,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_2_5MM_BW,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_2_5MM_HU,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_MIN_2_5MM_LBW,Minimum of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_0_0MM_BW,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_0_0MM_HU,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_0_0MM_LBW,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_2_5MM_BW,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_2_5MM_HU,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE10_2_5MM_LBW,The 10th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_PERCENTILE90_0_0MM_BW,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_PERCENTILE90_0_0MM_HU,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_PERCENTILE90_0_0MM_LBW,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_PERCENTILE90_2_5MM_BW,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_PERCENTILE90_2_5MM_HU,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_PERCENTILE90_2_5MM_LBW,The 90th percentile of 2.5D LoG transformed voxels at 2.5mm smoothing.
+LOG_2D_QCOD_0_0MM_BW,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_QCOD_0_0MM_HU,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_QCOD_0_0MM_LBW,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_QCOD_2_5MM_BW,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_QCOD_2_5MM_HU,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_QCOD_2_5MM_LBW,Quartile coefficient of dispersion of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_0_0MM_BW,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_0_0MM_HU,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_0_0MM_LBW,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_2_5MM_BW,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_2_5MM_HU,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RANGE_2_5MM_LBW,Range of values of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_0_0MM_BW,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_0_0MM_HU,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_0_0MM_LBW,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_2_5MM_BW,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_2_5MM_HU,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_RMS_2_5MM_LBW,Root mean squared of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_0_0MM_BW,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_0_0MM_HU,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_0_0MM_LBW,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_2_5MM_BW,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_2_5MM_HU,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_SKEWNESS_2_5MM_LBW,Skewness of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_0_0MM_BW,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_0_0MM_HU,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_0_0MM_LBW,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_2_5MM_BW,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_2_5MM_HU,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LOG_2D_VARIANCE_2_5MM_LBW,Variance of 2.5D LoG transformed voxels at 2.5mm smoothing
+LUNG_PERCENT_LOW_DENSITY_TOTAL,Percent of low density tissue in total lung volume.
+LUNG_PERCENT_NORM_DENSITY_TOTAL,Percent of normal density tissue in total lung volume.
+LUNG_VOL_LOW_DENSITY_ML_TOTAL,Volume of low density tissue in total lung volume.
+LUNG_VOL_NORM_DENSITY_ML_TOTAL,Volume of normal density tissue in total lung volume.
+MEAN_SIRM_HU,The mean of the HU values within the slice with the longest axis.
+MEDIAN_DEVIATION_HU,The mean of the distances of each image HU value from the median of all the values in the image ROI.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_2DF_BW,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_2DF_HU,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_2DV_BW,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_2DV_HU,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_3D_BW,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_COUNT_PERCENTAGE_3D_HU,Grey level variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_2DF_BW,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_2DF_HU,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_2DV_BW,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_2DV_HU,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_3D_BW,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENERGY_3D_HU,Dependence energy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_2DF_BW,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_2DF_HU,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_2DV_BW,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_2DV_HU,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_3D_BW,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_ENTROPY_3D_HU,Dependence entropyfrom merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_2DF_BW,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_2DF_HU,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_2DV_BW,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_2DV_HU,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_3D_BW,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_3D_HU,Dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_2DF_BW,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_2DF_HU,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_2DV_BW,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_2DV_HU,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_3D_BW,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_NONUNIF_NORM_3D_HU,Normalized dependence nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_2DF_BW,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_2DF_HU,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_2DV_BW,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_2DV_HU,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_3D_BW,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_DEP_VARIANCE_3D_HU,Dependence entropy from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_2DF_BW,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_2DF_HU,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_2DV_BW,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_2DV_HU,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_3D_BW,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GL_VARIANCE_3D_HU,Dependence variance from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_2DF_BW,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_2DF_HU,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_2DV_BW,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_2DV_HU,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_3D_BW,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_3D_HU,Grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_2DF_BW,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_2DF_HU,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_2DV_BW,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_2DV_HU,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_3D_BW,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_GLNONUNIF_NORM_3D_HU,Normalized grey level nonuniformity from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_2DF_BW,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_2DF_HU,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_2DV_BW,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_2DV_HU,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_3D_BW,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_EMPH_3D_HU,High dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_2DF_BW,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_2DF_HU,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_2DV_BW,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_2DV_HU,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_3D_BW,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_HIGH_GL_EMPH_3D_HU,High dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_2DF_BW,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_2DF_HU,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_2DV_BW,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_2DV_HU,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_3D_BW,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_DEP_LOW_GL_EMPH_3D_HU,High dependence low grey level from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_2DF_BW,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_2DF_HU,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_2DV_BW,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_2DV_HU,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_3D_BW,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_HIGH_GL_EMPH_3D_HU,High grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_2DF_BW,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_2DF_HU,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_2DV_BW,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_2DV_HU,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_3D_BW,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_EMPH_3D_HU,Low dependence emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_2DF_BW,Low dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_2DF_HU,Low dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_2DV_BW,Low dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_2DV_HU,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_3D_BW,Low dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_HIGH_GL_EMPH_3D_HU,Low dependence high grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_2DF_BW,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_2DF_HU,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_2DV_BW,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_2DV_HU,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_3D_BW,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_DEP_LOW_GL_EMPH_3D_HU,Low dependence from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_2DF_BW,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_2DF_HU,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_2DV_BW,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_2DV_HU,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_3D_BW,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGLDM_IBSI_LOW_GL_EMPH_3D_HU,Low grey level emphasis from merging matrices from each slice and averaging the result.
+NGTDM_BUSYNESS_2DF_BW,Busyness from averaging metrics from all matrices
+NGTDM_BUSYNESS_2DF_HU,Busyness from averaging metrics from all matrices
+NGTDM_BUSYNESS_2DV_BW,Busyness from merging 8 matrices for each slice
+NGTDM_BUSYNESS_2DV_HU,Busyness from merging 8 matrices for each slice
+NGTDM_BUSYNESS_3D_BW,Busyness from merging matrices from all 26 directions
+NGTDM_BUSYNESS_3D_HU,Busyness from merging matrices from all 26 directions
+NGTDM_COARSENESS_2DF_BW,Coarseness from averaging metrics from all matrices
+NGTDM_COARSENESS_2DF_HU,Coarseness from averaging metrics from all matrices
+NGTDM_COARSENESS_2DV_BW,Coarseness from merging 8 matrices for each slice
+NGTDM_COARSENESS_2DV_HU,Coarseness from merging 8 matrices for each slice
+NGTDM_COARSENESS_3D_BW,Coarseness from merging matrices from all 26 directions
+NGTDM_COARSENESS_3D_HU,Coarseness from merging matrices from all 26 directions
+NGTDM_COMPLEXITY_2DF_BW,Complexity from averaging metrics from all matrices
+NGTDM_COMPLEXITY_2DF_HU,Complexity from averaging metrics from all matrices
+NGTDM_COMPLEXITY_2DV_BW,Complexity from merging 8 matrices for each slice
+NGTDM_COMPLEXITY_2DV_HU,Complexity from merging 8 matrices for each slice
+NGTDM_COMPLEXITY_3D_BW,Complexity from merging matrices from all 26 directions
+NGTDM_COMPLEXITY_3D_HU,Complexity from merging matrices from all 26 directions
+NGTDM_CONTRAST_2DF_BW,Contrast from averaging metrics from all matrices
+NGTDM_CONTRAST_2DF_HU,Contrast from averaging metrics from all matrices
+NGTDM_CONTRAST_2DV_BW,Contrast from merging 8 matrices for each slice
+NGTDM_CONTRAST_2DV_HU,Contrast from merging 8 matrices for each slice
+NGTDM_CONTRAST_3D_BW,Contrast from merging matrices from all 26 directions
+NGTDM_CONTRAST_3D_HU,Contrast from merging matrices from all 26 directions
+NGTDM_STRENGTH_2DF_BW,Strength from averaging metrics from all matrices
+NGTDM_STRENGTH_2DF_HU,Strength from averaging metrics from all matrices
+NGTDM_STRENGTH_2DV_BW,Strength from merging 8 matrices for each slice
+NGTDM_STRENGTH_2DV_HU,Strength from merging 8 matrices for each slice
+NGTDM_STRENGTH_3D_BW,Strength from merging matrices from all 26 directions
+NGTDM_STRENGTH_3D_HU,Strength from merging matrices from all 26 directions
+PERCENTILE10_HU,The lowest intensity in the ROI that is greater than 10% of the voxel intensities in the ROI.
+PERCENTILE90_HU,The lowest intensity in the ROI that is greater than 90% of the voxel intensities in the ROI.
+QUARTILE_COEFFICIENT_OF_DISPERSION_HU,A measure of dispersion in the intensity distribution in the image ROI.
+ROBUST_MEAN_DEVIATION_HU,The mean absolute deviation of voxels between the 10th and 90th percentile.
+SHIFT_CENTER_OF_MASS_MM,Shift in the center of mass due to image intensity.
+SLICE_INDEX,"Slice index of structure in 1-indexed grid coordinates, per DICOM standard."
+SURFACE_AREA_TO_VOLUME_RATIO_VOXELS,"Ratio of surface area to volume, both derived from voxel information."
+SURFACE_AREA_VOXELS,Surface area of the specified ROI as a count of voxel faces exposed as a surface.
+SUV_METABOLIC_TUMOR_VOLUME_THRESHOLD_BW,Intensity threshold in BW used to create a metabolic tumor volume
+SUV_METABOLIC_TUMOR_VOLUME_THRESHOLD_LBW,Intensity threshold in LBW used to create a metabolic tumor volume
+SUV_TOTAL_LESION_GLYCOLYSIS_BW,SUV BW Total lesion glycolysis
+SUV_TOTAL_LESION_GLYCOLYSIS_LBW,SUV BW Total lesion glycolysis
+VARIANCE_IBSI_HU,The variance of the HU values within the image ROI.
+WAVELET_HHL_COV_BW,Coefficient of variation of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_COV_HU,Coefficient of variation of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_COV_LBW,Coefficient of variation of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENERGY_BW,Energy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENERGY_HU,Energy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENERGY_LBW,Energy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENTROPY_BW,Entropy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENTROPY_HU,Entropy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ENTROPY_LBW,Entropy of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_IQR_BW,Interquartile range of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_IQR_HU,Interquartile range of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_IQR_LBW,Interquartile range of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_KURTOSIS_BW,Excess kurtosis voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_KURTOSIS_HU,Excess kurtosis voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_KURTOSIS_LBW,Excess kurtosis voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MAX_BW,Maximum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MAX_HU,Maximum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MAX_LBW,Maximum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_BW,Mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_DEVIATION_BW,Absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_DEVIATION_HU,Absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_DEVIATION_LBW,Absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_HU,Mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEAN_LBW,Mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_BW,Median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_DEVIATION_BW,Absolute deviation from the median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_DEVIATION_HU,Absolute deviation from the median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_DEVIATION_LBW,Absolute deviation from the median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_HU,Median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MEDIAN_LBW,Median of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MIN_BW,Minimum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MIN_HU,Minimum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_MIN_LBW,Minimum of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE10_BW,The 10th percentile of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE10_HU,The 10th percentile of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE10_LBW,The 10th percentile of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE90_BW,The 90th percentile voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE90_HU,The 90th percentile voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_PERCENTILE90_LBW,The 90th percentile voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_QCOD_BW,Quartile coefficient of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_QCOD_HU,Quartile coefficient of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_QCOD_LBW,Quartile coefficient of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RANGE_BW,Range of values of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RANGE_HU,Range of values of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RANGE_LBW,Range of values of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RMS_BW,Root mean squared of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RMS_HU,Root mean squared of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_RMS_LBW,Root mean squared of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ROBUST_MEAN_DEVIATION_BW,Robust absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ROBUST_MEAN_DEVIATION_HU,Robust absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_ROBUST_MEAN_DEVIATION_LBW,Robust absolute deviation from the mean of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_SKEWNESS_BW,Skewness of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_SKEWNESS_HU,Skewness of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_SKEWNESS_LBW,Skewness of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_VARIANCE_BW,Variance of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_VARIANCE_HU,Variance of voxels under wavelet transforms with filters HHL.
+WAVELET_HHL_VARIANCE_LBW,Variance of voxels under wavelet transforms with filters HHL.

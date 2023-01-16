@@ -79,7 +79,7 @@ col_sex = c('Female'='#1D2F6F', 'Male'='#8390FA')
 col_age = colorRamp2(c(40, 65, 90), c("white", "#5BC0BE", "#3A506B"))
 col_mutload = colorRamp2(c(0, 8), c("white", "#B32548"))
 col_mut = c('0'= '#dbe2ff', '1'= '#0027c2')
-#col_sc = c('Yes'=, 'No'=)
+col_sc = c('Yes'='red', 'No'='gray')
 
 ha = HeatmapAnnotation(
   Prognosis = as.factor(CDE$n_op2),
@@ -90,7 +90,7 @@ ha = HeatmapAnnotation(
   Nodule_size = CDE$Path_Nodule_Size_cm,
   Sex = CDE$Gender,
   Age = CDE$Age_at_collection,
-  #sc_rna = CDE$scrna_data,
+  sc_rna = CDE$scrna_data,
   col = list(Prognosis = col_prog, 
              SILA = col_sila,
              Stage = col_stage,
@@ -630,4 +630,79 @@ x <- survival_plot(CDE, group_colname='cluster', group_levels=c('3', '4'),
               legend_labs = c('3', '4'), legend_title = 'patient cluster')
 ```
 
+
+```{r}
+ggpubr::ggscatter(all_vars_raw, x = 'GLCM_HOMOGENEITY', y = c("HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION"),
+          add = "reg.line", conf.int = TRUE, combine = TRUE,
+          cor.coef = TRUE, cor.method = "spearman", add.params = list(color = 'grey'),
+          xlab = "SKEWNESS_VOXELS", ylab = 'Signaling by MET')
+```
+
+```{r}
+corr_f <- function(data, rcorr_type = 'spearman', p.adjust_method = 'BH'){
+
+    res <- Hmisc::rcorr(as.matrix(data), type = rcorr_type) #for corr plot
+    # corrplot
+    corrected_pvals <- p.adjust(res$P, method = p.adjust_method)
+    corrected_pvals <- matrix(corrected_pvals, nrow = ncol(res$P), 
+        ncol = ncol(res$P))
+    colnames(corrected_pvals)<- colnames(res$P)
+    rownames(corrected_pvals)<- rownames(res$P)
+
+    res$P <- corrected_pvals
+
+    res    
+}
+```
+
+
+```{r}
+corr_di <- corr_f(all_vars_raw)
+```
+
+```{r}
+dataset_id <- rep('RNA-Seq', ncol(all_vars_raw))
+dataset_id[1:5] <- 'CyTOF'
+dataset_id[6:62] <- 'Radiomics'
+dataset_id <- data.frame(dataset_id)
+```
+
+
+```{r}
+col_cluster = c('1' = '#2d7dd2', '2' = '#97CC04', '3'='#EEB902', '4'='#F45D01')
+col_dataset = c('CyTOF' = '#2E86AB', 'RNA-Seq'='#A23B72', 'Radiomics'='#F18F01')
+
+ha = HeatmapAnnotation(
+  Dataset = as.factor(dataset_id$dataset_id),
+  Cluster = as.factor(clusters_features$cluster),
+  col = list(Dataset = col_dataset, 
+             Cluster = col_cluster
+             ),
+  show_annotation_name =  F,
+  gp = gpar(col = "black"),
+  simple_anno_size = unit(0.2, "cm"),
+  annotation_name_gp = gpar(fontsize = 8) #size of annotation name
+)
+row_ha = rowAnnotation(
+  Dataset = as.factor(dataset_id$dataset_id),
+  Cluster = as.factor(clusters_features$cluster),
+  col = list(Dataset = col_dataset, 
+             Cluster = col_cluster
+             ),
+  show_annotation_name =  F,
+  gp = gpar(col = "black"),
+  simple_anno_size = unit(0.2, "cm"),
+  annotation_name_gp = gpar(fontsize = 8) #size of annotation name
+)
+```
+
+```{r, fig.width = 24, fig.height = 24}
+padding = unit(c(4,1,1,4), "cm")
+ht <- Heatmap(corr_di$r, name='Spearman \ncorrelation',row_names_gp = gpar(fontsize = 5),
+        column_names_gp = gpar(fontsize = 5),bottom_annotation = ha,
+        right_annotation = row_ha)
+draw(ht, heatmap_legend_side="left", padding=padding,
+     merge_legend = TRUE,
+     annotation_legend_side = 'left')
+```
 

@@ -325,9 +325,17 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
+#, fig.width = 10, fig.height = 6}
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_epi, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.2 Endothelial cells
 
@@ -408,9 +416,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_endo, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.3 Fibroblasts/Mesenchymal cells
 
@@ -491,9 +506,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_fmes, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.4 CD8+ T cells
 
@@ -574,9 +596,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_tc, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.5 CD4+ T cells
 
@@ -657,9 +686,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_th, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.6 DN T cells
 
@@ -740,9 +776,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_dnt, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.7 Myeloid cells
 
@@ -823,9 +866,16 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
+
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_mye, by_col_names = T, col_names = nms)
+```
+
 
 ## 2.8 Other immune cells 
 
@@ -906,11 +956,15 @@ frac_hm(x, CDE, 'n_op2')
 
 ### Boxplots comparing cluster proportions (% of sample)
 
-```{r, echo=FALSE, fig.width = 10, fig.height = 6}
+```{r, echo=FALSE }
 frac_boxplot(x, CDE, 'n_op2')
 ```
 
-
+### Protein-protein correlation (co-expression)
+```{r, echo=FALSE, fig.width = 10, fig.height = 8}
+nms <- colnames(annot_df)[ft_cols]
+protein_corr(co_oimm, by_col_names = T, col_names = nms)
+```
 
 # 3. Other visualizations
 
@@ -920,54 +974,6 @@ frac_boxplot(x, CDE, 'n_op2')
 
 ```{r, echo=FALSE, fig.width = 15, fig.height = 10}
 protein_corr(co_bulk)
-```
-
-### Epithelial cancer cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_epi)
-```
-
-### Endothelial cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_endo)
-```
-
-### Fibroblasts/Mesenchymal cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_fmes)
-```
-
-### CD4 T cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_th)
-```
-
-### CD8 T cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_tc)
-```
-
-### DN T cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_dnt)
-```
-
-### Myeloid cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_mye)
-```
-
-### Other immune cells
-
-```{r, echo=FALSE, fig.width = 15, fig.height = 10}
-protein_corr(co_oimm)
 ```
 
 ## 3.2 Cell type proportions correlations
@@ -989,6 +995,7 @@ corr_plot(prcnt_subtypes)
 ```{r, echo=FALSE, fig.width = 15, fig.height = 10}
 corr_plot(prcnt_clusters)
 ```
+
 ```{r, echo=FALSE, fig.width = 15, fig.height = 10}
 prcnt_cl_sub <- cbind(prcnt_clusters, prcnt_subtypes)
 corr_plot(prcnt_cl_sub)
@@ -1105,6 +1112,91 @@ heatmap.2(data,
 ```{r, echo=FALSE, fig.width = 15, fig.height = 10}
 corr_plot(cl_median[,-35])
 ```
+
+
+```{r, echo=FALSE, fig.width = 15, fig.height = 10}
+prcnt_cl_sub_SILA <- prcnt_cl_sub
+prcnt_cl_sub_SILA$SILA <- CDE$SILA
+corr_plot(prcnt_cl_sub_SILA)
+
+```
+
+
+```{r echo=FALSE, fig.width = 7, fig.height = 2.2} 
+# Scatter plots
+ggpubr::ggscatter(log10(prcnt_cl_sub_SILA), x = "ECC_3", y = c('Th_cells', 'Tc_cells', 'Myeloid'),
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"), 
+          xlab = "ECC_3 cells %", ylab = 'Immune cells %') +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 12, face = 'bold') +
+          ggpubr::font("ylab", size = 12, face = 'bold') 
+```
+
+```{r echo=FALSE, fig.width = 7, fig.height = 2.2} 
+# Scatter plots
+ggpubr::ggscatter(log10(prcnt_cl_sub_SILA), x = "ECC_5", y = c('Th_cells', 'Tc_cells', 'Myeloid'),
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"), 
+          xlab = "ECC_5 cells %", ylab = 'Immune cells %') +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 12, face = 'bold') +
+          ggpubr::font("ylab", size = 12, face = 'bold') 
+```
+
+```{r echo=FALSE, fig.width = 7, fig.height = 2.2} 
+# Scatter plots
+ggpubr::ggscatter(log10(prcnt_cl_sub_SILA), x = "fmes_3", y = c('Th_cells', 'Tc_cells', 'Myeloid'),
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"), 
+          xlab = "fmes_3 cells %", ylab = 'Immune cells %') +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 12, face = 'bold') +
+          ggpubr::font("ylab", size = 12, face = 'bold') 
+```
+
+```{r echo=FALSE, fig.width = 7, fig.height = 2.2} 
+# Scatter plots
+ggpubr::ggscatter(log10(prcnt_cl_sub_SILA), x = "OtherI_4", y = c('Th_cells', 'Tc_cells', 'Myeloid'),
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"), 
+          xlab = "OtherI_4 cells %", ylab = 'Immune cells %') +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 12, face = 'bold') +
+          ggpubr::font("ylab", size = 12, face = 'bold') 
+```
+
+
+```{r echo=FALSE, fig.width = 7, fig.height = 2.2} 
+# Scatter plots
+ggpubr::ggscatter(log10(prcnt_cl_sub_SILA), x = "OtherI_2", y = c('Th_cells', 'Tc_cells', 'Myeloid'),
+          add = "reg.line", conf.int = TRUE, combine = TRUE, scales='free',
+          cor.coef = TRUE, add.params = list(color = 'grey65'), #expand = c(0, 0),
+          cor.coeff.args = list(method = "spearman"), 
+          xlab = "OtherI_2 cells %", ylab = 'Immune cells %') +
+          ggpubr::font("xy.text", size = 10) +
+          ggpubr::font("xlab", size = 12, face = 'bold') +
+          ggpubr::font("ylab", size = 12, face = 'bold') 
+```
+
+### PCA
+
+```{r, fig.width = 8, fig.height = 6}
+library(PCAtools)
+md <- data.frame('group'=factor(CDE$n_op2, levels = c('ind', 'int', 'agg')))
+rownames(md) <- CDE$pt_ID
+p <- pca(t(scale(prcnt_cl_sub)), metadata = md, center = F, scale = F)
+PCAtools::biplot(p, x='PC1', y='PC2',
+                 colkey = c('ind' = '#3498DB', 'int' = 'grey72', 'agg'='#c75264'),
+                 colby='group', legendPosition='right',
+                 colLegendTitle = 'Patient cluster', encircle = T, encircleFill = T,
+                 lab = NULL,pointSize = 3)
+```
+
 
 ### Boxplots
 ```{r, echo=FALSE, fig.width = 15, fig.height = 10}

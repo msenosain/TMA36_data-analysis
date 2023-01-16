@@ -78,10 +78,12 @@ ClusterUMAP_plot <- function(data,
       theme_bw() +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line =  element_blank(),
+            axis.ticks= element_blank(),
+            axis.text=element_blank(),
             legend.position = "right",
             legend.title=element_blank(),
             panel.border = element_rect(colour = "black", fill=NA),
-            aspect.ratio = 1, axis.text = element_text(colour = 1, size = 10),
+            aspect.ratio = 1, #axis.text = element_text(colour = 1, size = 10),
             legend.background = element_blank(),
             legend.spacing.y = unit(0, "mm"),
             legend.spacing.x = unit(0, "mm"),
@@ -117,7 +119,9 @@ ClusterUMAP_plot <- function(data,
             legend.position = "right",
             legend.title=element_blank(),
             panel.border = element_rect(colour = "black", fill=NA),
-            aspect.ratio = 1, axis.text = element_text(colour = 1, size = 10),
+            axis.ticks= element_blank(),
+            axis.text=element_blank(),
+            aspect.ratio = 1, #axis.text = element_text(colour = 1, size = 10),
             legend.background = element_blank(),
             legend.spacing.y = unit(0, "mm"),
             legend.spacing.x = unit(0, "mm"),
@@ -170,11 +174,11 @@ ClusterUMAP_plot <- function(data,
         scale_colour_gradient(low = "grey72", high = "blue") +
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
               panel.background = element_blank(), axis.line =  element_blank(),
-              #axis.ticks=element_blank(), 
+              axis.ticks=element_blank(), 
               axis.title=element_blank(),
               axis.text=element_blank(), aspect.ratio = 1,
               legend.position = "none",
-              plot.title = element_text(size=title_size_prot)) +
+              plot.title = element_text(size=title_size_prot, hjust = 0.5)) +
       scale_x_continuous(limits = x_lim, expand = c(0, 0)) +
       scale_y_continuous(limits = y_lim, expand = c(0, 0))
       
@@ -198,7 +202,9 @@ ClusterUMAP_plot <- function(data,
             legend.position = "right",
             legend.title=element_blank(),
             panel.border = element_rect(colour = "black", fill=NA),
-            aspect.ratio = 1, axis.text = element_text(colour = 1, size = 10),
+            aspect.ratio = 1, #axis.text = element_text(colour = 1, size = 10),
+            axis.ticks= element_blank(),
+            axis.text=element_blank(),
             legend.background = element_blank(),
             legend.spacing.y = unit(0, "mm"),
             legend.spacing.x = unit(0, "mm"),
@@ -417,22 +423,25 @@ frac_boxplot <- function(prcnt_dt, CDE, class_col, indvsagg=TRUE){
       else if(x < 0.05){"*"}
       else{NA}}
     
-    ggplot(prcnt_dt, aes(x=Group, y=Fraction, color = Group)) +
+    ggplot(prcnt_dt, aes(x=Group, y=Fraction, fill = Group)) +
         geom_boxplot() +
         #ylim(0,1)+
         ggsignif::geom_signif(comparisons = comp, 
                               map_signif_level= sigFunc,
                               margin_top = 0.05,color ='black',
                               step_increase = 0.06) +
-        facet_wrap(~variable, scales='free_y') +
+        facet_wrap(~variable, scales='free') +
         scale_y_continuous(expand = expansion(mult = c(0.05, .2)))+
+        scale_fill_manual(values=colr)+
         theme_bw()+
         theme(plot.title = element_text(hjust = 0.5, size=22),
               legend.position='none',
-              #axis.text.x = element_text(angle = 45, hjust = 1)
-              )+
-        scale_color_manual(values=colr, name = "Group", labels = lb)
-
+              axis.text.x = element_text(size=11),#angle = 45, hjust = 1)
+              axis.text.y = element_text(size=11),
+              strip.text.x = element_text(size = 14),
+              axis.title = element_blank(),
+              strip.background = element_blank())
+              
 }
 
 
@@ -479,11 +488,17 @@ hm_median <- function(data){
 
 }
 
-protein_corr <- function(corr_ls) {
+protein_corr <- function(corr_ls, by_col_names=F, col_names) {
     #par(cex=0.9) # size
     #par(lwd = 1.2) # line width
     r <- corr_ls$r
     pv <- corr_ls$P
+    
+    # Filter columns
+    if(by_col_names){
+      r <- r[col_names,col_names]
+      pv <- pv[col_names,col_names]
+    }
     colnames(r) <- gsub(".*_",  "",colnames(r))
     rownames(r) <- colnames(r)
     colnames(pv) <- gsub(".*_",  "",colnames(pv))

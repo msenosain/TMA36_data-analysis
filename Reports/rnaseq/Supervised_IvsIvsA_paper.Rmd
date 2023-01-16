@@ -91,7 +91,12 @@ res_df <- data.frame(DE_res$res_df) %>%
   dplyr::select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+
+res_df <- res_df[1:20,c('gene', 'symbol', 'log2FoldChange', 'pvalue', 'padj')]
+colnames(res_df) <- c('ENSEMBL ID', 'Symbol', 'log2FoldChange', 'p value', 'p value (adj)')
+write.csv(res_df, 'Reports/rnaseq/tables_paper/top20DEgenes_indvsagg.csv', row.names = FALSE)
 ```
+
 
 ## Pathway enrichment analysis fGSEA
 
@@ -201,6 +206,10 @@ res_df <- data.frame(DE_res$res_df) %>%
   dplyr::select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+
+res_df <- res_df[1:20,c('gene', 'symbol', 'log2FoldChange', 'pvalue', 'padj')]
+colnames(res_df) <- c('ENSEMBL ID', 'Symbol', 'log2FoldChange', 'p value', 'p value (adj)')
+write.csv(res_df, 'Reports/rnaseq/tables_paper/top20DEgenes_indvsint.csv', row.names = FALSE)
 ```
 
 ## Pathway enrichment analysis fGSEA
@@ -305,6 +314,10 @@ res_df <- data.frame(DE_res$res_df) %>%
   dplyr::select(symbol, everything())
 rownames(res_df) <- NULL
 DT::datatable(res_df, options = list(autoWidth = FALSE, scrollX=TRUE))
+
+res_df <- res_df[1:20,c('gene', 'symbol', 'log2FoldChange', 'pvalue', 'padj')]
+colnames(res_df) <- c('ENSEMBL ID', 'Symbol', 'log2FoldChange', 'p value', 'p value (adj)')
+write.csv(res_df, 'Reports/rnaseq/tables_paper/top20DEgenes_intvsagg.csv', row.names = FALSE)
 ```
 
 ## Pathway enrichment analysis fGSEA
